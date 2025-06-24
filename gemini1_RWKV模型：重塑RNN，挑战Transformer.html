@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RWKV模型：重塑RNN，挑战Transformer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Neutrals -->
+    <!-- Application Structure Plan: A top-down, single-page narrative with a sticky navigation bar for both linear exploration and direct access. The flow is designed to build understanding progressively: 1. Hero section to state the core value proposition with a key chart. 2. "What is RWKV?" for the fundamental concept. 3. "How it Works" using interactive tabs to detail the architecture and its 'dual-mode magic'. 4. An interactive timeline for the model's evolution. 5. A central "Head-to-Head" dashboard for comparing RWKV against other architectures with dynamic charts. 6. An "Applications" grid to showcase its versatility. 7. A balanced "Strengths & Weaknesses" section. 8. A concluding "Ecosystem" part. This structure transforms the dense report into an engaging, user-driven exploratory journey, prioritizing clarity and interaction over a rigid, linear format. -->
+    <!-- Visualization & Content Choices: 1. Hero: Line chart (Chart.js) to instantly show complexity difference. 2. Architecture: HTML/Tailwind diagrams for clarity. 3. Dual-Mode: JS-driven CSS animation to explain the core innovation visually. 4. Evolution: Clickable horizontal timeline (HTML/CSS/JS) for interactive discovery. 5. Comparison: Dynamic bar and radar charts (Chart.js) update on user selection for direct, multi-faceted comparison. 6. Applications: A hover-effect grid (HTML/CSS) for a quick, scannable overview. 7. Pros/Cons: Simple two-column layout for readability. This selection uses the best tool for each communication goal, relying heavily on interactive charts and layouts to make data digestible and engaging. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #F8F7F4;
+            color: #333333;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 40vh;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #4A6C8C;
+            border-bottom-color: #4A6C8C;
+        }
+        .tab.active {
+            background-color: #4A6C8C;
+            color: #F8F7F4;
+        }
+        .card-reveal {
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-[#4A6C8C]">RWKV</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#intro" class="nav-link font-medium pb-1">核心概念</a>
+                    <a href="#how-it-works" class="nav-link font-medium pb-1">工作原理</a>
+                    <a href="#evolution" class="nav-link font-medium pb-1">演进之路</a>
+                    <a href="#comparison" class="nav-link font-medium pb-1">架构对决</a>
+                    <a href="#applications" class="nav-link font-medium pb-1">应用领域</a>
+                    <a href="#pro-con" class="nav-link font-medium pb-1">优势与局限</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Section 1: Hero -->
+        <section id="intro" class="py-20 md:py-28">
+            <div class="container mx-auto px-4 text-center">
+                <h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-4">RWKV模型</h1>
+                <h2 class="text-2xl md:text-3xl font-light text-[#5F9EA0] mb-8">Transformer的性能，RNN的效率</h2>
+                <p class="max-w-3xl mx-auto text-lg text-gray-600 mb-12">
+                    RWKV是一种革命性的序列模型架构，它巧妙地融合了两种主流范式的优点：既能像Transformer一样进行高效的并行化训练，又具备RNN的线性推理效率，彻底解决了大模型在长序列处理上的核心痛点。
+                </p>
+                <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-lg max-w-4xl mx-auto">
+                    <h3 class="text-xl font-semibold mb-4">计算复杂度对比：序列越长，优势越明显</h3>
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="complexityChart"></canvas>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-4">上图展示了随着序列长度（T）的增加，不同架构的计算复杂度增长趋势。RWKV的线性增长（O(T)）使其在处理长文本、高清图像或长时间序列时，相比Transformer的二次方增长（O(T²))，具有压倒性的效率优势。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: How it Works -->
+        <section id="how-it-works" class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">工作原理</h2>
+                    <p class="max-w-2xl mx-auto mt-4 text-gray-600">RWKV的架构摒弃了自注意力机制，通过“时间混合”和“通道混合”两个核心模块，以及精妙的“双模式”原理，实现了性能与效率的统一。</p>
+                </div>
+
+                <div class="max-w-4xl mx-auto">
+                    <div class="flex justify-center border-b border-gray-200 mb-8">
+                        <button class="tab active px-6 py-3 font-medium text-lg focus:outline-none" onclick="changeTab('blocks')">核心模块</button>
+                        <button class="tab px-6 py-3 font-medium text-lg focus:outline-none" onclick="changeTab('formula')">WKV算子</button>
+                        <button class="tab px-6 py-3 font-medium text-lg focus:outline-none" onclick="changeTab('dualmode')">双模式原理</button>
+                    </div>
+
+                    <div id="tab-content">
+                        <!-- Tab 1: Core Blocks -->
+                        <div id="blocks-content" class="tab-pane">
+                            <div class="grid md:grid-cols-2 gap-8 text-center">
+                                <div class="bg-[#F8F7F4] p-6 rounded-xl">
+                                    <h4 class="text-2xl font-semibold mb-3 text-[#4A6C8C]">时间混合 (Time-mixing)</h4>
+                                    <p class="text-gray-700">此模块等价于Transformer中的自注意力层，负责聚合来自过去时间步的信息。它不计算全局注意力，而是通过“令牌移位”和一种带时间衰减的加权求和机制来高效地融合历史信息。</p>
+                                </div>
+                                <div class="bg-[#F8F7F4] p-6 rounded-xl">
+                                    <h4 class="text-2xl font-semibold mb-3 text-[#4A6C8C]">通道混合 (Channel-mixing)</h4>
+                                    <p class="text-gray-700">此模块等价于Transformer中的前馈网络（FFN），负责在每个时间步内，对特征向量的各个通道进行信息混合，增强模型的表达能力。其结构类似于一个带门控机制的MLP。</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Tab 2: WKV Formula -->
+                        <div id="formula-content" class="tab-pane hidden">
+                             <div class="bg-[#F8F7F4] p-6 rounded-xl text-left">
+                                <h4 class="text-2xl font-semibold mb-4 text-center text-[#4A6C8C]">RWKV的核心：四大要素</h4>
+                                <p class="text-center mb-6 text-gray-600">模型的名称源于其时间混合模块中的四个关键向量，它们共同定义了信息如何随时间流动和衰减。</p>
+                                <div class="space-y-4">
+                                    <p><strong class="text-[#5F9EA0] font-bold text-lg">R (Receptance - 感受):</strong> 一个门控向量，决定当前时刻应该“接纳”多少来自历史的聚合信息。</p>
+                                    <p><strong class="text-[#5F9EA0] font-bold text-lg">W (Weight - 权重):</strong> 核心的时间衰减向量，可学习。它为每个特征通道定义了一个衰减率，使历史信息的影响力随距离指数级下降，形成一种类似EMA的记忆机制。</p>
+                                    <p><strong class="text-[#5F9EA0] font-bold text-lg">K (Key - 键):</strong> 类似于注意力机制中的“键”，代表每个令牌为被查询提供的“标识”信息。</p>
+                                    <p><strong class="text-[#5F9EA0] font-bold text-lg">V (Value - 值):</strong> 类似于注意力机制中的“值”，代表每个令牌实际承载的“内容”信息。</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Tab 3: Dual Mode -->
+                        <div id="dualmode-content" class="tab-pane hidden">
+                            <div class="bg-[#F8F7F4] p-6 rounded-xl">
+                                <h4 class="text-2xl font-semibold mb-4 text-center text-[#4A6C8C]">鱼与熊掌兼得：训练与推理的“变形记”</h4>
+                                <div class="grid md:grid-cols-2 gap-8 items-center">
+                                    <div class="text-center">
+                                        <h5 class="text-xl font-bold mb-2">时间并行模式 (训练时)</h5>
+                                        <div class="text-6xl mb-2">⚡️</div>
+                                        <p class="text-gray-700">WKV算子可以展开为全局矩阵运算，让所有时间步的计算在GPU上并行执行，实现与Transformer一样的高效训练。</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <h5 class="text-xl font-bold mb-2">序列/RNN模式 (推理时)</h5>
+                                        <div class="text-6xl mb-2">➡️</div>
+                                        <p class="text-gray-700">同一算子可重构成递归形式。模型只需维护一个固定大小的隐藏状态，逐个生成新令牌，计算成本恒定，与上下文长度无关。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 3: Evolution -->
+        <section id="evolution" class="py-20">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">演进之路</h2>
+                    <p class="max-w-2xl mx-auto mt-4 text-gray-600">RWKV并非一蹴而就，它经历了一系列快速的版本迭代，不断增强其表达能力和理论完备性。</p>
+                </div>
+                <div class="relative w-full overflow-x-auto pb-4">
+                    <div class="flex space-x-8 px-4" id="timeline-container">
+                        <!-- Timeline items will be injected here by JS -->
+                    </div>
+                </div>
+                <div id="evolution-details" class="mt-8 max-w-3xl mx-auto bg-white p-6 rounded-xl shadow-md min-h-[150px] card-reveal">
+                    <!-- Details will be shown here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Comparison -->
+        <section id="comparison" class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">架构对决</h2>
+                    <p class="max-w-2xl mx-auto mt-4 text-gray-600">将RWKV与主流序列模型进行多维度对比，可以更清晰地看到其独特的定位和优势。</p>
+                </div>
+
+                <div class="flex justify-center space-x-2 md:space-x-4 mb-8">
+                    <button id="compare-btn-transformer" class="comparison-btn active px-4 py-2 rounded-lg font-medium">vs Transformer</button>
+                    <button id="compare-btn-lstm" class="comparison-btn px-4 py-2 rounded-lg font-medium">vs LSTM</button>
+                    <button id="compare-btn-mamba" class="comparison-btn px-4 py-2 rounded-lg font-medium">vs Mamba</button>
+                </div>
+
+                <div class="grid lg:grid-cols-5 gap-8">
+                    <div class="lg:col-span-3 bg-[#F8F7F4] p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-4 text-center" id="comparison-title">RWKV vs Transformer</h4>
+                        <p class="text-gray-600 mb-6" id="comparison-text">这是最核心的对比。Transformer依靠强大的二次方注意力，表达能力极强但成本高昂。RWKV则通过线性注意力和时间衰减偏置，在性能和效率间取得了惊人的平衡。</p>
+                        <div class="chart-container" style="height:350px;">
+                            <canvas id="comparisonChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 bg-[#F8F7F4] p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-4 text-center">综合能力雷达图</h4>
+                        <div class="chart-container" style="height:350px;">
+                           <canvas id="radarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Applications -->
+        <section id="applications" class="py-20">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">超越语言：一个通用序列模型</h2>
+                    <p class="max-w-2xl mx-auto mt-4 text-gray-600">RWKV的线性复杂度优势使其能轻松扩展到NLP之外的多个领域，尤其是在处理高维或长序列数据时。</p>
+                </div>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow">
+                        <div class="text-4xl mb-4">🖼️</div>
+                        <h4 class="text-xl font-semibold mb-2 text-[#4A6C8C]">计算机视觉</h4>
+                        <p class="text-gray-600">在处理高分辨率图像时优势明显，被成功用于图像分类、分割和修复等任务，有效规避Vision Transformer的计算瓶颈。</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow">
+                        <div class="text-4xl mb-4">🎶</div>
+                        <h4 class="text-xl font-semibold mb-2 text-[#4A6C8C]">音频与音乐</h4>
+                        <p class="text-gray-600">不仅能创作MIDI格式的音乐，还能作为文本到语音（TTS）系统的主干，高效生成音频流。</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow">
+                        <div class="text-4xl mb-4">📈</div>
+                        <h4 class="text-xl font-semibold mb-2 text-[#4A6C8C]">时间序列分析</h4>
+                        <p class="text-gray-600">非常适合处理连续的传感器数据或金融数据，在预测、分类和异常检测任务上表现优异，且延迟更低。</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow">
+                        <div class="text-4xl mb-4">🤖</div>
+                        <h4 class="text-xl font-semibold mb-2 text-[#4A6C8C]">机器人学与强化学习</h4>
+                        <p class="text-gray-600">其循环状态为序贯决策和终身学习提供了天然的记忆机制，被用于机器人的路径规划和技能学习。</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow">
+                        <div class="text-4xl mb-4">🌐</div>
+                        <h4 class="text-xl font-semibold mb-2 text-[#4A6C8C]">多模态学习</h4>
+                        <p class="text-gray-600">作为连接视觉和语言的桥梁，在多模态大模型中以更低的成本和更快的速度，实现与主流架构相媲美的性能。</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow">
+                        <div class="text-4xl mb-4">⚛️</div>
+                        <h4 class="text-xl font-semibold mb-2 text-[#4A6C8C]">前沿探索</h4>
+                        <p class="text-gray-600">研究者甚至开始探索混合量子-RWKV模型，展现了其架构的巨大潜力和可塑性。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Pro/Con -->
+        <section id="pro-con" class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">优势与局限</h2>
+                    <p class="max-w-2xl mx-auto mt-4 text-gray-600">客观评估RWKV的优缺点，有助于在实践中做出明智的技术选择。</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <div class="bg-green-50 border-l-4 border-green-500 p-6 rounded-lg">
+                        <h3 class="text-2xl font-semibold mb-4 text-green-800">核心优势 ✅</h3>
+                        <ul class="space-y-3 list-inside text-gray-700">
+                            <li><strong>极致效率:</strong> 推理成本恒定，内存占用与上下文长度无关，非常适合长序列和资源受限环境。</li>
+                            <li><strong>训练并行:</strong> 能够像Transformer一样高效利用GPU进行大规模并行训练。</li>
+                            <li><strong>扩展性强:</strong> 已被成功扩展至14B参数，并在多语言任务上表现出色。</li>
+                            <li><strong>通用性好:</strong> 架构灵活，可轻松应用于视觉、音频等多个领域。</li>
+                        </ul>
+                    </div>
+                    <div class="bg-amber-50 border-l-4 border-amber-500 p-6 rounded-lg">
+                        <h3 class="text-2xl font-semibold mb-4 text-amber-800">潜在局限 ⚠️</h3>
+                        <ul class="space-y-3 list-inside text-gray-700">
+                            <li><strong>回溯能力弱:</strong> 对上下文中遥远信息的精确回顾能力不如全注意力机制，信息可能在传递中被“遗忘”。</li>
+                            <li><strong>提示敏感性:</strong> 对输入提示的格式和措辞较为敏感，微小变化可能影响输出质量。</li>
+                            <li><strong>生态待熟:</strong> 虽然发展迅速，但在工具链成熟度和社区广度上与Transformer相比仍有差距。</li>
+                            <li><strong>记忆瓶颈:</strong> 所有历史信息被压缩进一个固定大小的状态，存在信息瓶颈问题。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer / Ecosystem -->
+        <footer class="bg-gray-800 text-white py-12">
+            <div class="container mx-auto px-4 text-center">
+                 <h2 class="text-3xl font-bold mb-4">一个由社区驱动的开源奇迹</h2>
+                 <p class="max-w-3xl mx-auto text-gray-300 mb-8">RWKV从个人项目起步，在充满活力的开源社区推动下不断发展，并最终被Linux基金会接纳，代表了AI领域一条更加开放、民主和协作的道路。</p>
+                 <a href="https://www.rwkv.com/" target="_blank" rel="noopener noreferrer" class="bg-[#4A6C8C] hover:bg-[#5F9EA0] text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                    访问RWKV官方项目
+                 </a>
+                 <p class="mt-8 text-sm text-gray-400">&copy; 2025 本页面内容根据公开研究报告生成，仅供学习和参考。</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const complexityData = {
+                labels: Array.from({length: 11}, (_, i) => i * 1000),
+                datasets: [
+                    {
+                        label: 'Transformer (O(T²))',
+                        data: Array.from({length: 11}, (_, i) => (i * 1000) * (i * 1000) / 100000),
+                        borderColor: '#D98A67',
+                        backgroundColor: 'rgba(217, 138, 103, 0.2)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'RWKV (O(T))',
+                        data: Array.from({length: 11}, (_, i) => i * 1000 * 10),
+                        borderColor: '#4A6C8C',
+                        backgroundColor: 'rgba(74, 108, 140, 0.2)',
+                        fill: true,
+                        tension: 0.4
+                    }
+                ]
+            };
+            const complexityConfig = {
+                type: 'line',
+                data: complexityData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top' },
+                        tooltip: { mode: 'index', intersect: false }
+                    },
+                    scales: {
+                        x: { title: { display: true, text: '序列长度 (T)' } },
+                        y: { title: { display: true, text: '相对计算成本' } }
+                    }
+                }
+            };
+            new Chart(document.getElementById('complexityChart'), complexityConfig);
+            
+            const evolutionData = [
+                { version: 'V1', year: '2021.08', title: '诞生', desc: '项目正式开始，使用长卷积替代注意力，更接近线性Transformer。' },
+                { version: 'V2', year: '2021年底', title: '成为真RNN', desc: '引入基于EMA的状态更新，首次实现真正的RNN式推理。' },
+                { version: 'V4 "Dove"', year: '2023.05', title: '学术界认可', desc: '首篇正式论文发布，架构稳定并大规模训练，催生Raven/World等模型。' },
+                { version: 'V5 "Eagle"', year: '2024.04', title: '状态扩容', desc: '引入多头矩阵值状态，极大扩展了隐藏状态的容量和表达能力。' },
+                { version: 'V6 "Finch"', year: '2024年底', title: '动态循环', desc: '引入数据依赖的动态循环机制，使状态更新更灵活、更智能。' },
+                { version: 'V7 "Goose"', year: '2025.03', title: '理论突破', desc: '引入广义化Delta法则，被证明能识别所有正则语言，表达能力跃升。' }
+            ];
+
+            const timelineContainer = document.getElementById('timeline-container');
+            const detailsContainer = document.getElementById('evolution-details');
+
+            evolutionData.forEach((item, index) => {
+                const timelineItem = document.createElement('div');
+                timelineItem.className = 'flex-shrink-0 flex flex-col items-center cursor-pointer timeline-item';
+                timelineItem.dataset.index = index;
+                timelineItem.innerHTML = `
+                    <div class="w-24 h-24 flex items-center justify-center bg-white border-2 border-[#4A6C8C] rounded-full text-[#4A6C8C] font-bold text-xl">${item.version}</div>
+                    <div class="mt-2 text-sm font-semibold">${item.year}</div>
+                `;
+                timelineContainer.appendChild(timelineItem);
+            });
+            
+            function updateEvolutionDetails(index) {
+                const item = evolutionData[index];
+                detailsContainer.innerHTML = `
+                    <h4 class="text-xl font-bold text-[#4A6C8C] mb-2">${item.version}: ${item.title}</h4>
+                    <p class="text-gray-700">${item.desc}</p>
+                `;
+                document.querySelectorAll('.timeline-item').forEach(el => {
+                    if (el.dataset.index == index) {
+                        el.querySelector('div:first-child').classList.add('bg-[#4A6C8C]', 'text-white');
+                    } else {
+                        el.querySelector('div:first-child').classList.remove('bg-[#4A6C8C]', 'text-white');
+                    }
+                });
+            }
+
+            timelineContainer.addEventListener('click', (e) => {
+                const item = e.target.closest('.timeline-item');
+                if (item) {
+                    updateEvolutionDetails(item.dataset.index);
+                }
+            });
+
+            updateEvolutionDetails(2);
+
+            const comparisonData = {
+                transformer: {
+                    title: 'RWKV vs Transformer',
+                    text: '这是最核心的对比。Transformer依靠强大的二次方注意力，表达能力极强但成本高昂。RWKV则通过线性注意力和时间衰减偏置，在性能和效率间取得了惊人的平衡。',
+                    bar: {
+                        labels: ['训练复杂度', '推理复杂度', '推理内存'],
+                        datasets: [
+                            { label: 'RWKV', data: [8, 2, 2], backgroundColor: '#4A6C8C' },
+                            { label: 'Transformer', data: [10, 8, 8], backgroundColor: '#D98A67' }
+                        ]
+                    },
+                    radar: {
+                        labels: ['效率', '长上下文', '并行训练', '回溯能力', '生态成熟度'],
+                        datasets: [
+                            { label: 'RWKV', data: [9, 9, 8, 5, 6], borderColor: '#4A6C8C', backgroundColor: 'rgba(74, 108, 140, 0.2)' },
+                            { label: 'Transformer', data: [3, 4, 9, 9, 10], borderColor: '#D98A67', backgroundColor: 'rgba(217, 138, 103, 0.2)' }
+                        ]
+                    }
+                },
+                lstm: {
+                    title: 'RWKV vs LSTM (经典RNN)',
+                    text: 'RWKV可以看作是经典RNN的一次“文艺复兴”。它继承了RNN的推理效率，但通过双模式原理解决了其难以并行训练的核心痛点，并能更好地捕捉长程依赖。',
+                    bar: {
+                        labels: ['训练复杂度', '推理复杂度', '推理内存'],
+                        datasets: [
+                            { label: 'RWKV', data: [8, 2, 2], backgroundColor: '#4A6C8C' },
+                            { label: 'LSTM', data: [3, 2, 1], backgroundColor: '#5F9EA0' }
+                        ]
+                    },
+                    radar: {
+                        labels: ['效率', '长上下文', '并行训练', '回溯能力', '生态成熟度'],
+                        datasets: [
+                             { label: 'RWKV', data: [9, 9, 8, 5, 6], borderColor: '#4A6C8C', backgroundColor: 'rgba(74, 108, 140, 0.2)' },
+                             { label: 'LSTM', data: [8, 3, 2, 4, 8], borderColor: '#5F9EA0', backgroundColor: 'rgba(95, 158, 160, 0.2)' }
+                        ]
+                    }
+                },
+                mamba: {
+                    title: 'RWKV vs Mamba (同代竞争者)',
+                    text: 'RWKV和Mamba同属结构化状态空间模型（SSM），是后Transformer时代最有力的竞争者。两者都实现了线性复杂度和高效推理，但在架构哲学和核心机制上有所不同。',
+                    bar: {
+                        labels: ['训练复杂度', '推理复杂度', '推理内存'],
+                        datasets: [
+                            { label: 'RWKV', data: [8, 2, 2], backgroundColor: '#4A6C8C' },
+                            { label: 'Mamba', data: [8, 2, 2], backgroundColor: '#D98A67' }
+                        ]
+                    },
+                     radar: {
+                        labels: ['效率', '长上下文', '并行训练', '回溯能力', '生态成熟度'],
+                        datasets: [
+                             { label: 'RWKV', data: [9, 9, 8, 5, 6], borderColor: '#4A6C8C', backgroundColor: 'rgba(74, 108, 140, 0.2)' },
+                             { label: 'Mamba', data: [9, 9, 9, 6, 5], borderColor: '#D98A67', backgroundColor: 'rgba(217, 138, 103, 0.2)' }
+                        ]
+                    }
+                }
+            };
+            
+            let barChart, radarChartInstance;
+
+            function createOrUpdateCharts(model) {
+                const data = comparisonData[model];
+                document.getElementById('comparison-title').innerText = data.title;
+                document.getElementById('comparison-text').innerText = data.text;
+                
+                if (barChart) barChart.destroy();
+                barChart = new Chart(document.getElementById('comparisonChart'), {
+                    type: 'bar',
+                    data: data.bar,
+                    options: {
+                        responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+                        plugins: { legend: { display: true } },
+                        scales: { x: { stacked: false, title: { display: true, text: '相对评分 (越高越差)' } }, y: { stacked: false } }
+                    }
+                });
+
+                if (radarChartInstance) radarChartInstance.destroy();
+                radarChartInstance = new Chart(document.getElementById('radarChart'), {
+                    type: 'radar',
+                    data: data.radar,
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        elements: { line: { borderWidth: 3 } },
+                        scales: { r: { angleLines: { display: false }, suggestedMin: 0, suggestedMax: 10 } }
+                    }
+                });
+            }
+
+            document.querySelectorAll('.comparison-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.comparison-btn').forEach(b => b.classList.remove('active', 'bg-[#4A6C8C]', 'text-white'));
+                    e.target.classList.add('active', 'bg-[#4A6C8C]', 'text-white');
+                    const model = e.target.id.split('-')[2];
+                    createOrUpdateCharts(model);
+                });
+            });
+            
+            // Initial render
+            createOrUpdateCharts('transformer');
+            document.getElementById('compare-btn-transformer').classList.add('bg-[#4A6C8C]', 'text-white');
+
+            // Nav scroll highlighting
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            window.onscroll = () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 70) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            };
+        });
+
+        // Tab functionality
+        function changeTab(tabName) {
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.add('hidden'));
+            document.getElementById(`${tabName}-content`).classList.remove('hidden');
+
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelector(`button[onclick="changeTab('${tabName}')"]`).classList.add('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大模型研究报告目录</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .card {
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .section-title {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen py-12 px-4">
+        <div class="max-w-6xl mx-auto">
+            <!-- 页面标题 -->
+            <div class="text-center mb-16">
+                <h1 class="text-5xl font-bold text-white mb-4">大模型研究报告</h1>
+                <p class="text-xl text-white/80">深度调研与分析报告集合</p>
+            </div>
+
+            <!-- Kimi 系列报告 -->
+            <div class="mb-16">
+                <h2 class="text-3xl font-bold section-title mb-8 text-center">Kimi 系列报告</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="card bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mr-4">
+                                <span class="text-white font-bold text-xl">K1</span>
+                            </div>
+                            <h3 class="text-xl font-semibold text-white">开源大模型深度调研</h3>
+                        </div>
+                        <p class="text-white/80 mb-6 leading-relaxed">全面分析开源大模型生态系统，深入探讨技术发展趋势、商业模式和市场格局。</p>
+                        <a href="kimi1_开源大模型深度调研与分析报告.html" 
+                           class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 font-medium">
+                            查看报告
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <div class="card bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-600 rounded-lg flex items-center justify-center mr-4">
+                                <span class="text-white font-bold text-xl">K2</span>
+                            </div>
+                            <h3 class="text-xl font-semibold text-white">RWKV架构深度解析</h3>
+                        </div>
+                        <p class="text-white/80 mb-6 leading-relaxed">深入探讨RWKV模型架构，分析其如何重新定义RNN与Transformer的融合，展望未来发展方向。</p>
+                        <a href="kimi2_RWKV：重新定义RNN与Transformer融合的未来.html" 
+                           class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-lg hover:from-green-600 hover:to-teal-700 transition-all duration-300 font-medium">
+                            查看报告
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gemini 系列报告 -->
+            <div class="mb-16">
+                <h2 class="text-3xl font-bold section-title mb-8 text-center">Gemini 系列报告</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="card bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-600 rounded-lg flex items-center justify-center mr-4">
+                                <span class="text-white font-bold text-xl">G1</span>
+                            </div>
+                            <h3 class="text-xl font-semibold text-white">RWKV模型技术分析</h3>
+                        </div>
+                        <p class="text-white/80 mb-6 leading-relaxed">详细分析RWKV模型如何重塑RNN架构，探讨其对Transformer模型的挑战和创新突破。</p>
+                        <a href="gemini1_RWKV模型：重塑RNN，挑战Transformer.html" 
+                           class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-lg hover:from-orange-600 hover:to-red-700 transition-all duration-300 font-medium">
+                            查看报告
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <div class="card bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-pink-500 to-rose-600 rounded-lg flex items-center justify-center mr-4">
+                                <span class="text-white font-bold text-xl">G2</span>
+                            </div>
+                            <h3 class="text-xl font-semibold text-white">大模型开源革命</h3>
+                        </div>
+                        <p class="text-white/80 mb-6 leading-relaxed">交互式报告深入分析大模型开源生态的革命性变化，探讨开源策略对行业发展的深远影响。</p>
+                        <a href="gemini2_交互式报告：大模型开源革命.html" 
+                           class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-600 text-white rounded-lg hover:from-pink-600 hover:to-rose-700 transition-all duration-300 font-medium">
+                            查看报告
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 底部信息 -->
+            <div class="text-center">
+                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
+                    <h3 class="text-2xl font-bold text-white mb-4">关于这些报告</h3>
+                    <p class="text-white/80 leading-relaxed max-w-3xl mx-auto">
+                        这些报告深入分析了当前大模型领域的最新发展趋势，包括开源生态系统、技术架构创新、商业模式演进等关键议题。
+                        每份报告都采用了交互式设计，提供丰富的可视化内容和深度分析，帮助读者全面理解大模型技术的发展现状和未来方向。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 添加页面加载动画
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
