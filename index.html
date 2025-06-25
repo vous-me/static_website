@@ -42,110 +42,223 @@
             <!-- Kimi 系列报告 -->
             <div class="mb-16">
                 <h2 class="text-3xl font-bold section-title mb-8 text-center">Kimi 系列报告</h2>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="card bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-white font-bold text-xl">K1</span>
-                            </div>
-                            <h3 class="text-xl font-semibold text-white">开源大模型深度调研</h3>
-                        </div>
-                        <p class="text-white/80 mb-6 leading-relaxed">全面分析开源大模型生态系统，深入探讨技术发展趋势、商业模式和市场格局。</p>
-                        <a href="kimi1_开源大模型深度调研与分析报告.html" 
-                           class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 font-medium">
-                            查看报告
-                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                            </svg>
-                        </a>
-                    </div>
-
-                    <div class="card bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-600 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-white font-bold text-xl">K2</span>
-                            </div>
-                            <h3 class="text-xl font-semibold text-white">RWKV架构深度解析</h3>
-                        </div>
-                        <p class="text-white/80 mb-6 leading-relaxed">深入探讨RWKV模型架构，分析其如何重新定义RNN与Transformer的融合，展望未来发展方向。</p>
-                        <a href="kimi2_RWKV：重新定义RNN与Transformer融合的未来.html" 
-                           class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-lg hover:from-green-600 hover:to-teal-700 transition-all duration-300 font-medium">
-                            查看报告
-                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                            </svg>
-                        </a>
-                    </div>
+                <div id="kimi-container" class="grid md:grid-cols-2 gap-8">
+                    <!-- 动态生成的Kimi系列报告卡片将在这里显示 -->
                 </div>
             </div>
 
             <!-- Gemini 系列报告 -->
             <div class="mb-16">
                 <h2 class="text-3xl font-bold section-title mb-8 text-center">Gemini 系列报告</h2>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="card bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-600 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-white font-bold text-xl">G1</span>
-                            </div>
-                            <h3 class="text-xl font-semibold text-white">RWKV模型技术分析</h3>
-                        </div>
-                        <p class="text-white/80 mb-6 leading-relaxed">详细分析RWKV模型如何重塑RNN架构，探讨其对Transformer模型的挑战和创新突破。</p>
-                        <a href="gemini1_RWKV模型：重塑RNN，挑战Transformer.html" 
-                           class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-lg hover:from-orange-600 hover:to-red-700 transition-all duration-300 font-medium">
-                            查看报告
-                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                            </svg>
-                        </a>
-                    </div>
+                <div id="gemini-container" class="grid md:grid-cols-2 gap-8">
+                    <!-- 动态生成的Gemini系列报告卡片将在这里显示 -->
+                </div>
+            </div>
 
-                    <div class="card bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-gradient-to-r from-pink-500 to-rose-600 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-white font-bold text-xl">G2</span>
-                            </div>
-                            <h3 class="text-xl font-semibold text-white">大模型开源革命</h3>
-                        </div>
-                        <p class="text-white/80 mb-6 leading-relaxed">交互式报告深入分析大模型开源生态的革命性变化，探讨开源策略对行业发展的深远影响。</p>
-                        <a href="gemini2_交互式报告：大模型开源革命.html" 
-                           class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-600 text-white rounded-lg hover:from-pink-600 hover:to-rose-700 transition-all duration-300 font-medium">
-                            查看报告
-                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                            </svg>
-                        </a>
-                    </div>
+            <!-- 加载状态 -->
+            <div id="loading-indicator" class="text-center mb-16">
+                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+                    <p class="text-white/80">正在检测目录中的报告文件...</p>
                 </div>
             </div>
 
             <!-- 底部信息 -->
-            <div class="text-center">
+            <div id="info-section" class="text-center" style="display: none;">
                 <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
                     <h3 class="text-2xl font-bold text-white mb-4">关于这些报告</h3>
-                    <p class="text-white/80 leading-relaxed max-w-3xl mx-auto">
+                    <p class="text-white/80 leading-relaxed max-w-3xl mx-auto mb-4">
                         这些报告深入分析了当前大模型领域的最新发展趋势，包括开源生态系统、技术架构创新、商业模式演进等关键议题。
                         每份报告都采用了交互式设计，提供丰富的可视化内容和深度分析，帮助读者全面理解大模型技术的发展现状和未来方向。
                     </p>
+                    <div id="file-stats" class="text-sm text-white/60">
+                        <!-- 动态显示检测到的文件统计信息 -->
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // 添加页面加载动画
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(30px)';
-                setTimeout(() => {
-                    card.style.transition = 'all 0.6s ease';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, index * 200);
-            });
-        });
+        // 文件检测和动态目录生成
+        const knownFiles = [
+            'gemini1_RWKV模型：重塑RNN，挑战Transformer.html',
+            'gemini2_交互式报告：大模型开源革命.html',
+            'gemini3_玻璃屋：公务员考试透明度交互式解读.html',
+            'kimi1_开源大模型深度调研与分析报告.html',
+            'kimi2_RWKV：重新定义RNN与Transformer融合的未来.html',
+            'kimi2_公务员考试透明度分析报告.html'
+        ];
+
+        // 文件标题映射
+        const fileTitleMap = {
+            'kimi1_开源大模型深度调研与分析报告.html': {
+                title: '开源大模型深度调研',
+                description: '全面分析开源大模型生态系统，深入探讨技术发展趋势、商业模式和市场格局。',
+                gradient: 'from-blue-500 to-purple-600'
+            },
+            'kimi2_RWKV：重新定义RNN与Transformer融合的未来.html': {
+                title: 'RWKV架构深度解析',
+                description: '深入探讨RWKV模型架构，分析其如何重新定义RNN与Transformer的融合，展望未来发展方向。',
+                gradient: 'from-green-500 to-teal-600'
+            },
+            'kimi2_公务员考试透明度分析报告.html': {
+                title: '公务员考试透明度分析',
+                description: '深度分析公务员考试制度的透明度现状，探讨改革方向和优化建议。',
+                gradient: 'from-indigo-500 to-blue-600'
+            },
+            'gemini1_RWKV模型：重塑RNN，挑战Transformer.html': {
+                title: 'RWKV模型技术分析',
+                description: '详细分析RWKV模型如何重塑RNN架构，探讨其对Transformer模型的挑战和创新突破。',
+                gradient: 'from-orange-500 to-red-600'
+            },
+            'gemini2_交互式报告：大模型开源革命.html': {
+                title: '大模型开源革命',
+                description: '交互式报告深入分析大模型开源生态的革命性变化，探讨开源策略对行业发展的深远影响。',
+                gradient: 'from-pink-500 to-rose-600'
+            },
+            'gemini3_玻璃屋：公务员考试透明度交互式解读.html': {
+                title: '公务员考试透明度交互式解读',
+                description: '通过交互式可视化深度解读公务员考试的透明度问题，提供全方位的数据分析视角。',
+                gradient: 'from-purple-500 to-pink-600'
+            }
+        };
+
+        // 检测文件是否存在
+        async function checkFileExists(filename) {
+            try {
+                const response = await fetch(filename, { method: 'HEAD' });
+                return response.ok;
+            } catch {
+                return false;
+            }
+        }
+
+        // 生成卡片HTML
+        function generateCard(filename, info, index, prefix) {
+            const shortPrefix = prefix.toUpperCase().charAt(0);
+            const number = index + 1;
+            return `
+                <div class="card bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-r ${info.gradient} rounded-lg flex items-center justify-center mr-4">
+                            <span class="text-white font-bold text-xl">${shortPrefix}${number}</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white">${info.title}</h3>
+                    </div>
+                    <p class="text-white/80 mb-6 leading-relaxed">${info.description}</p>
+                    <a href="${filename}" 
+                       class="inline-flex items-center px-6 py-3 bg-gradient-to-r ${info.gradient} text-white rounded-lg hover:opacity-90 transition-all duration-300 font-medium">
+                        查看报告
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+            `;
+        }
+
+        // 动态生成目录
+         async function generateDynamicIndex() {
+             const loadingIndicator = document.querySelector('#loading-indicator');
+             const infoSection = document.querySelector('#info-section');
+             const fileStats = document.querySelector('#file-stats');
+             
+             const existingFiles = [];
+             
+             // 检测所有已知文件
+             for (const file of knownFiles) {
+                 if (await checkFileExists(file)) {
+                     existingFiles.push(file);
+                 }
+             }
+
+             // 按前缀分类
+             const kimiFiles = existingFiles.filter(f => f.startsWith('kimi'));
+             const geminiFiles = existingFiles.filter(f => f.startsWith('gemini'));
+
+             // 隐藏或显示分类标题
+             const kimiSection = document.querySelector('#kimi-container').parentElement;
+             const geminiSection = document.querySelector('#gemini-container').parentElement;
+             
+             if (kimiFiles.length === 0) {
+                 kimiSection.style.display = 'none';
+             } else {
+                 kimiSection.style.display = 'block';
+             }
+             
+             if (geminiFiles.length === 0) {
+                 geminiSection.style.display = 'none';
+             } else {
+                 geminiSection.style.display = 'block';
+             }
+
+             // 生成Kimi系列
+             if (kimiFiles.length > 0) {
+                 const kimiContainer = document.querySelector('#kimi-container');
+                 if (kimiContainer) {
+                     kimiContainer.innerHTML = kimiFiles.map((file, index) => 
+                         generateCard(file, fileTitleMap[file], index, 'kimi')
+                     ).join('');
+                 }
+             }
+
+             // 生成Gemini系列
+             if (geminiFiles.length > 0) {
+                 const geminiContainer = document.querySelector('#gemini-container');
+                 if (geminiContainer) {
+                     geminiContainer.innerHTML = geminiFiles.map((file, index) => 
+                         generateCard(file, fileTitleMap[file], index, 'gemini')
+                     ).join('');
+                 }
+             }
+
+             // 更新文件统计信息
+             if (fileStats) {
+                 const totalFiles = existingFiles.length;
+                 const statsText = `检测到 ${totalFiles} 个报告文件 | Kimi系列: ${kimiFiles.length} 个 | Gemini系列: ${geminiFiles.length} 个`;
+                 fileStats.textContent = statsText;
+             }
+
+             // 隐藏加载指示器，显示内容
+             if (loadingIndicator) {
+                 loadingIndicator.style.display = 'none';
+             }
+             if (infoSection) {
+                 infoSection.style.display = 'block';
+             }
+
+             // 如果没有找到任何文件，显示提示信息
+             if (existingFiles.length === 0) {
+                 const container = document.querySelector('.max-w-6xl');
+                 const noFilesMessage = document.createElement('div');
+                 noFilesMessage.className = 'text-center mb-16';
+                 noFilesMessage.innerHTML = `
+                     <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
+                         <h3 class="text-2xl font-bold text-white mb-4">未检测到报告文件</h3>
+                         <p class="text-white/80">请确保目录中包含以 'kimi' 或 'gemini' 开头的 HTML 文件。</p>
+                     </div>
+                 `;
+                 container.insertBefore(noFilesMessage, infoSection);
+             }
+
+             // 添加页面加载动画
+             setTimeout(() => {
+                 const cards = document.querySelectorAll('.card');
+                 cards.forEach((card, index) => {
+                     card.style.opacity = '0';
+                     card.style.transform = 'translateY(30px)';
+                     setTimeout(() => {
+                         card.style.transition = 'all 0.6s ease';
+                         card.style.opacity = '1';
+                         card.style.transform = 'translateY(0)';
+                     }, index * 200);
+                 });
+             }, 100);
+         }
+
+        // 页面加载时执行
+        document.addEventListener('DOMContentLoaded', generateDynamicIndex);
     </script>
 </body>
 </html>
