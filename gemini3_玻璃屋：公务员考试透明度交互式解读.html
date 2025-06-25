@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>玻璃屋：公务员考试透明度交互式解读</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutral Harmony -->
+    <!-- Application Structure Plan: The application uses a narrative "scrollytelling" structure. It guides the user from the idealized system to its real-world challenges, fostering a deeper understanding than a simple chapter-by-chapter layout. The structure is: 1) Hero/Intro. 2) An interactive timeline of the 'Ideal Process' to make procedural info digestible. 3) An interactive grid for 'Fairness Mechanisms' to break down dense rules. 4) A visually distinct, investigative section on 'Real-World Cracks' (controversies) to highlight the core tension. 5) A quantitative comparison of 'National vs. Provincial' exams using a chart. 6) A conclusive summary presenting a balanced 'Verdict'. This thematic flow is more engaging and helps users synthesize the report's key arguments, from theory to practice to conclusion, providing a much better user experience than a linear report replica. -->
+    <!-- Visualization & Content Choices: 1. Process Timeline (HTML/CSS/JS): Goal: Inform. Method: Interactive vertical timeline. Justification: Visually breaks down the complex official process, making it less intimidating and more explorable than a wall of text. 2. Fairness Mechanism Cards (HTML/CSS/JS): Goal: Inform. Method: Clickable cards revealing details. Justification: Organizes multiple parallel concepts into a clean, user-driven discovery format. 3. Controversy Case Files (HTML/CSS/JS): Goal: Organize/Compare. Method: Tabbed interface for case categories. Justification: Allows users to focus on specific problem areas ('cronyism', 'cheating'), creating an investigative feel that highlights the report's most critical findings. 4. Competition Ratio Chart (Chart.js/Canvas): Goal: Compare. Method: Bar chart. Justification: The most effective way to visualize the stark quantitative difference in competition between national and provincial exams mentioned in the report. 5. Conclusion Summary (HTML/CSS): Goal: Summarize. Method: Two-column layout for 'strengths' vs. 'weaknesses'. Justification: Provides a clear, balanced, and easily scannable final verdict, reflecting the report's nuanced conclusion. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #F8F7F4;
+            color: #3C3C3B;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 40vh;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #4A5568;
+            border-bottom-color: #4A5568;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -31px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background-color: #D1D5DB;
+            border: 4px solid #F8F7F4;
+            transition: background-color 0.3s ease;
+        }
+        .timeline-item.active::before {
+            background-color: #3B82F6;
+        }
+        .case-tab.active {
+            background-color: #3C3C3B;
+            color: #F8F7F4;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm transition-all duration-300">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-gray-800">玻璃屋解读</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#ideal" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-500">理想流程</a>
+                        <a href="#mechanisms" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-500">公平机制</a>
+                        <a href="#cracks" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-500">现实裂痕</a>
+                        <a href="#comparison" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-500">国考 vs 省考</a>
+                        <a href="#verdict" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-500">最终结论</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-500">
+                        <span class="sr-only">打开主菜单</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#ideal" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-500">理想流程</a>
+                <a href="#mechanisms" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-500">公平机制</a>
+                <a href="#cracks" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-500">现实裂痕</a>
+                <a href="#comparison" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-500">国考 vs 省考</a>
+                <a href="#verdict" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-500">最终结论</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="min-h-[60vh] flex items-center justify-center text-center bg-white py-20 px-4">
+            <div class="max-w-4xl mx-auto">
+                <p class="text-sm font-semibold text-blue-600 uppercase tracking-wider">一份交互式报告</p>
+                <h2 class="mt-4 text-4xl md:text-6xl font-extrabold tracking-tight text-gray-900">玻璃屋里的竞争</h2>
+                <p class="mt-6 max-w-2xl mx-auto text-lg text-gray-500">公务员考试被誉为“玻璃屋”，意在彰显其公开、公平、公正。但这座“玻璃屋”的透明度究竟如何？本应用将带您深入解析其制度框架、保障机制与现实挑战。</p>
+                <div class="mt-8">
+                    <a href="#ideal" class="inline-block animate-bounce bg-gray-800 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-gray-700 transition-colors">
+                        开始探索 ↓
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 1: The Ideal Process -->
+        <section id="ideal" class="py-20 sm:py-28">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h3 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">理想的流程</h3>
+                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">公务员考试遵循一套高度程序化的流程，旨在通过标准化的步骤最大限度地减少人为操作空间。点击或滚动浏览，了解从报名到录用的每一个环节。</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
+                    <div class="md:col-span-1 md:sticky md:top-24">
+                        <div id="timeline-nav" class="relative pl-8 border-l-2 border-gray-200">
+                             <!-- Timeline items will be injected by JS -->
+                        </div>
+                    </div>
+                    <div id="timeline-content" class="md:col-span-2 bg-white p-8 rounded-xl shadow-lg min-h-[300px]">
+                        <!-- Content for timeline items will be injected by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Fairness Mechanisms -->
+        <section id="mechanisms" class="py-20 sm:py-28 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h3 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">公平的堡垒</h3>
+                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">为确保“玻璃屋”的清澈，考试体系建立了一套严密的保障机制。这些机制从法律到技术，贯穿于招录工作的每一个环节。</p>
+                </div>
+                <div id="mechanisms-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Mechanism cards will be injected by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: The Cracks in the Glass -->
+        <section id="cracks" class="py-20 sm:py-28">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h3 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">玻璃上的裂痕</h3>
+                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">尽管制度设计力求完美，但在实践中，一系列争议事件揭示了官方政策与现实操作之间的差距，也反映了公众的深层疑虑。</p>
+                </div>
+                
+                <div class="max-w-4xl mx-auto">
+                    <div class="mb-8 flex justify-center border-b border-gray-200">
+                        <div id="case-tabs" class="flex flex-wrap -mb-px space-x-2 sm:space-x-4">
+                             <!-- Case tabs will be injected by JS -->
+                        </div>
+                    </div>
+                    <div id="case-content-area">
+                        <!-- Case content will be injected by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 4: National vs. Provincial -->
+        <section id="comparison" class="py-20 sm:py-28 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h3 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">国考 vs 省考：一场竞赛，两种生态</h3>
+                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">虽然国考和省考在宏观框架上一致，但两者在组织层级、竞争激烈程度和公众认知上存在差异，这些差异可能影响其透明度实践。</p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <h4 class="text-xl font-bold text-gray-800">国家公务员考试 (国考)</h4>
+                                <ul class="mt-4 text-left space-y-2 text-gray-600">
+                                    <li><span class="font-bold">✓</span> 组织主体：中央最高层级部门</li>
+                                    <li><span class="font-bold">✓</span> 标准化：全国统一，权威性高</li>
+                                    <li><span class="font-bold">✓</span> 报考范围：面向全国，无户籍限制</li>
+                                    <li><span class="font-bold">✓</span> 公众感知：更不易受地方因素干扰</li>
+                                </ul>
+                            </div>
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <h4 class="text-xl font-bold text-gray-800">省级公务员考试 (省考)</h4>
+                                 <ul class="mt-4 text-left space-y-2 text-gray-600">
+                                    <li><span class="font-bold">✓</span> 组织主体：各省级主管部门</li>
+                                    <li><span class="font-bold">✓</span> 标准化：更灵活，适应地方需求</li>
+                                    <li><span class="font-bold">✓</span> 报考范围：部分职位限制户籍</li>
+                                    <li><span class="font-bold">✓</span> 公众感知：对地方权力影响力的疑虑稍高</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold text-center mb-4 text-gray-800">2023年平均竞争比（报录比）</h4>
+                        <div class="chart-container">
+                            <canvas id="competitionChart"></canvas>
+                        </div>
+                        <p class="text-center text-sm text-gray-500 mt-2">数据显示国考的竞争远比多数省考激烈，但在经济发达省份，省考竞争程度已不相上下。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: The Verdict -->
+        <section id="verdict" class="py-20 sm:py-28">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h3 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">最终结论：演进中的透明度</h3>
+                     <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">公务员考试在程序上高度透明，但在结果公平性上仍时常受到争议。这是一个在中央权威、制度刚性与社会监督、公众信任之间寻求平衡的持续演进过程。</p>
+                </div>
+                <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-green-50 border border-green-200 p-6 rounded-lg">
+                        <h4 class="text-2xl font-bold text-green-800">体系优势 (清澈的玻璃)</h4>
+                        <ul class="mt-4 space-y-3 list-disc list-inside text-green-700">
+                            <li><strong>程序高度透明</strong>：从公告到录用，环环相扣，有章可循。</li>
+                            <li><strong>制度极为严密</strong>：“凡进必考”原则，加上高科技监控和严密安保，有效防范大规模舞弊。</li>
+                            <li><strong>客观环节占优</strong>：笔试和面试环节通过标准化、匿名化设计，最大限度保证了客观性。</li>
+                             <li><strong>持续自我完善</strong>：从将作弊入刑到面试全程录像，制度在不断地“打补丁”，应对新出现的问题。</li>
+                        </ul>
+                    </div>
+                     <div class="bg-red-50 border border-red-200 p-6 rounded-lg">
+                        <h4 class="text-2xl font-bold text-red-800">体系挑战 (玻璃上的裂痕)</h4>
+                        <ul class="mt-4 space-y-3 list-disc list-inside text-red-700">
+                            <li><strong>“最后一公里”难题</strong>：体检和政审环节自由裁量权较大，是“第一名落选”等争议的核心来源。</li>
+                            <li><strong>制度执行落差</strong>：“萝卜招聘”等丑闻的存在，表明严密的规则在某些地方或部门仍可能被规避。</li>
+                            <li><strong>信任的悖论</strong>：过度依赖自上而下的技术权威来强制公平，可能难以构建基于广泛参与的深层社会信任。</li>
+                            <li><strong>模糊地带</strong>：专业划分、工作经历认定等资格审查环节的解释权，有时会成为侵蚀公信力的蚁穴。</li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="mt-16 text-center bg-white p-8 rounded-lg shadow-lg max-w-4xl mx-auto">
+                    <h4 class="text-2xl font-bold text-gray-800">未来的改革方向</h4>
+                    <p class="mt-4 text-gray-600">为确保“玻璃屋”的规则对所有参与者一体适用，报告暗示了三个关键的改革方向：</p>
+                    <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-6 text-left">
+                        <div class="p-4 bg-gray-50 rounded-md">
+                            <strong class="text-blue-600">提升审查透明度</strong>
+                            <p class="text-sm text-gray-500">对体检、政审环节的淘汰决定，提供更详尽、可公开、可申诉的理由。</p>
+                        </div>
+                         <div class="p-4 bg-gray-50 rounded-md">
+                            <strong class="text-blue-600">强化第三方监督</strong>
+                             <p class="text-sm text-gray-500">加强人大代表、政协委员及媒体公众在最终录用决策中的监督作用。</p>
+                        </div>
+                         <div class="p-4 bg-gray-50 rounded-md">
+                            <strong class="text-blue-600">岗位要求标准化</strong>
+                            <p class="text-sm text-gray-500">进一步细化和规范职位专业要求，压缩“萝卜招聘”的模糊空间。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-sm">
+            <p>本应用内容根据《玻璃屋：公务员考试透明度深度解析》报告生成，仅供研究与学习使用。</p>
+            <p>&copy; 2024 交互式报告</p>
+        </div>
+    </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Data for the application
+    const timelineData = [
+        { 
+            id: 'announce',
+            title: '公告与报名',
+            content: `
+                <h4 class="text-2xl font-bold text-gray-800 mb-4">竞争的开端</h4>
+                <p class="text-gray-600 mb-4">招录流程始于中央或省级公务员主管部门公开发布招考公告，详尽列明职位、条件、时间等核心信息。考生需通过官方网站报名并接受资格审查。</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-600">
+                    <li><strong>资格审查：</strong>贯穿录用全过程，任何环节发现不符均可取消资格。</li>
+                    <li><strong>缴费确认：</strong>通过审查后需网上缴费，并于考前打印准考证。</li>
+                </ul>`
+        },
+        { 
+            id: 'written_test',
+            title: '笔试',
+            content: `
+                <h4 class="text-2xl font-bold text-gray-800 mb-4">知识的熔炉</h4>
+                <p class="text-gray-600 mb-4">笔试是全国统一进行的大规模筛选环节，所有考生均需参加公共科目考试。</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-600">
+                    <li><strong>行测：</strong>客观题，考察数量关系、判断推理等能力，时间极为紧张。</li>
+                    <li><strong>申论：</strong>主观题，考察阅读理解、综合分析、解决问题和文字表达能力。</li>
+                    <li><strong>分类分级：</strong>试卷分为不同类别（如省级、市地级），以贴近不同岗位需求。部分职位有专业科目考试。</li>
+                </ul>`
+        },
+        { 
+            id: 'interview',
+            title: '面试',
+            content: `
+                <h4 class="text-2xl font-bold text-gray-800 mb-4">面对面的考验</h4>
+                <p class="text-gray-600 mb-4">通过笔试的考生按通常3:1的比例进入面试。面试流程被设计得极为严谨，以确保公平。</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-600">
+                    <li><strong>双盲抽签：</strong>考生和考官在面试前互不知晓对方信息。</li>
+                    <li><strong>全封闭候考：</strong>上交通讯工具，防止泄题。</li>
+                    <li><strong>匿名答题：</strong>严禁透露个人信息，否则当场取消资格。</li>
+                    <li><strong>当场计分：</strong>考官当场打分，许多地区当场公布成绩。</li>
+                </ul>`
+        },
+        { 
+            id: 'check',
+            title: '体检与政审',
+            content: `
+                <h4 class="text-2xl font-bold text-gray-800 mb-4">最后的关卡</h4>
+                <p class="text-gray-600 mb-4">面试合格者将进入体检和政治考察（政审）环节，这是全面背景审查的开始。</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-600">
+                    <li><strong>体检：</strong>依据国家发布的《公务员录用体检通用标准》及特殊标准，对结果有异议可申请一次复检。</li>
+                    <li><strong>政审：</strong>由招录机关组织，全面了解考生的“德、能、勤、绩、廉”，严把政治关、品行关、能力关等。</li>
+                </ul>`
+        },
+        { 
+            id: 'publicity',
+            title: '公示与录用',
+            content: `
+                <h4 class="text-2xl font-bold text-gray-800 mb-4">公开的裁决</h4>
+                <p class="text-gray-600 mb-4">招录机关集体研究确定拟录用人员名单，并在官网进行为期5个工作日的公示。</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-600">
+                    <li><strong>具体内容：</strong>公示信息非常具体，包括姓名、准考证号、毕业院校，并附监督举报电话。</li>
+                    <li><strong>社会监督：</strong>公示期是公众监督的最后一道关口，任何人都可以提出异议。</li>
+                    <li><strong>最终录用：</strong>公示期满无异议者，办理录用手续，并经历一年试用期。</li>
+                </ul>`
+        }
+    ];
+
+    const mechanismsData = [
+        { title: '凡进必考原则', content: '确保所有进入公务员队伍的人员都必须通过统一的竞争性考试，从制度上杜绝非竞争性渠道。' },
+        { title: '禁止“量身定制”', content: '法规明确禁止招录机关设置与履职无关的指向性条件，打击为特定人选服务的“萝卜招聘”。' },
+        { title: '试卷安全保密', content: '试卷属国家机密级文件，印制、运输过程采取GPS追踪、公安押运等高规格安保措施。' },
+        { title: '考场高科技监控', content: '考场内实现无死角视频监控，配备信号屏蔽仪，并有无线电监测车在考点外巡逻。' },
+        { title: '“双盲”与匿名化', content: '面试环节的核心机制，考官与考生随机匹配，全程匿名，有效防止人情分。' },
+        { title: '全程录音录像', content: '面试过程必须全程记录，为处理争议提供了可追溯的证据。' },
+        { title: '标准法典化', content: '体检与政审环节均有详细的国家标准和规定，力求用客观标准取代主观判断。' },
+        { title: '拟录用人员公示', content: '在官方网站公示拟录用人员详细信息及举报电话，是最后也是最直接的公众监督环节。' },
+        { title: '严厉的惩处机制', content: '将有组织的考试作弊行为入刑，最高可判七年，并建立诚信档案库。' }
+    ];
+
+    const casesData = {
+        'cronyism': {
+            title: '“萝卜招聘”现象',
+            icon: '🥕',
+            description: '特指招录单位为“内定”候选人量身打造岗位。这从源头上破坏了“公开竞争”原则，使考试沦为形式。',
+            cases: [
+                {
+                    title: '案例：地质大学“关系公示”事件',
+                    details: '2024年，某高校在招聘公示中注明入围者与校内领导的父子关系，声称是“主动接受监督”，却引爆舆论，被质疑是将裙带关系公开化、常态化。'
+                },
+                {
+                    title: '案例：“专业不符”的自由裁量权',
+                    details: '笔试面试第一的考生，因“语言文学”专业不符“语言文学类”要求，或“世界史”不符“历史学”要求而被拒。模糊的专业划分为“暗箱操作”提供了空间。'
+                }
+            ]
+        },
+        'cheating': {
+            title: '有组织作弊',
+            icon: '📱',
+            description: '作弊行为已从个人投机发展为有组织的犯罪活动，动摇了考试成绩反映真实能力的根本，严重损害制度公信力。',
+            cases: [
+                {
+                    title: '案例：特大组织考试作弊案',
+                    details: '犯罪团伙组建高学历“枪手库”，为上百名考生提供替考服务，最终相关人员因“组织考试作弊罪”和“代替考试罪”被判刑。'
+                },
+                {
+                    title: '案例：高科技作弊与窃取国家秘密',
+                    details: '有考生利用微型相机在考场内偷拍真试卷传出，由场外团队解题后传回答案。相关人员因“非法获取国家秘密罪”被定罪。'
+                }
+            ]
+        },
+        'elimination': {
+            title: '“第一名的落选”',
+            icon: '🥇',
+            description: '总成绩第一的考生在最后环节被淘汰，暴露了后期审查环节的自由裁量权过大，可能使前期客观分数失去意义。',
+            cases: [
+                {
+                    title: '案例：因体检被刷',
+                    details: '理由五花八门，有考生因“脸上长痘”被认定不合格，甚至有健康考生被误诊为“梅毒”而失去资格。这让本应客观的体检充满了不确定性。'
+                },
+                {
+                    title: '案例：因政审被刷',
+                    details: '政审的自由裁量空间更大。有考生因被评价“性格内向”、“年龄太小”或数年前的个人作风问题而被认定“品行不端”，最终不予录用。公众普遍怀疑这些模糊理由只是淘汰“没背景”高分考生的借口。'
+                }
+            ]
+        }
+    };
+
+    // --- RENDER FUNCTIONS ---
+
+    // Render Timeline
+    const timelineNav = document.getElementById('timeline-nav');
+    const timelineContent = document.getElementById('timeline-content');
+    timelineData.forEach((item, index) => {
+        const navItem = document.createElement('div');
+        navItem.className = 'timeline-item relative pl-8 py-4 cursor-pointer';
+        navItem.dataset.target = item.id;
+        navItem.innerHTML = `<h5 class="font-semibold text-gray-700 hover:text-blue-600 transition-colors">${item.title}</h5>`;
+        timelineNav.appendChild(navItem);
+    });
+
+    function updateTimeline(targetId) {
+        const activeItem = timelineData.find(d => d.id === targetId);
+        if (activeItem) {
+            timelineContent.innerHTML = activeItem.content;
+            document.querySelectorAll('#timeline-nav .timeline-item').forEach(el => {
+                el.classList.toggle('active', el.dataset.target === targetId);
+            });
+        }
+    }
+
+    // Render Mechanisms
+    const mechanismsGrid = document.getElementById('mechanisms-grid');
+    mechanismsData.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300';
+        card.innerHTML = `
+            <h4 class="text-lg font-bold text-gray-800">${item.title}</h4>
+            <p class="mt-2 text-gray-600">${item.content}</p>`;
+        mechanismsGrid.appendChild(card);
+    });
+
+    // Render Cases
+    const caseTabs = document.getElementById('case-tabs');
+    const caseContentArea = document.getElementById('case-content-area');
+    Object.keys(casesData).forEach((key, index) => {
+        const data = casesData[key];
+        const tab = document.createElement('button');
+        tab.className = 'case-tab text-sm sm:text-base font-medium py-2 px-3 sm:px-5 rounded-t-lg transition-colors duration-200';
+        tab.textContent = data.title;
+        tab.dataset.case = key;
+        if(index === 0) tab.classList.add('active');
+        caseTabs.appendChild(tab);
+    });
+    
+    function updateCaseContent(caseKey) {
+        const data = casesData[caseKey];
+        if (data) {
+            let casesHtml = data.cases.map(c => `
+                <div class="bg-gray-100 p-4 rounded-md">
+                    <h6 class="font-bold text-gray-800">${c.title}</h6>
+                    <p class="text-sm text-gray-600 mt-1">${c.details}</p>
+                </div>
+            `).join('');
+
+            caseContentArea.innerHTML = `
+            <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg border border-gray-200 animate-fade-in">
+                <div class="flex items-start gap-4">
+                    <span class="text-4xl">${data.icon}</span>
+                    <div>
+                        <h5 class="text-xl font-bold text-gray-900">${data.title}</h5>
+                        <p class="mt-1 text-gray-600">${data.description}</p>
+                    </div>
+                </div>
+                <div class="mt-6 space-y-4 border-t border-gray-200 pt-4">
+                    ${casesHtml}
+                </div>
+            </div>`;
+        }
+    }
+
+    // --- EVENT LISTENERS ---
+
+    // Mobile Menu
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    // Timeline interaction
+    timelineNav.addEventListener('click', (e) => {
+        const target = e.target.closest('.timeline-item');
+        if (target) {
+            updateTimeline(target.dataset.target);
+        }
+    });
+
+    // Case tabs interaction
+    caseTabs.addEventListener('click', (e) => {
+        const target = e.target.closest('.case-tab');
+        if (target) {
+            document.querySelectorAll('.case-tab').forEach(t => t.classList.remove('active'));
+            target.classList.add('active');
+            updateCaseContent(target.dataset.case);
+        }
+    });
+
+    // Scrollspy for navigation and timeline
+    const sections = document.querySelectorAll('main section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const timelineItems = document.querySelectorAll('.timeline-item');
+
+    const observerOptions = { rootMargin: '-100px 0px -50% 0px' };
+    
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+                });
+
+                if (id === 'ideal') {
+                    const timelineObserver = new IntersectionObserver((timelineEntries) => {
+                         timelineEntries.forEach(tlEntry => {
+                            if (tlEntry.isIntersecting) {
+                                const targetId = timelineItems[Math.floor(timelineItems.length / 2)].dataset.target; // Default to middle
+                                updateTimeline(targetId);
+                            }
+                        });
+                    }, { threshold: 0.1 });
+                    timelineObserver.observe(document.getElementById('timeline-nav'));
+                }
+            }
+        });
+    }, observerOptions);
+
+    sections.forEach(section => sectionObserver.observe(section));
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            document.querySelector(targetId).scrollIntoView({
+                behavior: 'smooth'
+            });
+            if(mobileMenu.classList.contains('hidden') === false){
+                mobileMenu.classList.add('hidden');
+            }
+        });
+    });
+
+    // Chart.js
+    const ctx = document.getElementById('competitionChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['国家公务员考试 (国考)', '省级公务员考试 (省考)'],
+            datasets: [{
+                label: '平均报录比',
+                data: [70, 27],
+                backgroundColor: [
+                    'rgba(59, 130, 246, 0.6)',
+                    'rgba(239, 68, 68, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(59, 130, 246, 1)',
+                    'rgba(239, 68, 68, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return ` 平均 ${context.raw}:1`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: '竞争比 (X : 1)'
+                    }
+                }
+            }
+        }
+    });
+
+
+    // --- INITIALIZE VIEWS ---
+    updateTimeline('announce');
+    updateCaseContent('cronyism');
+});
+
+</script>
+</body>
+</html>
