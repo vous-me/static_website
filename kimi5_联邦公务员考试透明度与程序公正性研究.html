@@ -1,0 +1,1053 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>联邦公务员考试透明度与程序公正性研究</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --primary: #8B5A3C;
+            --secondary: #D4B5A0;
+            --accent: #5A8B8B;
+            --neutral: #F5F3F0;
+            --base: #FEFCFA;
+            --text: #2C2C2C;
+            --muted: #6B7280;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--base);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        .serif {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .toc-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 280px;
+            background: linear-gradient(135deg, var(--neutral) 0%, var(--base) 100%);
+            border-right: 1px solid var(--secondary);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 2rem 1.5rem;
+            box-shadow: 4px 0 20px rgba(139, 91, 60, 0.1);
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-overlay {
+            background: rgba(0, 0, 0, 0.3);
+            position: absolute;
+            inset: 0;
+        }
+        
+        .bento-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--secondary) 50%, transparent 100%);
+            margin: 4rem 0;
+        }
+        
+        .comparison-table {
+            background: var(--base);
+            border: 1px solid var(--secondary);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(139, 91, 60, 0.1);
+        }
+        
+        .comparison-table th {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+            text-align: left;
+        }
+        
+        .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--neutral);
+            vertical-align: top;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: var(--neutral);
+        }
+        
+        .citation {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px dotted var(--accent);
+        }
+        
+        .citation:hover {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .pull-quote {
+            background: linear-gradient(135deg, var(--neutral) 0%, var(--base) 100%);
+            border-left: 4px solid var(--primary);
+            padding: 2rem;
+            margin: 2rem 0;
+            font-style: italic;
+            font-size: 1.1rem;
+            border-radius: 0 12px 12px 0;
+            box-shadow: 0 4px 16px rgba(139, 91, 60, 0.1);
+        }
+        
+        .case-study {
+            background: var(--base);
+            border: 1px solid var(--secondary);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 20px rgba(139, 91, 60, 0.08);
+        }
+        
+        .case-study h4 {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .mermaid-container {
+            background: var(--base);
+            border: 1px solid var(--secondary);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 20px rgba(139, 91, 60, 0.08);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+            overflow: auto;
+            position: relative;
+        }
+        
+        .mermaid {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            cursor: grab;
+            transition: transform 0.3s ease;
+            transform-origin: center center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .mermaid:active {
+            cursor: grabbing;
+        }
+        
+        .mermaid svg {
+            width: 100% !important;
+            max-width: 100% !important;
+            height: auto !important;
+            background-color: var(--base) !important;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(139, 91, 60, 0.1);
+        }
+        
+        /* Mermaid theme customization for better contrast and consistent styling */
+        .mermaid .node rect,
+        .mermaid .node circle,
+        .mermaid .node ellipse,
+        .mermaid .node polygon {
+            fill: var(--neutral) !important;
+            stroke: var(--primary) !important;
+            stroke-width: 2px !important;
+        }
+        
+        /* Different node colors for better visual distinction */
+        .mermaid .node:nth-child(4n+1) rect,
+        .mermaid .node:nth-child(4n+1) circle,
+        .mermaid .node:nth-child(4n+1) ellipse,
+        .mermaid .node:nth-child(4n+1) polygon {
+            fill: #E8F5E8 !important;
+            stroke: #2E8B57 !important;
+        }
+        
+        .mermaid .node:nth-child(4n+2) rect,
+        .mermaid .node:nth-child(4n+2) circle,
+        .mermaid .node:nth-child(4n+2) ellipse,
+        .mermaid .node:nth-child(4n+2) polygon {
+            fill: #E8F0FF !important;
+            stroke: #4682B4 !important;
+        }
+        
+        .mermaid .node:nth-child(4n+3) rect,
+        .mermaid .node:nth-child(4n+3) circle,
+        .mermaid .node:nth-child(4n+3) ellipse,
+        .mermaid .node:nth-child(4n+3) polygon {
+            fill: #FFF0E8 !important;
+            stroke: #CD5C5C !important;
+        }
+        
+        .mermaid .node:nth-child(4n+4) rect,
+        .mermaid .node:nth-child(4n+4) circle,
+        .mermaid .node:nth-child(4n+4) ellipse,
+        .mermaid .node:nth-child(4n+4) polygon {
+            fill: #F5F0FF !important;
+            stroke: #9370DB !important;
+        }
+        
+        /* Special styling for start/end nodes */
+        .mermaid .node:first-child rect,
+        .mermaid .node:first-child circle,
+        .mermaid .node:first-child ellipse,
+        .mermaid .node:first-child polygon,
+        .mermaid .node:last-child rect,
+        .mermaid .node:last-child circle,
+        .mermaid .node:last-child ellipse,
+        .mermaid .node:last-child polygon {
+            fill: var(--primary) !important;
+            stroke: var(--text) !important;
+        }
+        
+        .mermaid .node:first-child .label,
+        .mermaid .node:last-child .label {
+            fill: white !important;
+            color: white !important;
+        }
+        
+        .mermaid .node .label {
+            color: var(--text) !important;
+            fill: var(--text) !important;
+            font-family: 'Inter', sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            text-anchor: middle !important;
+        }
+        
+        .mermaid .edgePath .path {
+            stroke: var(--accent) !important;
+            stroke-width: 2px !important;
+        }
+        
+        .mermaid .edgeLabel {
+            background-color: var(--base) !important;
+            color: var(--text) !important;
+            font-family: 'Inter', sans-serif !important;
+            font-size: 12px !important;
+            border: 1px solid var(--secondary) !important;
+            border-radius: 4px !important;
+            padding: 4px 8px !important;
+        }
+        
+        /* Decision nodes (diamonds) special styling */
+        .mermaid .node polygon {
+            fill: #FFF8E8 !important;
+            stroke: #DAA520 !important;
+        }
+        
+        .mermaid-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+        
+        .mermaid-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .mermaid-btn:hover {
+            background: var(--accent);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .mermaid-btn:active {
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 1024px) {
+            .toc-fixed {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .toc-fixed.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fixed Table of Contents -->
+    <nav class="toc-fixed">
+        <div class="mb-8">
+            <h3 class="serif text-lg font-semibold text-gray-800 mb-4">目录导航</h3>
+            <div class="space-y-2">
+                <a href="#hero" class="block text-sm text-gray-600 hover:text-primary transition-colors">引言概述</a>
+                <a href="#us-system" class="block text-sm text-gray-600 hover:text-primary transition-colors">美国制度概述</a>
+                <a href="#problems" class="block text-sm text-gray-600 hover:text-primary transition-colors">问题分析</a>
+                <a href="#cases" class="block text-sm text-gray-600 hover:text-primary transition-colors">典型案例</a>
+                <a href="#comparison" class="block text-sm text-gray-600 hover:text-primary transition-colors">国际比较</a>
+                <a href="#common-problems" class="block text-sm text-gray-600 hover:text-primary transition-colors">共性问题</a>
+                <a href="#recommendations" class="block text-sm text-gray-600 hover:text-primary transition-colors">对策建议</a>
+            </div>
+        </div>
+        
+        <div class="border-t pt-4">
+            <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">关键问题</h4>
+            <div class="space-y-2 text-xs text-gray-500">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-circle text-red-400 text-xs"></i>
+                    <span>选拔标准脱节</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-circle text-orange-400 text-xs"></i>
+                    <span>评分机制不透明</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-circle text-yellow-400 text-xs"></i>
+                    <span>监督机制低效</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-circle text-purple-400 text-xs"></i>
+                    <span>代表性不足</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section id="hero" class="hero-section relative py-20">
+            <div class="hero-overlay"></div>
+            <div class="container mx-auto px-8 relative z-10">
+                <div class="bento-grid">
+                    <div class="space-y-6">
+                        <h1 class="serif text-5xl font-bold leading-tight">
+                            <em class="text-secondary">联邦公务员考试</em><br/>
+                            透明度与程序公正性研究
+                        </h1>
+                        <p class="text-xl text-gray-200 leading-relaxed">
+                            以美国为例及国际比较的深度分析
+                        </p>
+                        <div class="flex items-center gap-4 text-sm text-gray-300">
+                            <span><i class="fas fa-calendar mr-2"></i>2025年研究</span>
+                            <span><i class="fas fa-globe mr-2"></i>跨国比较</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4">
+                            <h3 class="font-semibold mb-2">研究范围</h3>
+                            <p class="text-sm text-gray-200">美国、中国、印度三国公务员考试制度对比分析</p>
+                        </div>
+                        <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4">
+                            <h3 class="font-semibold mb-2">核心议题</h3>
+                            <p class="text-sm text-gray-200">透明度、程序公正性、代表性不足问题</p>
+                        </div>
+                        <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4 col-span-2">
+                            <h3 class="font-semibold mb-2">关键发现</h3>
+                            <p class="text-sm text-gray-200">选拔标准与岗位需求脱节、评分机制不透明、监督机制低效、隐性歧视等问题普遍存在</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- US System Overview -->
+        <section id="us-system" class="py-16 bg-white">
+            <div class="container mx-auto px-8">
+                <h2 class="serif text-3xl font-bold mb-8 text-center">美国联邦公务员考试制度概述</h2>
+                
+                <div class="grid lg:grid-cols-2 gap-12">
+                    <div>
+                        <h3 class="serif text-xl font-semibold mb-4 text-primary">历史演变与法律框架</h3>
+                        <p class="mb-4">
+                            美国联邦公务员考试制度的历史演变是一个逐步走向功绩制（merit system）和反对政治分赃制（spoils system）的过程。<strong>1883年《彭德尔顿法案》（Pendleton Act）的通过是这一演变的关键里程碑</strong>，它确立了通过竞争性考试来选拔公务员的原则。
+                        </p>
+                        <p class="mb-4">
+                            此后，一系列法律法规不断完善和巩固了这一制度，例如<strong>1978年的《公务员制度改革法》（Civil Service Reform Act of 1978）</strong>，该法案进一步强调了功绩制原则，并设立了人事管理办公室（OPM）和功绩制保护委员会（MSPB）等机构<a href="https://www.opm.gov/policy-data-oversight/oversight-activities/compliance/" class="citation">[22]</a><a href="https://www.mspb.gov/studies/studies/Civil_Service_Evaluation_The_Role_of_the_US_Office_of_Personnel_Management_317794.pdf" class="citation">[23]</a>。
+                        </p>
+                    </div>
+                    <div>
+                        <img src="https://kimi-web-img.moonshot.cn/img/www.beijingreview.com.cn/56453c8b58374aeb10a290e38406baa91e30fc4c.jpg" alt="美国联邦政府大楼外观全景" class="w-full h-64 object-cover rounded-lg shadow-lg" size="medium" aspect="wide" style="photo" query="美国联邦政府大楼 公务员考试 历史建筑" referrerpolicy="no-referrer" data-modified="1" data-score="11596.00"/>
+                    </div>
+                </div>
+
+                <div class="section-divider"></div>
+
+                <h3 class="serif text-xl font-semibold mb-6 text-primary">主要考试类型与适用范围</h3>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-neutral rounded-lg p-6">
+                        <h4 class="font-semibold mb-3">ACWA评估工具</h4>
+                        <p class="text-sm text-gray-600">
+                            &#34;行政职业与美国&#34;（ACWA）自我评定量表曾用于入门级职位筛选，但其有效性受到质疑<a href="https://www.mspb.gov/studies/studies/Managing_Federal_Recruitment_Issues_Insights_and_Illustrations_253626.pdf" class="citation">[4]</a>。
+                        </p>
+                    </div>
+                    <div class="bg-neutral rounded-lg p-6">
+                        <h4 class="font-semibold mb-3">PACE考试</h4>
+                        <p class="text-sm text-gray-600">
+                            专业和行政职业考试（PACE）曾广泛用于筛选118种不同的白领职位，但因公平性问题最终被替换<a href="https://www.nytimes.com/1981/01/10/us/us-set-to-replace-a-civil-service-test.html" class="citation">[9]</a>。
+                        </p>
+                    </div>
+                    <div class="bg-neutral rounded-lg p-6">
+                        <h4 class="font-semibold mb-3">机构自主评估</h4>
+                        <p class="text-sm text-gray-600">
+                            各联邦机构可开发自己的评估工具，如USGS的在线自动招聘系统（OARS）<a href="https://www.mspb.gov/studies/studies/Managing_Federal_Recruitment_Issues_Insights_and_Illustrations_253626.pdf" class="citation">[4]</a>。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problems Analysis -->
+        <section id="problems" class="py-16 bg-neutral">
+            <div class="container mx-auto px-8">
+                <h2 class="serif text-3xl font-bold mb-12 text-center">透明度与程序公正性问题分析</h2>
+                
+                <div class="space-y-12">
+                    <!-- Selection Criteria Issues -->
+                    <div class="case-study">
+                        <h3 class="serif text-xl font-semibold mb-4 text-primary">选拔标准与考试内容问题</h3>
+                        <div class="grid lg:grid-cols-2 gap-8">
+                            <div>
+                                <h4 class="font-semibold mb-3">标准设定僵化</h4>
+                                <p class="mb-4">
+                                    <strong>资格标准的设定过于依赖工作年限和学历背景，而忽视了应聘者在过往经历中实际培养的能力和潜力</strong>，这些能力往往是预测未来工作表现更可靠的指标<a href="https://www.mspb.gov/studies/studies/Reforming_Federal_Hiring_Beyond_Faster_and_Cheaper_224102.pdf" class="citation">[10]</a>。
+                                </p>
+                                <p class="text-sm text-gray-600">
+                                    现有的标准可能无法准确评估一个应聘者通过短期高强度项目所获得的技能，反而偏向于那些拥有较长但相关性可能较低的工作经验的候选人。
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-3">与岗位需求脱节</h4>
+                                <p class="mb-4">
+                                    资格标准与岗位实际需求的匹配度受到质疑。这些标准往往被批评为更新缓慢，无法跟上职业的快速发展，或者定义过于宽泛，缺乏实际指导意义<a href="https://www.mspb.gov/studies/studies/Reforming_Federal_Hiring_Beyond_Faster_and_Cheaper_224102.pdf" class="citation">[10]</a>。
+                                </p>
+                                <p class="text-sm text-gray-600">
+                                    在信息技术等日新月异的领域，职位所需的特定技能组合可能每年都在变化，但资格标准可能数年未更新。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scoring Mechanism Issues -->
+                    <div class="case-study">
+                        <h3 class="serif text-xl font-semibold mb-4 text-primary">评分机制与结果反馈问题</h3>
+                        <div class="pull-quote">
+                            <p>
+                                &#34;现有的资格标准主要作为筛选工具，而非精确的排名依据，其预测效度本身就不确定。当大量申请人通过在线系统提交申请后，系统会自动进行评分和排名，但其背后的算法和权重设置的公正性和透明度仍值得商榷。&#34;
+                            </p>
+                        </div>
+                        <p class="mb-4">
+                            在面试环节，虽然结构化面试被认为是更有效和公平的评估方式，但实际操作中，为了追求招聘速度，机构可能倾向于采用非结构化或半结构化的面试，这可能导致评估标准不一，主观性增强<a href="https://www.mspb.gov/studies/studies/The_Federal_Selection_Interview_Unrealized_Potential_253635.pdf" class="citation">[11]</a>。
+                        </p>
+                    </div>
+
+                    <!-- Oversight Mechanism Issues -->
+                    <div class="case-study">
+                        <h3 class="serif text-xl font-semibold mb-4 text-primary">监督机制与申诉渠道问题</h3>
+                        <p class="mb-4">
+                            <strong>人事管理办公室（OPM）依据《公务员制度改革法》等法律，负有监督联邦人事系统的法定责任</strong>，包括评估各机构对功绩制原则的遵守情况，以及人事政策、计划和运作的有效性<a href="https://www.opm.gov/policy-data-oversight/oversight-activities/compliance/" class="citation">[22]</a>。
+                        </p>
+                        <p class="mb-4">
+                            然而，<strong>OPM的监督效能受到其资源和方法的限制</strong>。申诉过程本身可能漫长且复杂，如果在120天内没有最终决定，投诉人有权向联邦法院提起民事诉讼<a href="https://www.ftc.gov/policy-notices/no-fear-act/complaint-process" class="citation">[30]</a>。
+                        </p>
+                    </div>
+
+                    <!-- Representation Issues -->
+                    <div class="case-study">
+                        <h3 class="serif text-xl font-semibold mb-4 text-primary">代表性不足与隐性歧视问题</h3>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold mb-3">历史案例：PACE考试</h4>
+                                <p class="text-sm">
+                                    PACE考试中，白人考生的通过率为42%，而西班牙裔美国人的通过率为13%，黑人的通过率仅为5%<a href="https://www.nytimes.com/1981/01/10/us/us-set-to-replace-a-civil-service-test.html" class="citation">[9]</a>。
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-3">差别性影响原则</h4>
+                                <p class="text-sm">
+                                    即使雇主没有歧视意图，但如果其雇佣实践对受保护群体产生了不成比例的负面影响，并且这些实践与工作表现无关，则仍构成非法歧视<a href="https://www.nationalaffairs.com/publications/detail/the-dead-end-of-disparate-impact" class="citation">[7]</a>。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Case Studies -->
+        <section id="cases" class="py-16 bg-white">
+            <div class="container mx-auto px-8">
+                <h2 class="serif text-3xl font-bold mb-12 text-center">典型案例分析</h2>
+                
+                <div class="space-y-8">
+                    <!-- PACE Case -->
+                    <div class="case-study">
+                        <h3 class="serif text-lg font-semibold mb-4 text-primary">PACE考试内容与岗位关联性质疑案例</h3>
+                        <div class="grid lg:grid-cols-3 gap-6 mb-6">
+                            <div class="lg:col-span-2">
+                                <p class="mb-4">
+                                    专业和行政职业考试（PACE）曾是美国政府筛选118种不同白领职位申请人的主要工具。然而，该考试因其对少数族裔考生的不成比例的高失败率而受到广泛批评。
+                                </p>
+                                <p class="mb-4">
+                                    <strong>1981年，卡特政府通过一项同意法令解决了针对PACE考试的工作歧视诉讼，同意替换该考试</strong><a href="https://www.nytimes.com/1981/01/10/us/us-set-to-replace-a-civil-service-test.html" class="citation">[9]</a>。
+                                </p>
+                                <p class="text-sm text-gray-600">
+                                    司法部官员表示，如果案件进入审判阶段，政府败诉的可能性很大，因为许多PACE考试的题目与应聘者未来实际工作的表现缺乏必要的关联性。
+                                </p>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-semibold mb-3">考试通过率对比</h4>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <span>白人考生</span>
+                                        <span class="font-semibold">42%</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>西班牙裔考生</span>
+                                        <span class="font-semibold">13%</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>黑人考生</span>
+                                        <span class="font-semibold">5%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ricci Case -->
+                    <div class="case-study">
+                        <h3 class="serif text-lg font-semibold mb-4 text-primary">纽黑文市消防部门晋升考试案</h3>
+                        <p class="mb-4">
+                            2003年，康涅狄格州纽黑文市为填补消防部门15个主管职位的空缺，对内部申请人进行了晋升考试。考试结果显示白人申请人的通过率大约是黑人申请人的两倍<a href="https://www.nationalaffairs.com/publications/detail/the-dead-end-of-disparate-impact" class="citation">[7]</a>。
+                        </p>
+                        <div class="pull-quote">
+                            <p>
+                                &#34;如果严格按照考试成绩进行晋升，将没有黑人申请人，最多只有两名西班牙裔申请人能够获得晋升。为了避免这一结果可能引发的诉讼，市政府最终决定废弃考试结果。&#34;
+                            </p>
+                        </div>
+                        <p class="text-sm text-gray-600">
+                            此案最终上诉至美国最高法院，核心问题在于如何平衡反歧视原则与基于考试成绩的晋升规则。
+                        </p>
+                    </div>
+
+                    <!-- New Jersey Case -->
+                    <div class="case-study">
+                        <h3 class="serif text-lg font-semibold mb-4 text-primary">新泽西州警长晋升考试歧视案</h3>
+                        <p class="mb-4">
+                            <strong>2025年2月，美国司法部对新泽西州及新泽西州公务员委员会提起诉讼</strong>，指控该州在晋升警长的公务员笔试中存在对非洲裔和西班牙裔候选人的歧视模式<a href="https://www.justice.gov/archives/opa/pr/justice-department-files-lawsuit-alleging-new-jersey-s-written-civil-service-examination" class="citation">[25]</a>。
+                        </p>
+                        <p class="mb-4">
+                            司法部认为，新泽西州未能证明其使用该笔试与工作相关且符合业务必要性。非洲裔和西班牙裔候选人在该笔试中的通过率显著低于白人候选人，并且即使通过，他们的分数也显著低于白人候选人。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- International Comparison -->
+        <section id="comparison" class="py-16 bg-neutral">
+            <div class="container mx-auto px-8">
+                <h2 class="serif text-3xl font-bold mb-12 text-center">国际比较视野</h2>
+                
+                <div class="grid lg:grid-cols-2 gap-12">
+                    <!-- China -->
+                    <div class="bg-white rounded-lg p-8 shadow-lg">
+                        <h3 class="serif text-xl font-semibold mb-6 text-primary">中国公务员考试制度特点与问题</h3>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="font-semibold mb-3">专业背景要求刻板</h4>
+                                <p class="text-sm mb-3">
+                                    2016年江苏省徐州市公务员招录中，考生纪某尽管在各项测试中表现优异，却因其所获的比较文学硕士学位与招聘岗位要求的&#34;中国语言文学&#34;专业不符而被拒绝录用<a href="https://www.sixthtone.com/news/1001823/candidate-tells-civil-service-their-recruiters-are-too-literal" class="citation">[34]</a>。
+                                </p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-semibold mb-3">性别歧视问题</h4>
+                                <p class="text-sm mb-3">
+                                    在近4万个招聘岗位中，明确指定仅招男性的岗位数量（10981个）远超仅招女性的岗位数量（7550个），两者相差3431个，约占招聘岗位总数的8.7%<a href="https://www.scmp.com/news/china/politics/article/3246303/men-still-being-favoured-over-women-chinese-government-jobs-study-warns" class="citation">[35]</a>。
+                                </p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-semibold mb-3">年龄歧视</h4>
+                                <p class="text-sm">
+                                    普遍的&#34;35岁门槛&#34;被指与当前社会发展趋势不符，特别是考虑到中国总人口近年来出现负增长的情况<a href="https://www.globaltimes.cn/page/202403/1308193.shtml" class="citation">[38]</a>。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- India -->
+                    <div class="bg-white rounded-lg p-8 shadow-lg">
+                        <h3 class="serif text-xl font-semibold mb-6 text-primary">印度公务员考试制度特点与问题</h3>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="font-semibold mb-3">Puja Khedkar事件</h4>
+                                <p class="text-sm mb-3">
+                                    Khedkar据称通过伪造残疾证明和&#34;非奶油层&#34;证书，不正当地获得了本不应享有的预留名额优势，从而在竞争激烈的UPSC考试中获得了第821名的成绩<a href="https://sprf.in/reforming-indias-bureaucratic-backbone-need-for-upsc-recruitment-overhaul/" class="citation">[43]</a>。
+                                </p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-semibold mb-3">预留政策执行漏洞</h4>
+                                <p class="text-sm mb-3">
+                                    在&#34;其他落后阶层&#34;（OBC）和&#34;经济弱势群体&#34;（EWS）的预留资格认定中，&#34;奶油层&#34;的识别和适用标准模糊不清，关于收入标准的界定也存在混淆<a href="https://www.insightsonindia.com/2024/10/03/upsc-editorial-analysis-restoring-the-integrity-of-indias-civil-services-and-selection-systems/" class="citation">[42]</a>。
+                                </p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-semibold mb-3">监管机制不足</h4>
+                                <p class="text-sm">
+                                    现有的审查体系在很大程度上是&#34;基于投诉的&#34;，缺乏主动发现和预防问题的能力。官僚体系内部存在的&#34;推荐文化&#34;进一步侵蚀了择优录取的原则。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Common Problems -->
+        <section id="common-problems" class="py-16 bg-white">
+            <div class="container mx-auto px-8">
+                <h2 class="serif text-3xl font-bold mb-12 text-center">共性问题与改进方向</h2>
+                
+                <div class="comparison-table">
+                    <table class="w-full">
+                        <thead>
+                            <tr>
+                                <th class="w-1/4">问题领域</th>
+                                <th class="w-2/5">共性问题</th>
+                                <th class="w-2/5">改进方向</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-semibold">选拔标准科学性与公平性</td>
+                                <td>标准僵化、与岗位脱节、忽视潜力、存在显性或隐性歧视（如性别、年龄、种族、专业背景）</td>
+                                <td>建立动态调整机制、强化岗位分析、引入能力本位评估、消除歧视性条款、加强标准制定的公众参与和专家论证</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">考试内容与岗位需求的匹配度</td>
+                                <td>内容陈旧、与实际工作关联性不强、缺乏效度验证、过度强调记忆而非能力</td>
+                                <td>定期更新考试大纲、加强岗位胜任力模型研究、确保考试内容能有效预测工作表现、采用多样化的题型和评估方法</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">评分机制的客观性与透明度</td>
+                                <td>评分标准模糊、主观性强（尤其面试）、自动化评分算法不透明、缺乏及时有效的结果反馈</td>
+                                <td>制定清晰统一的评分标准、推广结构化面试和面试官培训、公开评分原则和流程（在保护隐私前提下）、提供个性化考试结果反馈</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">监督与申诉机制的有效性</td>
+                                <td>监督机构独立性不足、资源有限、申诉渠道不畅、程序繁琐、处理周期长、问责不力</td>
+                                <td>增强监督机构的独立性和权威性、保障充足资源、简化申诉流程、缩短处理时限、建立有效的问责机制、鼓励社会监督</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">公务员队伍多元化与代表性</td>
+                                <td>特定群体代表性不足、隐性歧视难以根除、预留政策执行存在漏洞、未能充分反映社会构成</td>
+                                <td>积极推行多元化招聘策略、消除招聘各环节的隐性壁垒、确保预留政策的公平和透明执行、营造包容性的组织文化、加强对代表性不足群体的支持</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-12">
+                    <div class="mermaid-container">
+                        <div class="mermaid-controls">
+                            <button class="mermaid-btn" onclick="zoomMermaid(1.2)" title="放大图表">
+                                <i class="fas fa-search-plus"></i>
+                            </button>
+                            <button class="mermaid-btn" onclick="zoomMermaid(0.8)" title="缩小图表">
+                                <i class="fas fa-search-minus"></i>
+                            </button>
+                            <button class="mermaid-btn" onclick="resetMermaid()" title="重置视图">
+                                <i class="fas fa-undo"></i>
+                            </button>
+                        </div>
+                        <div class="mermaid" id="mermaid-chart">
+                            graph TD
+                                A[公务员考试问题] --&gt; B[选拔标准问题]
+                                A --&gt; C[考试内容问题]
+                                A --&gt; D[评分机制问题]
+                                A --&gt; E[监督机制问题]
+                                A --&gt; F[代表性不足问题]
+                                
+                                B --&gt; B1[标准僵化]
+                                B --&gt; B2[与岗位脱节]
+                                B --&gt; B3[歧视性条款]
+                                
+                                C --&gt; C1[内容陈旧]
+                                C --&gt; C2[缺乏效度验证]
+                                C --&gt; C3[过度强调记忆]
+                                
+                                D --&gt; D1[评分标准模糊]
+                                D --&gt; D2[主观性强]
+                                D --&gt; D3[算法不透明]
+                                
+                                E --&gt; E1[独立性不足]
+                                E --&gt; E2[资源有限]
+                                E --&gt; E3[申诉渠道不畅]
+                                
+                                F --&gt; F1[特定群体代表不足]
+                                F --&gt; F2[隐性歧视]
+                                F --&gt; F3[预留政策漏洞]
+                                
+                                style A fill:#8B5A3C,color:#fff,stroke:#5A8B8B,stroke-width:3px
+                                style B fill:#D4B5A0,color:#2C2C2C,stroke:#8B5A3C,stroke-width:2px
+                                style C fill:#D4B5A0,color:#2C2C2C,stroke:#8B5A3C,stroke-width:2px
+                                style D fill:#D4B5A0,color:#2C2C2C,stroke:#8B5A3C,stroke-width:2px
+                                style E fill:#D4B5A0,color:#2C2C2C,stroke:#8B5A3C,stroke-width:2px
+                                style F fill:#D4B5A0,color:#2C2C2C,stroke:#8B5A3C,stroke-width:2px
+                                style B1 fill:#F5F3F0,color:#2C2C2C,stroke:#5A8B8B,stroke-width:1px
+                                style B2 fill:#F5F3F0,color:#2C2C2C,stroke:#5A8B8B,stroke-width:1px
+                                style B3 fill:#F5F3F0,color:#2C2C2C,stroke:#5A8B8B,stroke-width:1px
+                                style C1 fill:#F5F3F0,color:#2C2C2C,stroke:#5A8B8B,stroke-width:1px
+                                style C2 fill:#F5F3F0,color:#2C2C2C,stroke:#5A8B8B,stroke-width:1px
+                                style C3 fill:#F5F3F0,color:#2C2C2C,stroke:#5A8B8B,stroke-width:1px
+                                style D1 fill:#F5F3F0,color:#2C2C2C,stroke:#5A8B8B,stroke-width:1px
+                                style D2 fill:#F5F3F0,color:#2C2C2C,stroke:#5A8B8B,stroke-width:1px
+                                style D3 fill:#F5F3F0,color:#2C2C2C,stroke:#5A8B8B,stroke-width:1px
+                                style E1 fill:#F5F3F0,color:#2C2C2C,stroke:#5A8B8B,stroke-width:1px
+                                style E2 fill:#F5F3F0,color:#2C2C2C,stroke:#5A8B8B,stroke-width:1px
+                                style E3 fill:#F5F3F0,color:#2C2C2C,stroke:#5A8B8B,stroke-width:1px
+                                style F1 fill:#F5F3F0,color:#2C2C2C,stroke:#5A8B8B,stroke-width:1px
+                                style F2 fill:#F5F3F0,color:#2C2C2C,stroke:#5A8B8B,stroke-width:1px
+                                style F3 fill:#F5F3F0,color:#2C2C2C,stroke:#5A8B8B,stroke-width:1px
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recommendations -->
+        <section id="recommendations" class="py-16 bg-neutral">
+            <div class="container mx-auto px-8">
+                <h2 class="serif text-3xl font-bold mb-12 text-center">提升透明度和程序公正性的对策建议</h2>
+                
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <div class="space-y-8">
+                        <div class="bg-white rounded-lg p-6 shadow-lg">
+                            <h3 class="serif text-lg font-semibold mb-4 text-primary">
+                                <i class="fas fa-gavel mr-2"></i>完善法律法规与制度设计
+                            </h3>
+                            <p class="text-sm mb-4">
+                                应修订现有法律中模糊或滞后的条款，确保其适应时代发展的需求。可以借鉴美国《公务员制度改革法》的经验，进一步厘清各监管机构的职责权限，强化对功绩制原则的维护。
+                            </p>
+                            <div class="bg-gray-50 rounded p-3 text-xs">
+                                <strong>核心措施：</strong>建立动态的资格标准调整机制，确保选拔标准与岗位需求紧密结合，并定期对考试的有效性和公平性进行评估。
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg p-6 shadow-lg">
+                            <h3 class="serif text-lg font-semibold mb-4 text-primary">
+                                <i class="fas fa-edit mr-2"></i>优化考试内容与评分标准
+                            </h3>
+                            <p class="text-sm mb-4">
+                                应组织行业专家和人力资源专业人士，基于深入的岗位分析，共同开发与岗位需求高度相关的考试内容。要注重考察候选人的综合素质和实际工作能力。
+                            </p>
+                            <div class="bg-gray-50 rounded p-3 text-xs">
+                                <strong>核心措施：</strong>引入案例分析、情景模拟、无领导小组讨论等多种评估方式，全面评估候选人的分析判断、沟通协调、应急处理等能力。
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg p-6 shadow-lg">
+                            <h3 class="serif text-lg font-semibold mb-4 text-primary">
+                                <i class="fas fa-shield-alt mr-2"></i>加强监督与问责机制建设
+                            </h3>
+                            <p class="text-sm mb-4">
+                                应建立健全内部监督与外部监督相结合、专门机构监督与社会监督相补充的全方位监督体系。对于违规违纪行为，必须严肃查处，并追究相关人员的责任。
+                            </p>
+                            <div class="bg-gray-50 rounded p-3 text-xs">
+                                <strong>核心措施：</strong>设立独立的申诉处理机构，确保申诉渠道的畅通和高效。定期对公务员考试制度的运行情况进行评估和审计。
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-8">
+                        <div class="bg-white rounded-lg p-6 shadow-lg">
+                            <h3 class="serif text-lg font-semibold mb-4 text-primary">
+                                <i class="fas fa-laptop mr-2"></i>提升信息化与公开化水平
+                            </h3>
+                            <p class="text-sm mb-4">
+                                现代信息技术为提升公务员考试的透明度和效率提供了有力工具。应大力推进公务员考试的信息化建设，实现报名、资格审查、准考证打印、成绩查询等环节的在线化和自动化。
+                            </p>
+                            <div class="bg-gray-50 rounded p-3 text-xs">
+                                <strong>核心措施：</strong>在确保考试安全和公平的前提下，最大限度地公开考试信息，包括招考政策、职位要求、考试大纲、评分原则、录取结果等。
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg p-6 shadow-lg">
+                            <h3 class="serif text-lg font-semibold mb-4 text-primary">
+                                <i class="fas fa-globe mr-2"></i>借鉴国际经验与加强国际合作
+                            </h3>
+                            <p class="text-sm mb-4">
+                                公务员考试制度的改革和完善是一个持续的过程，需要积极借鉴其他国家的成功经验和有益做法，并加强国际间的交流与合作。
+                            </p>
+                            <div class="bg-gray-50 rounded p-3 text-xs">
+                                <strong>核心措施：</strong>组织专家学者、政府官员进行互访交流，学习借鉴先进的考试技术、管理理念和制度设计。参与相关的国际组织活动。
+                            </div>
+                        </div>
+
+                        <div class="bg-primary text-white rounded-lg p-6">
+                            <h3 class="serif text-lg font-semibold mb-4">
+                                <i class="fas fa-lightbulb mr-2"></i>核心结论
+                            </h3>
+                            <p class="text-sm mb-4">
+                                联邦公务员考试的透明度和程序公正性面临诸多挑战，需要通过完善法律法规、优化考试内容与评分、加强监督问责、提升信息化水平以及借鉴国际经验等多种途径加以改进。
+                            </p>
+                            <p class="text-xs opacity-90">
+                                只有建立科学、公平、透明的公务员选拔机制，才能确保政府能够吸纳最优秀的人才，提高公共服务的质量和效率。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-primary text-white py-8">
+            <div class="container mx-auto px-8 text-center">
+                <p class="text-sm opacity-90">
+                    本研究基于公开资料和学术研究，旨在促进公务员考试制度的改革和完善。
+                </p>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#F5F3F0',
+                primaryTextColor: '#2C2C2C',
+                primaryBorderColor: '#8B5A3C',
+                lineColor: '#5A8B8B',
+                secondaryColor: '#D4B5A0',
+                tertiaryColor: '#FEFCFA',
+                background: '#FEFCFA',
+                mainBkg: '#F5F3F0',
+                secondBkg: '#D4B5A0',
+                tertiaryColor: '#FEFCFA',
+                // Ensure good contrast for all node types
+                nodeBkg: '#F5F3F0',
+                nodeTextColor: '#2C2C2C',
+                edgeLabelBackground: '#FEFCFA',
+                clusterBkg: '#F5F3F0',
+                clusterBorder: '#8B5A3C',
+                defaultLinkColor: '#5A8B8B',
+                titleColor: '#2C2C2C',
+                // Additional contrast improvements
+                cScale0: '#8B5A3C',
+                cScale1: '#5A8B8B', 
+                cScale2: '#D4B5A0',
+                cScale3: '#F5F3F0',
+                cScale4: '#FEFCFA'
+            },
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis',
+                padding: 20,
+                nodeSpacing: 50,
+                rankSpacing: 80,
+                diagramPadding: 20
+            },
+            fontFamily: 'Inter, sans-serif'
+        });
+
+        // Mermaid chart interaction functionality
+        let currentScale = 1;
+        let isDragging = false;
+        let startX, startY, translateX = 0, translateY = 0;
+
+        function zoomMermaid(factor) {
+            currentScale *= factor;
+            currentScale = Math.max(0.5, Math.min(3, currentScale)); // Limit zoom range
+            updateMermaidTransform();
+        }
+
+        function resetMermaid() {
+            currentScale = 1;
+            translateX = 0;
+            translateY = 0;
+            updateMermaidTransform();
+        }
+
+        function updateMermaidTransform() {
+            const mermaidChart = document.getElementById('mermaid-chart');
+            mermaidChart.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentScale})`;
+        }
+
+        // Add drag functionality to mermaid chart
+        document.addEventListener('DOMContentLoaded', function() {
+            const mermaidChart = document.getElementById('mermaid-chart');
+            
+            mermaidChart.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                startX = e.clientX - translateX;
+                startY = e.clientY - translateY;
+                mermaidChart.style.cursor = 'grabbing';
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                
+                translateX = e.clientX - startX;
+                translateY = e.clientY - startY;
+                updateMermaidTransform();
+            });
+
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
+                mermaidChart.style.cursor = 'grab';
+            });
+
+            // Prevent text selection while dragging
+            mermaidChart.addEventListener('selectstart', function(e) {
+                if (isDragging) e.preventDefault();
+            });
+
+            // Add wheel zoom support
+            mermaidChart.addEventListener('wheel', function(e) {
+                e.preventDefault();
+                const factor = e.deltaY > 0 ? 0.9 : 1.1;
+                zoomMermaid(factor);
+            });
+
+            // Add touch support for mobile
+            let touchStartX, touchStartY;
+            mermaidChart.addEventListener('touchstart', function(e) {
+                if (e.touches.length === 1) {
+                    isDragging = true;
+                    touchStartX = e.touches[0].clientX - translateX;
+                    touchStartY = e.touches[0].clientY - translateY;
+                }
+            });
+
+            mermaidChart.addEventListener('touchmove', function(e) {
+                if (!isDragging || e.touches.length !== 1) return;
+                e.preventDefault();
+                
+                translateX = e.touches[0].clientX - touchStartX;
+                translateY = e.touches[0].clientY - touchStartY;
+                updateMermaidTransform();
+            });
+
+            mermaidChart.addEventListener('touchend', function() {
+                isDragging = false;
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Mobile menu toggle (if needed)
+        const toggleMobileMenu = () => {
+            const toc = document.querySelector('.toc-fixed');
+            toc.classList.toggle('open');
+        };
+
+        // Add mobile menu button for small screens
+        if (window.innerWidth <= 1024) {
+            const mobileMenuBtn = document.createElement('button');
+            mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            mobileMenuBtn.className = 'fixed top-4 left-4 z-50 bg-primary text-white p-3 rounded-lg shadow-lg';
+            mobileMenuBtn.onclick = toggleMobileMenu;
+            document.body.appendChild(mobileMenuBtn);
+        }
+
+        // Highlight active section in TOC
+        const observerOptions = {
+            root: null,
+            rootMargin: '-20% 0px -80% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const id = entry.target.getAttribute('id');
+                const navLink = document.querySelector(`a[href="#${id}"]`);
+                if (navLink) {
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc-fixed a').forEach(link => {
+                            link.classList.remove('text-primary', 'font-semibold');
+                            link.classList.add('text-gray-600');
+                        });
+                        navLink.classList.add('text-primary', 'font-semibold');
+                        navLink.classList.remove('text-gray-600');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section[id]').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+
+</body>
+</html>

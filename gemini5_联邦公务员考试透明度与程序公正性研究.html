@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>功绩悖论：美国联邦公务员招聘系统交互式分析</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Chosen Palette: Scholarly Neutral -->
+    <!-- Application Structure Plan: The SPA is designed around a thematic, dashboard-like structure to facilitate non-linear exploration, moving from understanding the process ('流程剖析') to analyzing its flaws ('核心症结'), oversight ('监督与问责'), potential fixes ('改革的十字路口'), and broader context ('国际比较' and '解决方案'). This structure prioritizes user discovery over the linear narrative of the source report. Key interactions include clickable-to-expand process steps, filterable case study cards, and dynamic charts for quantitative comparisons, all aimed at making dense information digestible and engaging. -->
+    <!-- Visualization & Content Choices: Report Info: Time-to-hire data -> Goal: Compare -> Viz: Horizontal Bar Chart -> Interaction: Hover tooltips -> Justification: Instantly visualizes the scale of the delay. | Report Info: Case studies -> Goal: Organize/Explore -> Viz: Filterable Card Gallery -> Interaction: Filter buttons & click-to-expand -> Justification: Manages numerous examples, allowing user-driven exploration. | Report Info: Political appointees -> Goal: Compare -> Viz: Horizontal Bar Chart -> Interaction: Hover tooltips -> Justification: High-impact visualization of US exceptionalism in this area. | Report Info: Hiring process flow -> Goal: Inform/Organize -> Viz: HTML/CSS diagram -> Interaction: Click to expand -> Justification: Breaks down a complex linear process into manageable steps. This plan confirms adherence to the NO SVG/Mermaid rule, using Chart.js (Canvas) and structured HTML for all visuals. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #F8F7F4;
+            color: #333333;
+        }
+        .nav-link {
+            transition: color 0.3s, border-color 0.3s;
+            color: #4A6C8C;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #1E3A5F;
+            border-bottom-color: #C8A97E;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .details-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .details-content.expanded {
+            max-height: 1000px;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .filter-btn {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .filter-btn.active {
+            background-color: #4A6C8C;
+            color: white;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="text-center py-12 px-4 bg-white shadow-md">
+        <h1 class="text-4xl md:text-5xl font-bold text-[#4A6C8C] mb-2">功绩悖论</h1>
+        <h2 class="text-xl md:text-2xl font-light text-[#7A8D9D] mb-4">The Merit Paradox: An Interactive Analysis of the U.S. Federal Hiring System</h2>
+        <p class="max-w-4xl mx-auto text-base text-gray-700">
+            本应用旨在对美国联邦公务员招聘系统进行一次全面而深入的交互式剖析。一个为确保公平而设计的繁复系统，如今却讽刺地成为效率低下、体验糟糕的根源，并对功绩原则本身构成了威胁。通过数据可视化与互动探索，我们将一同揭示这一“功绩悖论”的深层原因。
+        </p>
+    </header>
+    
+    <nav class="sticky top-0 bg-white/80 backdrop-blur-sm shadow-sm z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-center space-x-4 md:space-x-8 py-3 overflow-x-auto">
+                <a href="#process" class="nav-link font-medium py-2 border-b-2 border-transparent text-sm md:text-base whitespace-nowrap">流程剖析</a>
+                <a href="#problems" class="nav-link font-medium py-2 border-b-2 border-transparent text-sm md:text-base whitespace-nowrap">核心症结</a>
+                <a href="#oversight" class="nav-link font-medium py-2 border-b-2 border-transparent text-sm md:text-base whitespace-nowrap">监督与问责</a>
+                <a href="#reforms" class="nav-link font-medium py-2 border-b-2 border-transparent text-sm md:text-base whitespace-nowrap">改革十字路口</a>
+                <a href="#comparison" class="nav-link font-medium py-2 border-b-2 border-transparent text-sm md:text-base whitespace-nowrap">国际比较</a>
+                <a href="#solutions" class="nav-link font-medium py-2 border-b-2 border-transparent text-sm md:text-base whitespace-nowrap">解决方案</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto p-4 md:p-8 space-y-24">
+
+        <section id="process" class="pt-16 -mt-16">
+            <h3 class="text-3xl font-bold text-center mb-2 text-[#4A6C8C]">联邦招聘的迷宫</h3>
+            <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto">美国联邦招聘流程是一个环环相扣但又充满潜在断点的复杂链条。以下是申请人需要经历的主要阶段。点击每个阶段以展开了解其背后的复杂细节和挑战。</p>
+            <div class="relative w-full">
+                <div class="absolute top-1/2 left-0 w-full h-0.5 bg-[#C8A97E] -translate-y-1/2 hidden md:block"></div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
+                    <div class="process-step-card text-center cursor-pointer p-4" data-target="details-1">
+                        <div class="flex justify-center items-center mx-auto w-16 h-16 rounded-full bg-[#7A8D9D] text-white text-2xl font-bold border-4 border-white shadow-lg">1</div>
+                        <h4 class="mt-4 font-semibold text-lg">职位发布与申请</h4>
+                        <p class="text-sm text-gray-500">始于USAJOBS门户</p>
+                    </div>
+                    <div class="process-step-card text-center cursor-pointer p-4" data-target="details-2">
+                        <div class="flex justify-center items-center mx-auto w-16 h-16 rounded-full bg-[#7A8D9D] text-white text-2xl font-bold border-4 border-white shadow-lg">2</div>
+                        <h4 class="mt-4 font-semibold text-lg">申请材料的考验</h4>
+                        <p class="text-sm text-gray-500">详尽的联邦简历</p>
+                    </div>
+                    <div class="process-step-card text-center cursor-pointer p-4" data-target="details-3">
+                        <div class="flex justify-center items-center mx-auto w-16 h-16 rounded-full bg-[#7A8D9D] text-white text-2xl font-bold border-4 border-white shadow-lg">3</div>
+                        <h4 class="mt-4 font-semibold text-lg">“黑箱”审核</h4>
+                        <p class="text-sm text-gray-500">评级与推荐</p>
+                    </div>
+                    <div class="process-step-card text-center cursor-pointer p-4" data-target="details-4">
+                        <div class="flex justify-center items-center mx-auto w-16 h-16 rounded-full bg-[#7A8D9D] text-white text-2xl font-bold border-4 border-white shadow-lg">4</div>
+                        <h4 class="mt-4 font-semibold text-lg">面试与录用</h4>
+                        <p class="text-sm text-gray-500">漫长的最后阶段</p>
+                    </div>
+                </div>
+            </div>
+            <div id="details-1" class="details-content mt-4 bg-white p-6 rounded-lg shadow-inner">
+                <h5 class="font-bold text-xl mb-2 text-[#4A6C8C]">1. 数字门户：USAJOBS</h5>
+                <p class="text-gray-700">所有联邦职位的统一入口，理论上简化申请，但实际体验中，当申请人点击“申请”后，往往会被重定向到各机构自有的、独立的申请系统。这种跳转破坏了用户体验的连贯性，并揭示了联邦招聘系统固有的碎片化结构。</p>
+            </div>
+            <div id="details-2" class="details-content mt-4 bg-white p-6 rounded-lg shadow-inner">
+                <h5 class="font-bold text-xl mb-2 text-[#4A6C8C]">2. 风险转移：申请材料</h5>
+                <p class="text-gray-700">申请人需准备一套极其详尽的材料，包括非标准的“联邦简历”（通常远超2页）、大学成绩单、服务证明等。任何微小的疏忽都可能导致申请被直接淘汰，而申请人通常不会得到任何具体反馈。整个过程将证明自身价值的重担完全压在了申请人身上。</p>
+            </div>
+            <div id="details-3" class="details-content mt-4 bg-white p-6 rounded-lg shadow-inner">
+                 <h5 class="font-bold text-xl mb-2 text-[#4A6C8C]">3. 不透明的决策：“黑箱”</h5>
+                <p class="text-gray-700">职位公告关闭后，申请材料进入最不透明的审核阶段。人力资源专员进行筛选、评级和排名，最终将申请状态标记为“已推荐”或“未推荐”。对于绝大多数被拒绝的申请人来说，他们永远不会知道具体原因，这极大地强化了招聘流程的“黑箱”印象。</p>
+            </div>
+            <div id="details-4" class="details-content mt-4 bg-white p-6 rounded-lg shadow-inner">
+                 <h5 class="font-bold text-xl mb-2 text-[#4A6C8C]">4. 漫长的等待：最终录用</h5>
+                <p class="text-gray-700">通过审核并面试后，候选人会收到一份“临时录用通知”，但最终录用取决于背景调查和安全审查，这一过程可能需要数周到数月不等。例如，GSA的TTS部门，从申请到入职预计需要3到5个月。漫长的等待期极大地削弱了政府在人才市场上的竞争力。</p>
+            </div>
+        </section>
+
+        <section id="problems" class="pt-16 -mt-16">
+            <h3 class="text-3xl font-bold text-center mb-2 text-[#4A6C8C]">核心症结：效率、程序与公平性的裂缝</h3>
+            <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto">联邦招聘系统的核心问题源于其自身的复杂性和不透明性。这不仅导致了惊人的低效率，还催生了对程序本身的质疑，并为不公平行为提供了温床。本节将通过数据和案例揭示这些系统性缺陷。</p>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center">
+                    <h4 class="text-xl font-semibold mb-4 text-center">“招聘耗时”危机：一种战略劣势</h4>
+                    <p class="text-center text-gray-600 mb-6">招聘一名联邦雇员的平均时间远超私营部门，使政府在争夺顶尖人才时处于严重劣势。</p>
+                    <div class="chart-container">
+                        <canvas id="timeToHireChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center">
+                     <h4 class="text-xl font-semibold mb-4 text-center">程序性缺陷与“功绩的幻象”</h4>
+                     <p class="text-center text-gray-600 mb-6">系统对程序的过度执着，旨在“证明”公平，却导致了体验糟糕、与现实脱节的招聘流程。</p>
+                     <div class="space-y-4 w-full">
+                        <div class="bg-gray-50 p-4 rounded-md border-l-4 border-[#C8A97E]">
+                            <h5 class="font-bold">“最佳合格”神话</h5>
+                            <p class="text-sm text-gray-700">试图通过标准化流程寻找一个主观且不存在的“最佳”人选，导致了流程的异化和防御性文书工作的泛滥。</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-md border-l-4 border-[#C8A97E]">
+                            <h5 class="font-bold">沟通的“黑箱”</h5>
+                            <p class="text-sm text-gray-700">申请人几乎得不到任何实质性状态更新，导致极大的不确定性和挫败感，严重损害政府雇主品牌。</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-md border-l-4 border-[#C8A97E]">
+                            <h5 class="font-bold">招聘授权的泛滥</h5>
+                            <p class="text-sm text-gray-700">超过100种招聘授权工具，规则复杂，导致机构仅依赖少数几种，反而限制了灵活性并可能被滥用以规避竞争。</p>
+                        </div>
+                     </div>
+                </div>
+            </div>
+
+            <div class="mt-16 bg-white p-6 rounded-lg shadow-lg">
+                <h4 class="text-xl font-semibold mb-2 text-center">公平性风险：来自监督报告的案例</h4>
+                <p class="text-center text-gray-600 mb-6">政府监督机构的报告和法律案件揭示了程序漏洞如何演变为对功绩原则的实际侵蚀。使用下方按钮筛选查看不同类型的案例。</p>
+                <div class="flex flex-wrap justify-center gap-2 mb-8">
+                    <button class="filter-btn active px-4 py-2 bg-gray-200 text-gray-800 rounded-full text-sm" data-filter="all">全部案例</button>
+                    <button class="filter-btn px-4 py-2 bg-gray-200 text-gray-800 rounded-full text-sm" data-filter="违规">程序违规</button>
+                    <button class="filter-btn px-4 py-2 bg-gray-200 text-gray-800 rounded-full text-sm" data-filter="偏袒">任人唯亲/偏袒</button>
+                    <button class="filter-btn px-4 py-2 bg-gray-200 text-gray-800 rounded-full text-sm" data-filter="歧视">歧视指控</button>
+                    <button class="filter-btn px-4 py-2 bg-gray-200 text-gray-800 rounded-full text-sm" data-filter="算法">算法偏见</button>
+                </div>
+                <div id="case-studies-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                </div>
+            </div>
+
+        </section>
+
+        <section id="oversight" class="pt-16 -mt-16">
+            <h3 class="text-3xl font-bold text-center mb-2 text-[#4A6C8C]">碎片化的监督体系</h3>
+            <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto">联邦招聘的监督权被分散在多个机构之间，缺乏一个统一、强有力的中央监督者。这种碎片化的结构，是系统性问题难以根治的重要原因。</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-lg text-center border-t-4 border-[#4A6C8C]">
+                    <h4 class="font-bold text-xl mb-2">人事管理办公室 (OPM)</h4>
+                    <p class="text-sm font-medium text-gray-500 mb-4">设计者与政策制定者</p>
+                    <p class="text-gray-700">理论上的首席人力资源机构，但因资源萎缩和执行权力有限，其监督角色更像是提供指导而非强制执行，形成“授权与能力的鸿沟”。</p>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-lg text-center border-t-4 border-[#7A8D9D]">
+                    <h4 class="font-bold text-xl mb-2">政府问责局 (GAO)</h4>
+                    <p class="text-sm font-medium text-gray-500 mb-4">国会的独立调查员</p>
+                    <p class="text-gray-700">对招聘系统进行宏观审计，发现系统性问题（如招聘授权滥用、政治任命“转正”），但其调查是滞后的，主要功能是报告而非预防。</p>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-lg text-center border-t-4 border-[#C8A97E]">
+                    <h4 class="font-bold text-xl mb-2">监察长办公室 (OIG)</h4>
+                    <p class="text-sm font-medium text-gray-500 mb-4">各机构的内部警察</p>
+                    <p class="text-gray-700">调查具体机构内的欺诈和滥用行为。但其管辖权是分散的，一个申请人无法向OPM OIG投诉其他机构的招聘问题，导致系统性问题被当作孤立事件处理。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="reforms" class="pt-16 -mt-16">
+            <h3 class="text-3xl font-bold text-center mb-2 text-[#4A6C8C]">改革的十字路口</h3>
+            <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto">近期的“功绩招聘计划”改革，体现了一场深刻的斗争。它将广受欢迎的行政优化措施，与具有强烈意识形态色彩的指令捆绑在一起，揭示了两种相互竞争的“功绩”定义。</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-lg shadow-lg border-l-4 border-green-500">
+                    <h4 class="text-2xl font-bold mb-4">✅ 行政优化 (两党共识)</h4>
+                    <p class="mb-6 text-gray-600">旨在解决长期存在的效率和体验问题，获得广泛支持。</p>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start"><span class="text-green-500 mr-2">✔</span><span><strong>基于技能的招聘：</strong>从依赖学历证书转向评估实际工作能力。</span></li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2">✔</span><span><strong>简化流程与提速：</strong>目标是将招聘时间缩短至80天以下，并共享人才库。</span></li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2">✔</span><span><strong>改善申请人体验：</strong>要求改善沟通，并简化联邦简历要求。</span></li>
+                    </ul>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-lg border-l-4 border-yellow-500">
+                    <h4 class="text-2xl font-bold mb-4">⚠️ 理念的转变 (政治化指令)</h4>
+                    <p class="mb-6 text-gray-600">旨在重塑公务员队伍的构成与性质，引发巨大争议。</p>
+                     <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start"><span class="text-yellow-500 mr-2">!</span><span><strong>废除DEI倡议：</strong>要求立即终止所有“多元、公平与包容”相关的项目。</span></li>
+                        <li class="flex items-start"><span class="text-yellow-500 mr-2">!</span><span><strong>引入忠诚度测试：</strong>要求通过申论题评估候选人对当届政府政策的承诺。</span></li>
+                        <li class="flex items-start"><span class="text-yellow-500 mr-2">!</span><span><strong>定向招聘：</strong>将招聘重点从“精英大学”转向特定类型的院校和社群。</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="comparison" class="pt-16 -mt-16">
+            <h3 class="text-3xl font-bold text-center mb-2 text-[#4A6C8C]">国际视野下的美国公务员制度</h3>
+             <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto">将美国与加拿大、澳大利亚和德国等其他联邦制国家比较，可以凸显美国系统在政治化程度和功绩保护机制上的独特性与结构性缺陷。</p>
+
+            <div class="bg-white p-6 rounded-lg shadow-lg mb-12">
+                <h4 class="text-xl font-semibold mb-4 text-center">无与伦比的政治化程度</h4>
+                <p class="text-center text-gray-600 mb-6">与其他民主国家相比，美国政府中由政治任命的职位数量惊人，这使得其公务员系统在最高层级上与执政党派的联系远比其他国家紧密。</p>
+                <div class="chart-container" style="height: 250px;">
+                    <canvas id="politicalAppointeesChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto bg-white p-6 rounded-lg shadow-lg">
+                <h4 class="text-xl font-semibold mb-4 text-center">制度设计对比</h4>
+                <table class="w-full min-w-[600px] text-left">
+                    <thead>
+                        <tr class="border-b bg-gray-50">
+                            <th class="p-4 font-semibold">特征</th>
+                            <th class="p-4 font-semibold">美国 🇺🇸</th>
+                            <th class="p-4 font-semibold">加拿大 🇨🇦</th>
+                            <th class="p-4 font-semibold">澳大利亚 🇦🇺</th>
+                            <th class="p-4 font-semibold">德国 🇩🇪</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="p-4 font-medium">透明度机制</td>
+                            <td class="p-4">有限；无薪资透明度要求。</td>
+                            <td class="p-4">逐步推行薪资透明度法。</td>
+                            <td class="p-4">功绩名单/池 (Merit pools)。</td>
+                            <td class="p-4">薪酬结构透明法。</td>
+                        </tr>
+                        <tr class="border-b bg-gray-50">
+                            <td class="p-4 font-medium">功绩监督机构</td>
+                            <td class="p-4">分散 (OIG, EEOC, MSPB)。</td>
+                            <td class="p-4">PSC, FPSLREB (准司法机构)。</td>
+                            <td class="p-4 font-bold text-[#4A6C8C] bg-blue-50 rounded-lg cursor-help" title="一个独立的法定职位，专门审查招聘和晋升等就业决策是否符合功绩原则，为雇员提供了中央化、专业的申诉渠道。这是美国系统所缺失的关键环节。">功绩保护专员 (MPC) ⭐</td>
+                            <td class="p-4">独立考试委员会；行政法院。</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-medium">系统类型</td>
+                            <td class="p-4">职位本位制 (Position-based)</td>
+                            <td class="p-4">职位本位制 (Position-based)</td>
+                            <td class="p-4">职位本位制 (Position-based)</td>
+                            <td class="p-4">职业生涯制 (Career-based)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+        <section id="solutions" class="pt-16 -mt-16">
+            <h3 class="text-3xl font-bold text-center mb-2 text-[#4A6C8C]">打破“功绩悖论”：前进之路</h3>
+            <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto">修复联邦招聘系统需要一场从理念到制度的深刻变革。以下是基于报告分析得出的四个核心建议，旨在构建一个既高效又公平的现代化招聘体系。</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="card bg-white p-6 rounded-lg shadow-lg text-center">
+                    <div class="text-4xl mb-4">🚀</div>
+                    <h4 class="font-bold text-xl mb-2">程序性改革</h4>
+                    <p class="text-gray-700">全面采纳两党共识的改革措施，简化流程，并赋予招聘经理在经过基本资格筛选后更大的决策权。</p>
+                </div>
+                <div class="card bg-white p-6 rounded-lg shadow-lg text-center">
+                    <div class="text-4xl mb-4">🔍</div>
+                    <h4 class="font-bold text-xl mb-2">打破“黑箱”</h4>
+                    <p class="text-gray-700">强制在职位公告中披露薪资范围，并为被拒的申请人建立标准化的、有意义的反馈机制。</p>
+                </div>
+                <div class="card bg-white p-6 rounded-lg shadow-lg text-center">
+                    <div class="text-4xl mb-4">🏛️</div>
+                    <h4 class="font-bold text-xl mb-2">重构监督机制</h4>
+                    <p class="text-gray-700">借鉴澳大利亚模式，设立独立的“美国功绩保护审查委员会”，专门处理关于招聘公平性的争议。</p>
+                </div>
+                <div class="card bg-white p-6 rounded-lg shadow-lg text-center">
+                    <div class="text-4xl mb-4">🤖</div>
+                    <h4 class="font-bold text-xl mb-2">AI招聘治理</h4>
+                    <p class="text-gray-700">为AI招聘工具建立强大的治理和审计框架，强制进行偏见测试，并确保“人在回路”的最终决策原则。</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="text-center py-8 mt-16 border-t border-gray-200">
+        <p class="text-gray-500">本交互式应用根据《功绩悖论：对美国联邦公务员招聘程序、透明度与公平性的深度剖析》报告生成。</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const caseStudiesData = [
+                {
+                    title: '政治任命官员违规“转正”',
+                    category: '违规',
+                    source: 'GAO-23-105066',
+                    summary: '在未获OPM事先批准的情况下，将38名政治任命官员“转正”为职业公务员，规避了旨在确保公平竞争的审查程序。'
+                },
+                {
+                    title: '司法部的裙带关系',
+                    category: '偏袒',
+                    source: 'DOJ OIG S1207',
+                    summary: '司法部管理司高级官员互相雇佣对方子女担任带薪实习生。在一个季度内，11个实习岗位中有6个被内部员工亲属占据。'
+                },
+                {
+                    title: '招聘文档记录不一致',
+                    category: '违规',
+                    source: 'CFPB OIG Report',
+                    summary: '招聘录用理由记录不一致，甚至在职位填补数月后才更新招聘文件，暗示了一种“先办事，后补票”的心态。'
+                },
+                {
+                    title: '招聘授权使用不当',
+                    category: '违规',
+                    source: 'GAO-16-521',
+                    summary: '各机构91%的招聘依赖于105种可用授权中的20种，表明系统过于复杂且未被有效利用，可能被滥用以缩小竞争范围。'
+                },
+                {
+                    title: '地区差异适应性差',
+                    category: '违规',
+                    source: 'GAO-25-106527',
+                    summary: '在夏威夷等非本土地区，僵化的“一刀切”招聘流程无法适应当地的特殊需求，导致招聘困难。'
+                },
+                {
+                    title: '算法偏见风险',
+                    category: '算法',
+                    source: 'Mobley v. Workday, Inc.',
+                    summary: '具有里程碑意义的案件，指控AI招聘筛选工具对非裔、40岁以上及残疾申请人存在系统性的“差别性影响”，预示了联邦招聘未来的法律挑战。'
+                },
+                {
+                    title: '种族/民族歧视',
+                    category: '歧视',
+                    source: '劳工部诉卡特彼勒/迪尔公司',
+                    summary: '联邦承包商被发现在招聘过程中系统性地歧视非裔和西班牙裔求职者，将合格的少数族裔候选人排除在外。'
+                },
+                {
+                    title: '年龄与残疾歧视',
+                    category: '歧视',
+                    source: 'EEOC 诉讼案例',
+                    summary: 'EEOC提起了多起针对年龄和残疾歧视的诉讼，包括骚扰年长员工或拒绝为怀孕员工提供合理便利。'
+                }
+            ];
+
+            function renderCaseStudies(filter = 'all') {
+                const grid = document.getElementById('case-studies-grid');
+                grid.innerHTML = '';
+                const filteredData = filter === 'all'
+                    ? caseStudiesData
+                    : caseStudiesData.filter(item => item.category === filter);
+
+                if (filteredData.length === 0) {
+                    grid.innerHTML = `<p class="text-center text-gray-500 col-span-full">没有找到符合条件的案例。</p>`;
+                    return;
+                }
+                
+                filteredData.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'case-study-card card bg-gray-50 p-4 rounded-lg border border-gray-200';
+                    card.setAttribute('data-category', item.category);
+                    card.innerHTML = `
+                        <span class="inline-block bg-[#C8A97E] text-white text-xs font-semibold px-2 py-1 rounded-full mb-2">${item.category}</span>
+                        <h5 class="font-bold text-md mb-1">${item.title}</h5>
+                        <p class="text-sm text-gray-600 mb-2"><strong>来源:</strong> ${item.source}</p>
+                        <p class="text-sm text-gray-800">${item.summary}</p>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    const filter = button.getAttribute('data-filter');
+                    renderCaseStudies(filter);
+                });
+            });
+
+            renderCaseStudies();
+            
+            const timeToHireCtx = document.getElementById('timeToHireChart').getContext('2d');
+            new Chart(timeToHireCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['加拿大联邦政府', '美国联邦政府 (平均)', '美国联邦政府 (目标)', '美国私营部门 (平均)'],
+                    datasets: [{
+                        label: '平均招聘耗时 (天)',
+                        data: [227, 101.2, 80, 36],
+                        backgroundColor: [
+                            '#B0BEC5',
+                            '#EF5350',
+                            '#66BB6A',
+                            '#42A5F5',
+                        ],
+                        borderColor: [
+                            '#78909C',
+                            '#E53935',
+                            '#43A047',
+                            '#1E88E5',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ` ${context.raw} 天`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '天数'
+                            }
+                        }
+                    }
+                }
+            });
+
+            const politicalAppointeesCtx = document.getElementById('politicalAppointeesChart').getContext('2d');
+            new Chart(politicalAppointeesCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['美国', '德国', '加拿大', '澳大利亚'],
+                    datasets: [{
+                        label: '政治任命官员数量 (约)',
+                        data: [4000, 70, 60, 50],
+                         backgroundColor: [
+                            '#EF5350',
+                            '#B0BEC5',
+                            '#B0BEC5',
+                            '#B0BEC5',
+                        ],
+                        borderColor: '#78909C',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                     plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: false,
+                        }
+                    },
+                    scales: {
+                        y: {
+                           beginAtZero: true,
+                           title: {
+                               display: true,
+                               text: '职位数量'
+                           }
+                        }
+                    }
+                }
+            });
+
+            const processStepCards = document.querySelectorAll('.process-step-card');
+            processStepCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const targetId = card.getAttribute('data-target');
+                    const targetContent = document.getElementById(targetId);
+                    
+                    document.querySelectorAll('.details-content').forEach(content => {
+                        if (content.id !== targetId) {
+                            content.classList.remove('expanded');
+                        }
+                    });
+
+                    targetContent.classList.toggle('expanded');
+                });
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 68) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

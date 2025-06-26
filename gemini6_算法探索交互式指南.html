@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>算法探索交互式指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Scholarly Neutrals (Light beige background, dark slate text, muted sage green accents) -->
+    <!-- Application Structure Plan: A two-level navigation SPA. A persistent sidebar shows main algorithm categories (经典算法, 人工智能). Clicking a category populates a secondary menu with sub-categories (排序, 图论, 机器学习, 深度学习). The main view displays algorithms as interactive cards. This structure breaks down the dense report into manageable, user-driven chunks, replacing linear reading with active exploration. -->
+    <!-- Visualization & Content Choices: The core interaction is the card-based algorithm explorer. The static "Sorting Algorithm Comparison" table is transformed into an interactive Chart.js bar chart, allowing users to dynamically compare complexities. Abstract paradigms like "Divide and Conquer" are visualized with simple HTML/CSS diagrams. This prioritizes interactivity and visual comprehension over static text. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #F5F5DC; /* Beige */
+        }
+        .text-main { color: #2F4F4F; } /* Dark Slate Gray */
+        .text-accent { color: #556B2F; } /* Dark Olive Green */
+        .bg-accent { background-color: #556B2F; }
+        .border-accent { border-color: #556B2F; }
+        .sidebar-item.active {
+            background-color: #556B2F;
+            color: #F5F5DC;
+        }
+        .sub-nav-item.active {
+            border-bottom-color: #556B2F;
+            color: #2F4F4F;
+            font-weight: 500;
+        }
+        .content-card {
+            background-color: #FFFFF0; /* Ivory */
+            border-radius: 0.75rem;
+            border: 1px solid #DEB887; /* BurlyWood */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .content-card:hover {
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+            transform: translateY(-4px);
+        }
+        .paradigm-vis {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem;
+            background-color: #F0EAD6; /* Linen */
+            border-radius: 0.5rem;
+            min-height: 100px;
+        }
+        .paradigm-box {
+            background-color: #FFF8DC; /* Cornsilk */
+            border: 1px dashed #D2B48C; /* Tan */
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="text-main">
+
+    <div class="flex h-screen bg-beige-50">
+        <!-- Sidebar -->
+        <aside class="w-20 md:w-64 bg-[#E6D8B8] text-main flex flex-col transition-all duration-300">
+            <div class="h-16 flex items-center justify-center border-b border-yellow-800/20">
+                <h1 class="text-xl font-bold text-accent hidden md:block">算法指南</h1>
+                 <span class="md:hidden text-2xl font-bold text-accent">A</span>
+            </div>
+            <nav id="main-nav" class="flex-1 p-2 space-y-2">
+                <!-- Main navigation items will be injected here -->
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <header class="bg-[#F0EAD6] shadow-md">
+                <div class="flex items-center justify-between h-16 px-6">
+                    <h2 id="current-section-title" class="text-2xl font-bold text-accent">欢迎</h2>
+                    <div id="sub-nav" class="flex items-center space-x-6 text-gray-500">
+                        <!-- Sub navigation items will be injected here -->
+                    </div>
+                </div>
+            </header>
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-[#F5F5DC] p-4 md:p-8">
+                <div id="content-display" class="space-y-8">
+                    <!-- Content will be injected here -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        const db = {
+            "经典算法": {
+                icon: '📚',
+                sections: {
+                    "算法范式": {
+                        title: "核心算法范式",
+                        description: "本部分旨在为算法设计奠定概念基石。它不仅限于简单的定义，而是深入探讨了这些范式所代表的解决问题的底层哲学。其目标是为读者提供一个应对复杂计算问题的思维工具箱。",
+                        content: [
+                            {
+                                title: "分治法 (Divide and Conquer)",
+                                body: `<strong>核心原则:</strong> 一种通过递归地将问题分解为两个或多个更小、相似的子问题，直至这些子问题变得足够简单可以直接解决，然后将子问题的解合并以解决原始问题的算法设计范式。<br><br><strong>机制与实现:</strong> 过程包含三个关键步骤：分解 (Divide), 解决 (Conquer), 合并 (Combine)。天然适合通过递归程序来实现，但也带来了潜在的栈溢出挑战。<br><br><strong>关键应用:</strong> 归并排序、快速排序、二分搜索、施特拉森矩阵乘法、快速傅里叶变换 (FFT)。`,
+                                visualization: `
+                                    <div class="paradigm-vis">
+                                        <div class="paradigm-box w-full">问题 P</div>
+                                    </div>
+                                    <div class="text-center my-2">↓ 分解</div>
+                                    <div class="paradigm-vis">
+                                        <div class="paradigm-box">子问题 P1</div>
+                                        <div class="paradigm-box">子问题 P2</div>
+                                    </div>
+                                    <div class="text-center my-2">↑ 合并</div>
+                                     <div class="paradigm-vis">
+                                        <div class="paradigm-box w-full">最终解</div>
+                                    </div>`
+                            },
+                            {
+                                title: "动态规划 (Dynamic Programming)",
+                                body: `<strong>核心原则:</strong> 通过将复杂问题分解为更简单的、<strong>重叠的子问题</strong>来解决优化问题的范式。它将这些子问题的解存储起来（记忆化），以避免重复计算。<br><br><strong>适用特性:</strong> 1. 最优子结构 (问题的最优解可由其子问题的最优解构造)。 2. 重叠子问题 (相同的子问题会被反复计算多次)。<br><br><strong>关键应用:</strong> 计算斐波那契数列、最长公共子序列 (LCS)、背包问题、图论中的最短路径问题（如Bellman-Ford, Floyd-Warshall）。`
+                            },
+                            {
+                                title: "贪心算法 (Greedy Algorithms)",
+                                body: `<strong>核心原则:</strong> 遵循一种启发式策略，即在每个阶段都做出在当前看来是最佳的选择（局部最优选择），并期望通过一系列的局部最优选择，最终能够产生一个全局最优解。<br><br><strong>适用特性:</strong> 1. 贪心选择性质。 2. 最优子结构。<br><br><strong>关键应用:</strong> 最小生成树（Prim, Kruskal算法）、Dijkstra算法、霍夫曼编码。对于0/1背包问题等则不适用。`
+                            },
+                            {
+                                title: "回溯法 (Backtracking)",
+                                body: `<strong>核心原则:</strong> 一种通过增量地构建解的候选方案，并在确定一个候选方案不可能完成为一个有效解时立即放弃该候选方案（即“回溯”）的系统性搜索方法。<br><br><strong>机制与实现:</strong> 从概念上讲，回溯法探索一个由部分解构成的“状态空间树”，并对其执行深度优先搜索 (DFS)。通过“剪枝”来节省大量的计算开销。<br><br><strong>关键应用:</strong> 解决数独、N皇后问题、走迷宫、组合优化问题。`
+                            },
+                        ]
+                    },
+                    "排序算法": {
+                        title: "排序算法",
+                        description: "排序是将一个元素列表按特定顺序（如数字升序或字典序）排列的过程。本节将比较多种经典排序算法的特性与性能。",
+                        content: [
+                            {
+                                title: "排序算法比较分析",
+                                body: `下方的交互式图表展示了各种排序算法在不同维度上的性能表现。您可以点击下方的按钮来切换比较的指标。`,
+                                visualization: `
+                                    <div class="mb-4">
+                                        <div id="chart-controls" class="flex flex-wrap gap-2 justify-center">
+                                            <button data-metric="avg" class="px-4 py-2 bg-accent text-white rounded-md shadow">平均时间复杂度</button>
+                                            <button data-metric="worst" class="px-4 py-2 bg-gray-200 rounded-md shadow">最坏时间复杂度</button>
+                                            <button data-metric="space" class="px-4 py-2 bg-gray-200 rounded-md shadow">空间复杂度</button>
+                                        </div>
+                                    </div>
+                                    <div class="chart-container relative h-96 max-w-4xl mx-auto"><canvas id="sortingChart"></canvas></div>
+                                `
+                            },
+                            {
+                                title: "简单排序 (O(n²))",
+                                body: `<strong>冒泡排序:</strong> 反复遍历列表，比较并交换相邻的错误顺序元素。<br><strong>选择排序:</strong> 反复从末排序部分找到最小元素，放到已排序部分的末尾。<br><strong>插入排序:</strong> 对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。`
+                            },
+                            {
+                                title: "高效排序 (O(n log n))",
+                                body: `<strong>归并排序:</strong> 采用分治法，稳定，但需要额外空间。<br><strong>快速排序:</strong> 同样采用分治法，通常速度最快，但最坏情况差且不稳定。<br><strong>堆排序:</strong> 利用堆结构，原地排序，不稳定。`
+                            },
+                             {
+                                title: "非比较排序 (线性时间)",
+                                body: `<strong>计数排序:</strong> 通过计算每个键值的数量来运作，适用于键值范围较小的整数。<br><strong>桶排序:</strong> 将元素分配到桶中再分别排序，效率依赖于数据均匀分布。`
+                            }
+                        ]
+                    },
+                    "搜索算法": {
+                        title: "搜索算法",
+                        description: "搜索是在一个数据集合中查找特定元素的过程。不同的算法适用于不同的数据结构和场景。",
+                        content: [
+                             {
+                                title: "基础搜索技术",
+                                body: `<strong>线性搜索 (Linear Search):</strong> 逐个检查列表中的每个元素。时间复杂度 O(n)。<br><strong>二分搜索 (Binary Search):</strong> 在**已排序**的数组中，通过反复将搜索区间减半来查找。时间复杂度 O(log n)。`
+                            },
+                             {
+                                title: "基于哈希的搜索",
+                                body: `通过使用一个**哈希函数**来直接计算目标元素的索引，从而实现平均 O(1) 的查找、插入和删除。主要挑战是处理**哈希冲突**，常用技术包括分离链接法和开放地址法。`
+                            }
+                        ]
+                    },
+                     "图论算法": {
+                        title: "图论算法",
+                        description: "图论算法用于分析由节点和边构成的网络结构，在社交网络、地图导航、物流规划等领域有广泛应用。",
+                        content: [
+                            {
+                                title: "图遍历",
+                                body: `<strong>深度优先搜索 (DFS):</strong> 沿着每个分支尽可能深地探索，直到到达末端才回溯。使用栈实现，适用于拓扑排序、环路检测。<br><strong>广度优先搜索 (BFS):</strong> 逐层地探索图，探索完当前深度的所有节点再进入下一层。使用队列实现，适用于在无权图中寻找最短路径。`
+                            },
+                            {
+                                title: "最短路径",
+                                body: `<strong>Dijkstra 算法:</strong> 贪心算法，用于在**边权为非负**的图中找到单源最短路径。<br><strong>Bellman-Ford 算法:</strong> 可处理**负权重边**的单源最短路径算法，并能检测负权环路。<br><strong>Floyd-Warshall 算法:</strong> 动态规划算法，计算所有顶点对之间的最短路径。<br><strong>A* 搜索算法:</strong> 启发式搜索，用于寻找单点对之间的最优路径，常用于游戏寻路和导航。`
+                            },
+                            {
+                                title: "最小生成树 & 最大流",
+                                body: `<strong>最小生成树 (MST):</strong> 在加权连通图中找到连接所有顶点且总权重最小的树。经典算法有 Prim 算法和 Kruskal 算法。<br><strong>最大流:</strong> 在一个流网络中找到从源点到汇点的最大可能流速。经典算法有 Ford-Fulkerson 算法。`
+                            }
+                        ]
+                    },
+                    "高级算法": {
+                        title: "高级与专用算法",
+                        description: "本部分探讨为特定问题领域设计的算法，如字符串处理、加密与安全、几何计算等。",
+                        content: [
+                            { title: "字符串匹配", body: `<strong>KMP 算法:</strong> 通过预计算部分匹配表，实现线性时间匹配。<br><strong>Boyer-Moore 算法:</strong> 从右到左匹配，通常更快。<br><strong>Rabin-Karp 算法:</strong> 利用哈希技术进行快速匹配。`},
+                            { title: "数据压缩", body: `<strong>霍夫曼编码:</strong> 根据字符频率分配可变长度编码的贪心算法。<br><strong>LZ77 & LZ78:</strong> 基于字典的压缩算法，是ZIP、PNG等格式的基础。<br><strong>算术编码:</strong> 通常比霍夫曼编码有更高的压缩率。`},
+                            { title: "密码学", body: `<strong>对称加密 (如 AES):</strong> 使用单一共享密钥，速度快，适合加密大量数据。<br><strong>非对称加密 (如 RSA):</strong> 使用公钥/私钥对，速度慢，适合密钥交换和数字签名。<br><strong>哈希函数 (如 SHA-256):</strong> 将任意数据映射为固定长度的、不可逆的哈希值，用于验证数据完整性。`},
+                            { title: "计算几何与数值", body: `<strong>凸包算法 (如 Graham Scan):</strong> 找到能包围一组点的最小凸多边形。<br><strong>最近点对问题:</strong> 通过分治法高效解决。<br><strong>牛顿法:</strong> 用于求解非线性方程的根。<br><strong>LU分解:</strong> 求解线性方程组的标准方法。`}
+                        ]
+                    }
+                }
+            },
+            "人工智能": {
+                icon: '🧠',
+                sections: {
+                    "机器学习": {
+                        title: "机器学习基础",
+                        description: "机器学习是人工智能的核心，它使计算机能够从数据中学习规律，而不是被动地执行预先编写好的规则。",
+                        content: [
+                            { title: "监督学习", body: `使用**有标签**的数据集进行训练，学习输入与输出之间的映射关系。<br><strong>回归模型 (如 线性回归):</strong> 预测一个连续值。<br><strong>分类模型 (如 逻辑回归, SVM, K-近邻, 决策树, 朴素贝叶斯):</strong> 预测一个离散的类别。`},
+                            { title: "无监督学习", body: `处理**无标签**数据，在数据本身中发现隐藏的模式或结构。<br><strong>聚类 (如 K-均值, DBSCAN, 层次聚类):</strong> 将相似的数据点分组。<br><strong>降维 (如 PCA, t-SNE):</strong> 减少数据变量数量，保留关键信息。<br><strong>关联规则挖掘 (如 Apriori):</strong> 发现项集之间的有趣关系。`},
+                             { title: "自监督学习", body: `一种特殊的无监督学习，通过从数据本身创造标签来进行学习。是现代预训练模型（如BERT）的核心思想之一。`},
+                        ]
+                    },
+                    "集成学习": {
+                         title: "集成学习 (Ensemble)",
+                         description: "通过将多个“弱”学习器组合起来，创建一个更强大、更准确的模型，是提高预测性能的有效手段。",
+                         content: [
+                            { title: "Bagging: 随机森林", body: `在训练数据的不同随机子集上独立训练多个决策树，通过投票或平均来聚合结果，以减少过拟合和提高准确性。`},
+                            { title: "Boosting: 梯度提升", body: `顺序地训练模型，每个新模型都专注于纠正前一个模型所犯的错误。代表算法有 <strong>AdaBoost</strong>, <strong>Gradient Boosting Machines (GBM)</strong>, 以及其高效实现 <strong>XGBoost</strong>、<strong>LightGBM</strong>等，在处理表格数据方面表现卓越。`},
+                         ]
+                    },
+                    "深度学习": {
+                        title: "深度学习",
+                        description: "深度学习是机器学习的一个分支，它使用包含许多层的深度神经网络，在处理图像、声音、自然语言等复杂模式方面取得了巨大成功。",
+                        content: [
+                            { title: "核心网络架构", body: `<strong>卷积神经网络 (CNN):</strong> 专为处理图像等网格状数据设计，通过卷积和池化操作提取空间特征。<br><strong>循环神经网络 (RNN/LSTM/GRU):</strong> 用于处理序列数据（如文本、时间序列），具有“记忆”功能。<br><strong>Transformer:</strong> 基于“自注意力机制”，彻底改变了自然语言处理领域，是所有现代大型语言模型（如GPT、BERT）的基础。` },
+                            { title: "著名网络模型示例", body: `<strong>CNN领域:</strong> LeNet, AlexNet, VGG, ResNet (残差网络), YOLO (实时目标检测)。<br><strong>NLP领域:</strong> Word2Vec, BERT, GPT系列。`},
+                             { title: "生成模型", body: `学习数据的分布以便生成新的、合成的数据样本。<br><strong>生成对抗网络 (GAN):</strong> 通过生成器与判别器的博弈，生成逼真的图像等数据。<br><strong>变分自编码器 (VAE):</strong> 学习数据的概率性潜在表示。<br><strong>扩散模型:</strong> 通过去噪过程生成高质量、多样化的图像，是Stable Diffusion、DALL-E 2等模型背后的技术。` },
+                        ]
+                    },
+                     "强化学习": {
+                        title: "强化学习 (RL)",
+                        description: "智能体 (Agent) 通过在环境中与“试错”来学习，以获得最大的累积“奖励”。常用于游戏、机器人控制和自动驾驶。",
+                        content: [
+                            { title: "主要方法", body: `<strong>基于价值 (Value-Based):</strong> 学习评估处于某个状态或采取某个动作的“好坏程度”。代表算法有 <strong>Q-Learning</strong> 和 <strong>DQN</strong> (深度Q网络)。<br><strong>基于策略 (Policy-Based):</strong> 直接学习从状态到动作的映射策略。代表算法有 <strong>Policy Gradients</strong>。<br><strong>Actor-Critic:</strong> 结合了以上两种方法的优点，同时学习一个策略（演员 Actor）和一个价值函数（评论家 Critic）。`},
+                        ]
+                    },
+                    "优化算法": {
+                        title: "优化与启发式算法",
+                        description: "这些算法用于在复杂的搜索空间中寻找最优解或近似最优解，特别适用于计算上难以精确求解的问题。",
+                        content: [
+                            { title: "元启发式优化", body: `<strong>遗传算法:</strong> 模拟生物进化过程（选择、交叉、变异）来搜索解。<br><strong>粒子群优化:</strong> 模拟鸟群或鱼群的社会行为来寻找最优解。<br><strong>模拟退火:</strong> 受物理退火过程启发，通过概率性地接受“坏”解来跳出局部最优。`},
+                             { title: "博弈论", body: `<strong>Minimax 算法 / Alpha-Beta剪枝:</strong> 用于双人零和游戏（如棋类游戏）的决策算法，通过预测对手的最佳走法来决定自己的策略。`},
+                        ]
+                    }
+                }
+            }
+        };
+
+        let currentCategory = "经典算法";
+        let currentSection = "算法范式";
+        let sortingChart;
+
+        function renderMainNavigation() {
+            const mainNav = document.getElementById('main-nav');
+            mainNav.innerHTML = '';
+            Object.keys(db).forEach(category => {
+                const isActive = category === currentCategory;
+                const item = document.createElement('a');
+                item.href = '#';
+                item.className = `sidebar-item flex items-center p-2 space-x-4 rounded-md hover:bg-accent hover:text-white transition-colors ${isActive ? 'active' : ''}`;
+                item.innerHTML = `
+                    <span class="text-2xl">${db[category].icon}</span>
+                    <span class="font-medium hidden md:block">${category}</span>
+                `;
+                item.onclick = (e) => {
+                    e.preventDefault();
+                    currentCategory = category;
+                    currentSection = Object.keys(db[category].sections)[0];
+                    renderAll();
+                };
+                mainNav.appendChild(item);
+            });
+        }
+
+        function renderSubNavigation() {
+            const subNav = document.getElementById('sub-nav');
+            subNav.innerHTML = '';
+            const sections = db[currentCategory].sections;
+            Object.keys(sections).forEach(sectionKey => {
+                const isActive = sectionKey === currentSection;
+                const item = document.createElement('a');
+                item.href = '#';
+                item.className = `sub-nav-item py-4 px-1 border-b-2 transition-colors ${isActive ? 'border-accent text-accent' : 'border-transparent hover:border-gray-300'}`;
+                item.textContent = sectionKey;
+                item.onclick = (e) => {
+                    e.preventDefault();
+                    currentSection = sectionKey;
+                    renderAll();
+                };
+                subNav.appendChild(item);
+            });
+        }
+
+        function renderContent() {
+            const contentDisplay = document.getElementById('content-display');
+            const sectionTitle = document.getElementById('current-section-title');
+            
+            const sectionData = db[currentCategory].sections[currentSection];
+            sectionTitle.textContent = sectionData.title;
+
+            contentDisplay.innerHTML = `
+                <div class="prose max-w-none text-main">
+                    <p class="lead text-lg">${sectionData.description}</p>
+                </div>
+            `;
+            
+            sectionData.content.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'content-card p-6';
+                let cardBody = `<h3 class="text-xl font-bold text-accent mb-3">${item.title}</h3><div class="prose max-w-none text-main">${item.body}</div>`;
+                if (item.visualization) {
+                    cardBody += `<div class="mt-4">${item.visualization}</div>`;
+                }
+                card.innerHTML = cardBody;
+                contentDisplay.appendChild(card);
+            });
+
+            if (currentSection === '排序算法') {
+                initSortingChart();
+            }
+        }
+        
+        function renderAll() {
+            renderMainNavigation();
+            renderSubNavigation();
+            renderContent();
+        }
+
+        function initSortingChart() {
+            const ctx = document.getElementById('sortingChart');
+            if (!ctx) return;
+
+            const data = {
+                labels: ['冒泡', '选择', '插入', '归并', '快排', '堆排', '计数', '桶排'],
+                datasets: []
+            };
+            
+            const complexities = {
+                avg: [10, 10, 10, 5, 5, 5, 1, 1], // O(n^2)=10, O(nlogn)=5, O(n+k)=1
+                worst: [10, 10, 10, 5, 10, 5, 1, 10],
+                space: [0, 0, 0, 8, 4, 0, 1, 1] // O(1)=0, O(logn)=4, O(n)=8, O(n+k)=1
+            };
+
+            const complexityLabels = {
+                 avg: (value) => {
+                    if (value === 10) return 'O(n²)';
+                    if (value === 5) return 'O(n log n)';
+                    if (value === 1) return 'O(n+k)';
+                    return '';
+                },
+                worst: (value) => {
+                    if (value === 10) return 'O(n²)';
+                    if (value === 5) return 'O(n log n)';
+                    return '';
+                },
+                space: (value) => {
+                    if (value === 8) return 'O(n)';
+                    if (value === 4) return 'O(log n)';
+                    if (value === 1) return 'O(n+k)';
+                    if (value === 0) return 'O(1)';
+                    return '';
+                }
+            };
+
+            if (sortingChart) {
+                sortingChart.destroy();
+            }
+
+            sortingChart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const metric = context.chart.options.plugins.tooltip.metric;
+                                    const value = context.raw;
+                                    return `${context.dataset.label}: ${complexityLabels[metric](value)}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    // This is a proxy for complexity levels, not a real scale
+                                    return '复杂度 Level ' + value;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const updateChart = (metric) => {
+                sortingChart.data.datasets = [{
+                    label: metric,
+                    data: complexities[metric],
+                    backgroundColor: 'rgba(85, 107, 47, 0.6)',
+                    borderColor: 'rgba(85, 107, 47, 1)',
+                    borderWidth: 1
+                }];
+                sortingChart.options.plugins.tooltip.metric = metric;
+                sortingChart.update();
+
+                // Update active button style
+                document.querySelectorAll('#chart-controls button').forEach(btn => {
+                    if (btn.dataset.metric === metric) {
+                        btn.classList.add('bg-accent', 'text-white');
+                        btn.classList.remove('bg-gray-200');
+                    } else {
+                        btn.classList.remove('bg-accent', 'text-white');
+                        btn.classList.add('bg-gray-200');
+                    }
+                });
+            };
+
+            document.querySelectorAll('#chart-controls button').forEach(button => {
+                button.addEventListener('click', () => {
+                    updateChart(button.dataset.metric);
+                });
+            });
+
+            // Initial chart render
+            updateChart('avg');
+        }
+
+        document.addEventListener('DOMContentLoaded', renderAll);
+
+    </script>
+</body>
+</html>

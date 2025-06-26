@@ -20,6 +20,21 @@
     "category": "gemini"
   },
   {
+    "filename": "gemini5_联邦公务员考试透明度与程序公正性研究.html",
+    "title": "功绩悖论：美国联邦公务员招聘系统交互式分析",
+    "category": "gemini"
+  },
+  {
+    "filename": "gemini6_算法探索交互式指南.html",
+    "title": "算法探索交互式指南",
+    "category": "gemini"
+  },
+  {
+    "filename": "gemini7_交互式报告：大模型与媒体版权的全球冲突.html",
+    "title": "交互式报告：大模型与媒体版权的全球冲突",
+    "category": "gemini"
+  },
+  {
     "filename": "kimi1_开源大模型深度调研与分析报告.html",
     "title": "开源大模型深度调研与分析报告",
     "category": "kimi"
@@ -37,6 +52,21 @@
   {
     "filename": "kimi4_夏威夷生活与火灾重建深度研究.html",
     "title": "夏威夷生活与火灾重建深度研究(2025年)",
+    "category": "kimi"
+  },
+  {
+    "filename": "kimi5_联邦公务员考试透明度与程序公正性研究.html",
+    "title": "联邦公务员考试透明度与程序公正性研究",
+    "category": "kimi"
+  },
+  {
+    "filename": "kimi6_算法全景图：从经典计算机科学到人工智能.html",
+    "title": "算法全景图：从经典计算机科学到人工智能",
+    "category": "kimi"
+  },
+  {
+    "filename": "kimi7_大模型与爬虫技术对传统媒体版权的挑战与应对.html",
+    "title": "",
     "category": "kimi"
   }
 ]
