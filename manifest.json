@@ -35,6 +35,16 @@
     "category": "gemini"
   },
   {
+    "filename": "gemini8.1_PalantirTechnologies.html",
+    "title": "Interactive Analysis: Palantir Technologies",
+    "category": "gemini"
+  },
+  {
+    "filename": "gemini8.2_PalantirTechnologies.html",
+    "title": "Palantir Technologies: 交互式深度解析",
+    "category": "gemini"
+  },
+  {
     "filename": "kimi1_开源大模型深度调研与分析报告.html",
     "title": "开源大模型深度调研与分析报告",
     "category": "kimi"
@@ -66,7 +76,12 @@
   },
   {
     "filename": "kimi7_大模型与爬虫技术对传统媒体版权的挑战与应对.html",
-    "title": "",
+    "title": "大模型与爬虫技术对传统媒体版权的挑战与应对",
+    "category": "kimi"
+  },
+  {
+    "filename": "kimi8_Palantir Technologies 深度研究报告.html",
+    "title": "Palantir Technologies 深度研究报告",
     "category": "kimi"
   }
 ]

@@ -1,0 +1,1885 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Palantir Technologies 深度研究报告</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Canela:wght@400;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        .font-canela { font-family: 'Canela', serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        
+        :root {
+            --primary: #1a1a1a;
+            --secondary: #4a4a4a;
+            --accent: #d4af37;
+            --accent-muted: #f4f2e8;
+            --border: #e5e5e5;
+            --surface: #fafafa;
+        }
+        
+        .hero-overlay {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(74, 74, 74, 0.7) 100%);
+        }
+        
+        .toc-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: white;
+            border-right: 1px solid var(--border);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 2rem 1.5rem;
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+        
+        .toc-link {
+            display: block;
+            padding: 0.5rem 0;
+            color: var(--secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            border-left: 2px solid transparent;
+            padding-left: 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        .toc-link:hover {
+            color: var(--primary);
+            border-left-color: var(--accent);
+            background: var(--accent-muted);
+        }
+        
+        .toc-link.active {
+            color: var(--primary);
+            border-left-color: var(--accent);
+            background: var(--accent-muted);
+            font-weight: 500;
+        }
+        
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, var(--accent) 0%, transparent 100%);
+            margin: 3rem 0;
+        }
+        
+        .pull-quote {
+            border-left: 4px solid var(--accent);
+            background: var(--accent-muted);
+            padding: 2rem;
+            margin: 2rem 0;
+            font-style: italic;
+            font-size: 1.125rem;
+            line-height: 1.6;
+        }
+        
+        .citation {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .citation:hover {
+            text-decoration: underline;
+        }
+        
+        /* Mermaid diagram styling */
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+            max-height: 600px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 2rem 0;
+            overflow: hidden;
+            position: relative;
+            cursor: grab;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .mermaid:active {
+            cursor: grabbing;
+        }
+        
+        .mermaid svg {
+            max-width: 100%;
+            max-height: 100%;
+            height: auto;
+            width: auto;
+            transition: transform 0.2s ease;
+            transform-origin: center center;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        /* Mermaid zoom controls */
+        .mermaid-container {
+            position: relative;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 2rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .mermaid-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+            z-index: 10;
+        }
+        
+        .mermaid-control-btn {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 5px 8px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--secondary);
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        .mermaid-control-btn:hover {
+            background: var(--accent-muted);
+            color: var(--primary);
+            border-color: var(--accent);
+        }
+        
+        .mermaid-fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .mermaid-fullscreen .mermaid {
+            max-height: 90vh;
+            max-width: 90vw;
+            background: white;
+            border: 1px solid var(--border);
+        }
+        
+        /* Ensure mermaid diagrams are responsive */
+        @media (max-width: 768px) {
+            .mermaid {
+                min-height: 300px;
+                padding: 15px;
+            }
+            
+            .mermaid svg {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .toc-sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            .toc-sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body class="font-inter text-gray-900 bg-white">
+    <!-- Table of Contents Sidebar -->
+    <nav class="toc-sidebar">
+        <div class="mb-8">
+            <h3 class="font-canela text-lg font-bold text-gray-900 mb-4">目录</h3>
+        </div>
+        <div class="space-y-1">
+            <a href="#executive-summary" class="toc-link">执行摘要</a>
+            <a href="#company-overview" class="toc-link">公司概览与历史沿革</a>
+            <a href="#core-products" class="toc-link">核心产品与技术平台</a>
+            <a href="#business-model" class="toc-link">商业模式与市场策略</a>
+            <a href="#financial-performance" class="toc-link">财务表现与投资价值</a>
+            <a href="#market-position" class="toc-link">市场地位与竞争格局</a>
+            <a href="#controversies" class="toc-link">争议与风险因素</a>
+            <a href="#future-outlook" class="toc-link">公司立场与未来展望</a>
+        </div>
+        
+        <div class="mt-12 pt-8 border-t border-gray-200">
+            <p class="text-xs text-gray-500 leading-relaxed">
+                本报告基于公开资料分析，旨在提供客观、深度的商业洞察。
+            </p>
+        </div>
+    </nav>
+
+    <!-- Mobile TOC Toggle -->
+    <button id="toc-toggle" class="lg:hidden fixed top-4 left-4 z-50 bg-white p-2 rounded-lg shadow-lg border">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="relative min-h-screen flex items-center">
+            <div class="absolute inset-0">
+                <img src="https://kimi-web-img.moonshot.cn/img/zhangtielei.com/361d927f9e59a3fc8012dec8e4cbc9d99499a280.png" alt="分层抽象的数据网络可视化图" class="w-full h-full object-cover" size="wallpaper" aspect="wide" query="抽象数据网络分层可视化" referrerpolicy="no-referrer" data-modified="1" data-score="11599.00"/>
+                <div class="hero-overlay absolute inset-0"></div>
+            </div>
+            
+            <div class="relative z-10 max-w-7xl mx-auto px-8 py-16">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <!-- Title Section -->
+                    <div class="lg:col-span-7">
+                        <div class="space-y-6">
+                            <h1 class="font-canela text-5xl lg:text-7xl font-bold text-white leading-tight">
+                                <span class="italic">Palantir</span><br/>
+                                <span class="text-yellow-400">深度研究</span>
+                            </h1>
+                            <p class="text-xl text-gray-200 max-w-2xl leading-relaxed">
+                                解密硅谷最神秘的大数据分析公司，探索其技术护城河、商业模式与地缘政治影响力
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Executive Summary Card -->
+                    <div class="lg:col-span-5">
+                        <div id="executive-summary" class="bg-white/95 backdrop-blur-sm rounded-xl p-8 shadow-2xl">
+                            <h2 class="font-canela text-2xl font-bold text-gray-900 mb-6">执行摘要</h2>
+                            <div class="space-y-4 text-sm leading-relaxed">
+                                <p><strong>核心发现：</strong>Palantir通过其独特的数据本体论技术，在政府与商业市场建立了深度护城河。2025年Q1营收8.84亿美元（+39% YoY），运营利润率达44.2%。</p>
+                                
+                                <p><strong>技术优势：</strong>Gotham和Foundry平台为核心，AIP人工智能平台驱动新增长。数据整合能力在复杂场景中具备不可替代性。</p>
+                                
+                                <p><strong>市场地位：</strong>政府业务占比55%，深度绑定美国国防与情报机构；商业业务快速增长，同比+71%。</p>
+                                
+                                <p><strong>关键风险：</strong>客户集中度高、估值泡沫、地缘政治依赖及数据隐私争议构成主要挑战。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Sections -->
+        <div class="max-w-6xl mx-auto px-8 py-16 space-y-20">
+            
+            <!-- Company Overview -->
+            <section id="company-overview" class="space-y-12">
+                <div class="text-center mb-16">
+                    <h2 class="font-canela text-4xl font-bold text-gray-900 mb-4">公司概览与历史沿革</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        从反恐情报工具到AI驱动的数据分析平台，Palantir的演进历程体现了技术与地缘政治的深度融合
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <div class="space-y-6">
+                        <h3 class="font-canela text-2xl font-bold text-gray-900">创立背景与使命</h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            Palantir Technologies成立于<strong>2003-2004年</strong>，由PayPal联合创始人<a href="#" class="citation">彼得·蒂尔（Peter Thiel）</a>等人共同创立。公司成立的初衷源于&#34;9·11&#34;事件后美国政府和情报机构面临的海量数据处理挑战。
+                        </p>
+                        
+                        <div class="pull-quote">
+                            &#34;Palantir的命名来源于《指环王》中的&#39;真知晶球&#39;，象征着其技术能够洞察一切、建立联系的强大能力。&#34;
+                        </div>
+                        
+                        <p class="text-gray-700 leading-relaxed">
+                            早期获得<a href="#" class="citation">CIA风险投资部门In-Q-Tel</a>的投资支持，首个重要产品Gotham平台于2008年推出，专门服务于政府情报部门。
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <h3 class="font-canela text-2xl font-bold text-gray-900">关键里程碑</h3>
+                        <div class="space-y-4">
+                            <div class="border-l-4 border-yellow-400 pl-6">
+                                <h4 class="font-semibold text-gray-900">2008年</h4>
+                                <p class="text-gray-700">推出Gotham平台，专注于政府情报分析</p>
+                            </div>
+                            <div class="border-l-4 border-yellow-400 pl-6">
+                                <h4 class="font-semibold text-gray-900">2011-2016年</h4>
+                                <p class="text-gray-700">推出Foundry平台，进军商业市场</p>
+                            </div>
+                            <div class="border-l-4 border-yellow-400 pl-6">
+                                <h4 class="font-semibold text-gray-900">2020年9月</h4>
+                                <p class="text-gray-700">纽交所上市，股票代码PLTR</p>
+                            </div>
+                            <div class="border-l-4 border-yellow-400 pl-6">
+                                <h4 class="font-semibold text-gray-900">2023年</h4>
+                                <p class="text-gray-700">推出人工智能平台AIP</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-xl p-8 mt-12">
+                    <h3 class="font-canela text-2xl font-bold text-gray-900 mb-6">创始人团队与公司文化</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-yellow-400 rounded-full mx-auto mb-4 flex items-center justify-center">
+                                <i class="fas fa-user text-white text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-gray-900">Peter Thiel</h4>
+                            <p class="text-sm text-gray-600">联合创始人<br/>PayPal创始人</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-yellow-400 rounded-full mx-auto mb-4 flex items-center justify-center">
+                                <i class="fas fa-user text-white text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-gray-900">Alex Karp</h4>
+                            <p class="text-sm text-gray-600">CEO<br/>哲学博士</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-yellow-400 rounded-full mx-auto mb-4 flex items-center justify-center">
+                                <i class="fas fa-user text-white text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-gray-900">Joe Lonsdale</h4>
+                            <p class="text-sm text-gray-600">联合创始人<br/>斯坦福背景</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-yellow-400 rounded-full mx-auto mb-4 flex items-center justify-center">
+                                <i class="fas fa-user text-white text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-gray-900">Stephen Cohen</h4>
+                            <p class="text-sm text-gray-600">联合创始人<br/>技术专家</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 p-6 bg-white rounded-lg">
+                        <p class="text-gray-700 leading-relaxed">
+                            <strong>企业文化特征：</strong>Palantir以&#34;使命至上、近乎军事化&#34;的文化著称。员工被期望为信念奉献，公司定位为&#34;西方世界的防御者&#34;。这种独特的文化虽然筛选出高度忠诚的员工，但也因其强度而备受争议。
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- Core Products -->
+            <section id="core-products" class="space-y-12">
+                <div class="text-center mb-16">
+                    <h2 class="font-canela text-4xl font-bold text-gray-900 mb-4">核心产品与技术平台</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        四大核心平台构建完整数据分析生态系统，数据本体论技术形成独特竞争优势
+                    </p>
+                </div>
+
+                <!-- Product Overview Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse bg-white rounded-xl shadow-lg overflow-hidden">
+                        <thead class="bg-gray-900 text-white">
+                            <tr>
+                                <th class="px-6 py-4 text-left font-semibold">平台名称</th>
+                                <th class="px-6 py-4 text-left font-semibold">主要定位</th>
+                                <th class="px-6 py-4 text-left font-semibold">核心功能</th>
+                                <th class="px-6 py-4 text-left font-semibold">典型客户</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 font-semibold text-gray-900">Gotham</td>
+                                <td class="px-6 py-4 text-gray-700">政府、国防、情报机构</td>
+                                <td class="px-6 py-4 text-gray-700 text-sm">多源异构数据整合分析，地理空间可视化，威胁识别，反恐情报分析</td>
+                                <td class="px-6 py-4 text-gray-700">美国国防部、CIA、FBI、国土安全部</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 font-semibold text-gray-900">Foundry</td>
+                                <td class="px-6 py-4 text-gray-700">大型商业企业</td>
+                                <td class="px-6 py-4 text-gray-700 text-sm">企业数据孤岛整合，预测模型，供应链管理，运营优化</td>
+                                <td class="px-6 py-4 text-gray-700">空客、英国石油、辉瑞、摩根大通</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 font-semibold text-gray-900">AIP</td>
+                                <td class="px-6 py-4 text-gray-700">AI驱动决策与自动化</td>
+                                <td class="px-6 py-4 text-gray-700 text-sm">集成大语言模型，AI应用开发部署，工作流自动化</td>
+                                <td class="px-6 py-4 text-gray-700">美国国防部、默克、IBM</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 font-semibold text-gray-900">Apollo</td>
+                                <td class="px-6 py-4 text-gray-700">DevOps平台</td>
+                                <td class="px-6 py-4 text-gray-700 text-sm">自动化软件部署，持续集成交付，跨环境管理</td>
+                                <td class="px-6 py-4 text-gray-700">软件工程师、运维团队</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Product Architecture Diagram -->
+                <div class="bg-gray-50 rounded-xl p-8 mt-12">
+                    <h3 class="font-canela text-2xl font-bold text-gray-900 mb-6 text-center">Palantir技术架构关系图</h3>
+                    <div class="mermaid-container">
+                        <div class="mermaid-controls">
+                            <button class="mermaid-control-btn" onclick="zoomMermaid(this, 1.2)">放大</button>
+                            <button class="mermaid-control-btn" onclick="zoomMermaid(this, 0.8)">缩小</button>
+                            <button class="mermaid-control-btn" onclick="resetMermaidZoom(this)">重置</button>
+                            <button class="mermaid-control-btn" onclick="toggleMermaidFullscreen(this)">全屏</button>
+                        </div>
+                        <div class="mermaid" data-zoom="1" data-pan-x="0" data-pan-y="0">
+                            graph TB
+                                A[Data Sources] --&gt; B[Ontology Engine]
+                                B --&gt; C[Gotham Platform]
+                                B --&gt; D[Foundry Platform]
+                                C --&gt; E[Government Applications]
+                                D --&gt; F[Commercial Applications]
+                                C --&gt; G[AIP Integration]
+                                D --&gt; G
+                                G --&gt; H[AI Applications]
+                                I[Apollo Platform] --&gt; C
+                                I --&gt; D
+                                I --&gt; G
+                                
+                                style B fill:#d4af37,stroke:#1a1a1a,stroke-width:2px,color:#fff
+                                style G fill:#4a4a4a,stroke:#1a1a1a,stroke-width:2px,color:#fff
+                                style C fill:#e5e5e5,stroke:#4a4a4a,stroke-width:1px,color:#1a1a1a
+                                style D fill:#e5e5e5,stroke:#4a4a4a,stroke-width:1px,color:#1a1a1a
+                                style I fill:#e5e5e5,stroke:#4a4a4a,stroke-width:1px,color:#1a1a1a
+                                style A fill:#fafafa,stroke:#4a4a4a,stroke-width:1px,color:#1a1a1a
+                                style E fill:#fafafa,stroke:#4a4a4a,stroke-width:1px,color:#1a1a1a
+                                style F fill:#fafafa,stroke:#4a4a4a,stroke-width:1px,color:#1a1a1a
+                                style H fill:#fafafa,stroke:#4a4a4a,stroke-width:1px,color:#1a1a1a
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Deep Dive -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12">
+                    <div class="space-y-6">
+                        <h3 class="font-canela text-2xl font-bold text-gray-900">Gotham平台：政府情报的基石</h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            Gotham是Palantir最早推出的核心平台，专门为政府情报部门设计。该平台在多个备受瞩目的国家安全事件中发挥关键作用，包括<a href="#" class="citation">协助定位本·拉登</a>和追回麦道夫庞氏骗局资金。
+                        </p>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                            <p class="text-sm text-gray-700">
+                                <strong>技术特色：</strong>知识图谱技术实现数据关联发现，低代码界面支持非技术背景分析师操作，实时目标跟踪和威胁识别能力。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <h3 class="font-canela text-2xl font-bold text-gray-900">Foundry平台：企业数字化转型引擎</h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            Foundry面向商业客户，提供端到端数据解决方案。<a href="#" class="citation">空中客车使用Foundry将A350生产效率提升三分之一</a>，英国石油实现数亿美元效益提升。
+                        </p>
+                        <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+                            <p class="text-sm text-gray-700">
+                                <strong>核心价值：</strong>打破数据孤岛，构建统一数据资产，通过数据民主化让各层级员工基于数据决策。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AIP Focus -->
+                <div class="bg-gradient-to-r from-gray-900 to-gray-800 rounded-xl p-8 text-white mt-12">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                        <div class="lg:col-span-2">
+                            <h3 class="font-canela text-2xl font-bold mb-4">AIP：人工智能平台的未来</h3>
+                            <p class="text-gray-200 leading-relaxed mb-4">
+                                2023年推出的AIP平台是PalantirAI战略的核心，将大语言模型等先进AI技术集成到安全私有化部署中。平台需求呈现&#34;前所未有&#34;的增长态势。
+                            </p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                <div class="bg-white/10 rounded-lg p-4">
+                                    <h4 class="font-semibold mb-2">AIP Core</h4>
+                                    <p class="text-gray-300">LLM训练与微调</p>
+                                </div>
+                                <div class="bg-white/10 rounded-lg p-4">
+                                    <h4 class="font-semibold mb-2">AIP Action Graph</h4>
+                                    <p class="text-gray-300">数据权限管理</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <div class="bg-yellow-400 text-gray-900 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-robot text-3xl"></i>
+                            </div>
+                            <p class="text-yellow-400 font-bold text-lg">AI Mesh</p>
+                            <p class="text-sm text-gray-300">AI网络架构</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ontology Technology -->
+                <div class="mt-12">
+                    <h3 class="font-canela text-2xl font-bold text-gray-900 mb-6">数据本体论：技术的核心</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-gray-700 leading-relaxed mb-6">
+                                数据本体论是Palantir所有平台的技术基石，通过构建结构化的知识体系，实现异构数据的语义统一和深度关联分析。
+                            </p>
+                            <div class="space-y-4">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-2 h-2 bg-yellow-400 rounded-full mt-2"></div>
+                                    <p class="text-gray-700">定义数据含义和关系映射</p>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-2 h-2 bg-yellow-400 rounded-full mt-2"></div>
+                                    <p class="text-gray-700">支持动态语义层构建</p>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-2 h-2 bg-yellow-400 rounded-full mt-2"></div>
+                                    <p class="text-gray-700">实现从数据连接到认知连接</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-6">
+                            <h4 class="font-semibold text-gray-900 mb-4">行业应用示例</h4>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">公安行业：</span>
+                                    <span class="text-gray-900">人、事、地、案、物关联</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">金融行业：</span>
+                                    <span class="text-gray-900">企业、个人、交易行为</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">军事领域：</span>
+                                    <span class="text-gray-900">目标、威胁、资源映射</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- Business Model -->
+            <section id="business-model" class="space-y-12">
+                <div class="text-center mb-16">
+                    <h2 class="font-canela text-4xl font-bold text-gray-900 mb-4">商业模式与市场策略</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        从深度定制化服务向标准化产品转型，构建高价值客户长期合作关系
+                    </p>
+                </div>
+
+                <!-- Customer Segmentation -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <div class="space-y-6">
+                        <h3 class="font-canela text-2xl font-bold text-gray-900">客户群体结构</h3>
+                        <div class="bg-gray-50 rounded-lg p-6">
+                            <h4 class="font-semibold text-gray-900 mb-4">政府客户（55%）</h4>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+                                    <span class="text-gray-700">美国国防部及情报机构</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                    <span class="text-gray-700">国土安全与执法部门</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-3 h-3 bg-purple-500 rounded-full"></div>
+                                    <span class="text-gray-700">北约及盟友政府</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-lg p-6">
+                            <h4 class="font-semibold text-gray-900 mb-4">商业客户（45%）</h4>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                                    <span class="text-gray-700">金融：摩根大通、摩根士丹利</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                    <span class="text-gray-700">制造：空客、BP、辉瑞</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-3 h-3 bg-indigo-500 rounded-full"></div>
+                                    <span class="text-gray-700">科技：IBM、默克</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <h3 class="font-canela text-2xl font-bold text-gray-900">收入模式演进</h3>
+                        <div class="space-y-6">
+                            <div class="border-l-4 border-yellow-400 pl-6">
+                                <h4 class="font-semibold text-gray-900 mb-2">早期模式：咨询服务</h4>
+                                <p class="text-gray-700 text-sm mb-2">
+                                    &#34;前瞻性部署工程师&#34;深入客户现场，提供深度定制化解决方案
+                                </p>
+                                <div class="text-xs text-gray-500">
+                                    优势：客户需求深度契合 | 劣势：成本高、扩展性差
+                                </div>
+                            </div>
+                            
+                            <div class="border-l-4 border-yellow-400 pl-6">
+                                <h4 class="font-semibold text-gray-900 mb-2">当前模式：软件许可+服务</h4>
+                                <p class="text-gray-700 text-sm mb-2">
+                                    软件订阅费用（SaaS模式）配合专业咨询服务
+                                </p>
+                                <div class="text-xs text-gray-500">
+                                    合同金额：500-1000万美元 | 周期：3年起
+                                </div>
+                            </div>
+                            
+                            <div class="border-l-4 border-yellow-400 pl-6">
+                                <h4 class="font-semibold text-gray-900 mb-2">新兴模式：效果付费</h4>
+                                <p class="text-gray-700 text-sm mb-2">
+                                    按客户获得的价值比例分成，增强客户粘性
+                                </p>
+                                <div class="text-xs text-gray-500">
+                                    能源公司电网优化案例：按效率提升比例收费
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Market Positioning -->
+                <div class="bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl p-8 mt-12">
+                    <h3 class="font-canela text-2xl font-bold text-gray-900 mb-6">市场定位与竞争优势</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-white rounded-lg p-6 text-center">
+                            <div class="w-12 h-12 bg-yellow-400 rounded-full mx-auto mb-4 flex items-center justify-center">
+                                <i class="fas fa-puzzle-piece text-white"></i>
+                            </div>
+                            <h4 class="font-semibold text-gray-900 mb-2">数据整合能力</h4>
+                            <p class="text-sm text-gray-600">异构数据源深度整合分析</p>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg p-6 text-center">
+                            <div class="w-12 h-12 bg-blue-400 rounded-full mx-auto mb-4 flex items-center justify-center">
+                                <i class="fas fa-brain text-white"></i>
+                            </div>
+                            <h4 class="font-semibold text-gray-900 mb-2">本体论技术</h4>
+                            <p class="text-sm text-gray-600">结构化知识图谱构建</p>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg p-6 text-center">
+                            <div class="w-12 h-12 bg-green-400 rounded-full mx-auto mb-4 flex items-center justify-center">
+                                <i class="fas fa-cogs text-white"></i>
+                            </div>
+                            <h4 class="font-semibold text-gray-900 mb-2">端到端解决方案</h4>
+                            <p class="text-sm text-gray-600">全流程数据价值实现</p>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg p-6 text-center">
+                            <div class="w-12 h-12 bg-purple-400 rounded-full mx-auto mb-4 flex items-center justify-center">
+                                <i class="fas fa-shield-alt text-white"></i>
+                            </div>
+                            <h4 class="font-semibold text-gray-900 mb-2">政府关系</h4>
+                            <p class="text-sm text-gray-600">深度合作建立进入壁垒</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Challenges -->
+                <div class="mt-12">
+                    <h3 class="font-canela text-2xl font-bold text-gray-900 mb-6">市场策略挑战</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <div class="bg-red-50 border-l-4 border-red-400 p-4">
+                                <h4 class="font-semibold text-red-800 mb-2">产品复杂度高</h4>
+                                <p class="text-red-700 text-sm">实施成本和技术门槛成为中小企业市场推广障碍</p>
+                            </div>
+                            <div class="bg-orange-50 border-l-4 border-orange-400 p-4">
+                                <h4 class="font-semibold text-orange-800 mb-2">云化转型压力</h4>
+                                <p class="text-orange-700 text-sm">混合云模式在灵活性方面落后于纯云原生架构</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                                <h4 class="font-semibold text-yellow-800 mb-2">竞争加剧</h4>
+                                <p class="text-yellow-700 text-sm">Snowflake、Databricks等凭借轻量化产品争夺市场</p>
+                            </div>
+                            <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                <h4 class="font-semibold text-blue-800 mb-2">客户依赖</h4>
+                                <p class="text-blue-700 text-sm">对少数大客户的深度依赖增加业务不确定性</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- Financial Performance -->
+            <section id="financial-performance" class="space-y-12">
+                <div class="text-center mb-16">
+                    <h2 class="font-canela text-4xl font-bold text-gray-900 mb-4">财务表现与投资价值</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        2025年Q1业绩强劲，营收增长39%，盈利能力显著改善，但高估值风险值得关注
+                    </p>
+                </div>
+
+                <!-- Key Metrics -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 text-center shadow-sm">
+                        <div class="text-3xl font-bold text-green-600 mb-2">$8.84亿</div>
+                        <div class="text-sm text-gray-600 mb-1">2025年Q1营收</div>
+                        <div class="text-xs text-green-600">+39% YoY</div>
+                    </div>
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 text-center shadow-sm">
+                        <div class="text-3xl font-bold text-blue-600 mb-2">44.2%</div>
+                        <div class="text-sm text-gray-600 mb-1">运营利润率</div>
+                        <div class="text-xs text-blue-600">显著提升</div>
+                    </div>
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 text-center shadow-sm">
+                        <div class="text-3xl font-bold text-purple-600 mb-2">$2.14亿</div>
+                        <div class="text-sm text-gray-600 mb-1">净利润</div>
+                        <div class="text-xs text-purple-600">同比翻倍</div>
+                    </div>
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 text-center shadow-sm">
+                        <div class="text-3xl font-bold text-yellow-600 mb-2">83%</div>
+                        <div class="text-sm text-gray-600 mb-1">美商业客户增长</div>
+                        <div class="text-xs text-yellow-600">295家客户</div>
+                    </div>
+                </div>
+
+                <!-- Revenue Breakdown -->
+                <div class="bg-gray-50 rounded-xl p-8 mt-12">
+                    <h3 class="font-canela text-2xl font-bold text-gray-900 mb-6">收入结构分析</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-3">政府业务（55%）</h4>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-600">国防部门</span>
+                                        <span class="font-semibold text-gray-900">$3.73亿 (+45%)</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-blue-600 h-2 rounded-full" style="width: 75%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-3">商业业务（45%）</h4>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-600">美国商业</span>
+                                        <span class="font-semibold text-gray-900">$2.55亿 (+71%)</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-green-600 h-2 rounded-full" style="width: 85%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg p-6">
+                            <h4 class="font-semibold text-gray-900 mb-4">增长驱动因素</h4>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-robot text-blue-500"></i>
+                                    <span class="text-gray-700">AIP平台需求爆发式增长</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-chart-line text-green-500"></i>
+                                    <span class="text-gray-700">商业客户数量快速扩张</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-shield-alt text-purple-500"></i>
+                                    <span class="text-gray-700">国防合同持续稳定增长</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-cogs text-yellow-500"></i>
+                                    <span class="text-gray-700">运营效率显著提升</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stock Performance -->
+                <div class="mt-12">
+                    <h3 class="font-canela text-2xl font-bold text-gray-900 mb-6">股票表现与市场评级</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="space-y-6">
+                            <div class="bg-white border border-gray-200 rounded-xl p-6">
+                                <h4 class="font-semibold text-gray-900 mb-4">市场评级分歧</h4>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <span class="font-semibold text-green-600">Loop Capital</span>
+                                            <p class="text-sm text-gray-600">买入评级</p>
+                                        </div>
+                                        <span class="text-2xl font-bold text-green-600">$155</span>
+                                    </div>
+                                    <div class="text-sm text-gray-700">
+                                        认为Palantir是企业AI软件领域的早期领导者，增长空间巨大
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white border border-gray-200 rounded-xl p-6">
+                                <h4 class="font-semibold text-gray-900 mb-4">估值担忧</h4>
+                                <div class="space-y-3 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">动态市盈率</span>
+                                        <span class="font-semibold text-red-600">634倍</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">市销率(P/S)</span>
+                                        <span class="font-semibold text-red-600">112倍</span>
+                                    </div>
+                                    <p class="text-gray-700 mt-2">
+                                        远高于微软、英伟达等科技巨头，存在明显估值泡沫风险
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <div class="bg-red-50 border border-red-200 rounded-xl p-6">
+                                <h4 class="font-semibold text-red-800 mb-3">风险提示</h4>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex items-start space-x-2">
+                                        <i class="fas fa-exclamation-triangle text-red-500 mt-1"></i>
+                                        <span class="text-red-700">高管大规模减持股票引发市场疑虑</span>
+                                    </div>
+                                    <div class="flex items-start space-x-2">
+                                        <i class="fas fa-chart-line-down text-red-500 mt-1"></i>
+                                        <span class="text-red-700">高估值面临回调压力</span>
+                                    </div>
+                                    <div class="flex items-start space-x-2">
+                                        <i class="fas fa-users text-red-500 mt-1"></i>
+                                        <span class="text-red-700">大客户依赖增加业绩波动性</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-blue-50 border border-blue-200 rounded-xl p-6">
+                                <h4 class="font-semibold text-blue-800 mb-3">未来展望</h4>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex items-start space-x-2">
+                                        <i class="fas fa-robot text-blue-500 mt-1"></i>
+                                        <span class="text-blue-700">AIP平台驱动长期增长</span>
+                                    </div>
+                                    <div class="flex items-start space-x-2">
+                                        <i class="fas fa-globe text-blue-500 mt-1"></i>
+                                        <span class="text-blue-700">国际市场拓展机会</span>
+                                    </div>
+                                    <div class="flex items-start space-x-2">
+                                        <i class="fas fa-shield-alt text-blue-500 mt-1"></i>
+                                        <span class="text-blue-700">政府业务提供稳定基础</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- Market Position -->
+            <section id="market-position" class="space-y-12">
+                <div class="text-center mb-16">
+                    <h2 class="font-canela text-4xl font-bold text-gray-900 mb-4">市场地位与竞争格局</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        在特定细分市场建立强大壁垒，面临多元化竞争格局和市场份额挑战
+                    </p>
+                </div>
+
+                <!-- Competitive Landscape -->
+                <div class="bg-gray-50 rounded-xl p-8">
+                    <h3 class="font-canela text-2xl font-bold text-gray-900 mb-6">主要竞争对手分析</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="bg-white rounded-lg p-6">
+                            <h4 class="font-semibold text-gray-900 mb-3">云原生数据平台</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-700">Snowflake</span>
+                                    <span class="text-red-500">强竞争</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-700">Databricks</span>
+                                    <span class="text-red-500">强竞争</span>
+                                </div>
+                                <p class="text-gray-600 mt-2">
+                                    凭借云原生架构和灵活订阅模式，在中型企业市场形成有力竞争
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg p-6">
+                            <h4 class="font-semibold text-gray-900 mb-3">科技巨头</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-700">AWS</span>
+                                    <span class="text-orange-500">中等竞争</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-700">Microsoft Azure</span>
+                                    <span class="text-orange-500">中等竞争</span>
+                                </div>
+                                <p class="text-gray-600 mt-2">
+                                    垂直整合优势，从基础设施到AI的全栈服务
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg p-6">
+                            <h4 class="font-semibold text-gray-900 mb-3">专业服务商</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-700">埃森哲</span>
+                                    <span class="text-yellow-500">弱竞争</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-700">博思艾伦</span>
+                                    <span class="text-yellow-500">弱竞争</span>
+                                </div>
+                                <p class="text-gray-600 mt-2">
+                                    在咨询服务领域重叠，但缺乏核心技术平台
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Market Share Analysis -->
+                <div class="mt-12">
+                    <h3 class="font-canela text-2xl font-bold text-gray-900 mb-6">市场份额与行业影响力</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="space-y-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                                <h4 class="font-semibold text-green-800 mb-3">政府领域优势</h4>
+                                <ul class="space-y-2 text-sm text-green-700">
+                                    <li class="flex items-start space-x-2">
+                                        <i class="fas fa-check text-green-500 mt-1"></i>
+                                        <span>长期服务于CIA、FBI、NSA等核心机构</span>
+                                    </li>
+                                    <li class="flex items-start space-x-2">
+                                        <i class="fas fa-check text-green-500 mt-1"></i>
+                                        <span>在情报分析、反恐行动中建立深厚信任</span>
+                                    </li>
+                                    <li class="flex items-start space-x-2">
+                                        <i class="fas fa-check text-green-500 mt-1"></i>
+                                        <span>参与多个重大国家安全项目</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                                <h4 class="font-semibold text-blue-800 mb-3">商业领域进展</h4>
+                                <div class="space-y-3 text-sm text-blue-700">
+                                    <div class="flex justify-between">
+                                        <span>客户数量（2024年Q3）</span>
+                                        <span class="font-semibold">629个</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>大额交易（&gt;100万美元）</span>
+                                        <span class="font-semibold">104笔</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>美国商业客户增长</span>
+                                        <span class="font-semibold text-green-600">+83%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <div class="bg-white border border-gray-200 rounded-lg p-6">
+                                <h4 class="font-semibold text-gray-900 mb-4">市场前景</h4>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-gray-700">大数据分析市场增长率</span>
+                                        <span class="font-bold text-blue-600">10%</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-gray-700">预计2032年市场规模</span>
+                                        <span class="font-bold text-blue-600">$1万亿</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-gray-700">AI平台市场年增长率</span>
+                                        <span class="font-bold text-green-600">41%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+                                <h4 class="font-semibold text-yellow-800 mb-3">估值挑战</h4>
+                                <p class="text-sm text-yellow-700 mb-3">
+                                    Palantir市销率112倍，远超行业平均，反映市场对其增长潜力的高预期
+                                </p>
+                                <div class="space-y-2 text-xs">
+                                    <div class="flex justify-between">
+                                        <span>Palantir P/S</span>
+                                        <span class="font-semibold">112倍</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>AMD P/S</span>
+                                        <span class="font-semibold">11倍</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Salesforce P/S</span>
+                                        <span class="font-semibold">8倍</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technology Moat -->
+                <div class="bg-gradient-to-r from-gray-900 to-gray-800 rounded-xl p-8 text-white mt-12">
+                    <h3 class="font-canela text-2xl font-bold mb-6">技术壁垒与护城河</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-yellow-400 rounded-full mx-auto mb-4 flex items-center justify-center">
+                                <i class="fas fa-project-diagram text-white text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold mb-2">动态本体论</h4>
+                            <p class="text-gray-300 text-sm">异构数据整合与知识图谱构建</p>
+                        </div>
+                        
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-blue-400 rounded-full mx-auto mb-4 flex items-center justify-center">
+                                <i class="fas fa-cog text-white text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold mb-2">平台集成</h4>
+                            <p class="text-gray-300 text-sm">操作系统级深度嵌入能力</p>
+                        </div>
+                        
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-green-400 rounded-full mx-auto mb-4 flex items-center justify-center">
+                                <i class="fas fa-shield-alt text-white text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold mb-2">政府关系</h4>
+                            <p class="text-gray-300 text-sm">国家安全领域深厚信任基础</p>
+                        </div>
+                        
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-purple-400 rounded-full mx-auto mb-4 flex items-center justify-center">
+                                <i class="fas fa-brain text-white text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold mb-2">AI布局</h4>
+                            <p class="text-gray-300 text-sm">AIP平台企业级AI应用领先</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 p-6 bg-white/10 rounded-lg">
+                        <p class="text-gray-200 leading-relaxed">
+                            <strong>核心竞争优势：</strong>Palantir的护城河不仅在于技术，更在于其在高价值场景中的不可替代性。在需要处理复杂异构数据、涉及国家安全和关键决策的场景中，Palantir的平台展现出独特价值，形成了较高的客户转换成本。
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- Controversies -->
+            <section id="controversies" class="space-y-12">
+                <div class="text-center mb-16">
+                    <h2 class="font-canela text-4xl font-bold text-gray-900 mb-4">争议与风险因素</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        数据隐私争议、地缘政治风险和客户集中度构成主要挑战
+                    </p>
+                </div>
+
+                <!-- Privacy Controversies -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="space-y-6">
+                        <h3 class="font-canela text-2xl font-bold text-gray-900">数据隐私与伦理争议</h3>
+                        <div class="bg-red-50 border-l-4 border-red-400 p-6">
+                            <h4 class="font-semibold text-red-800 mb-3">主要争议案例</h4>
+                            <div class="space-y-3 text-sm">
+                                <div>
+                                    <h5 class="font-semibold text-red-700">ICE合作争议</h5>
+                                    <p class="text-red-600">技术被用于支持美国移民和海关执法局行动，引发大规模监控担忧</p>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold text-red-700">疫情追踪争议</h5>
+                                    <p class="text-red-600">与英国政府合作追踪密切接触者，涉及个人隐私数据收集</p>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold text-red-700">维基解密事件</h5>
+                                    <p class="text-red-600">2010年泄露文档显示可能参与打击维基解密计划</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-orange-50 border-l-4 border-orange-400 p-6">
+                            <h4 class="font-semibold text-orange-800 mb-3">AI军事应用伦理担忧</h4>
+                            <p class="text-orange-700 text-sm mb-3">
+                                AIP平台用于军事任务指挥系统，通过AI预测敌方行动，引发自主武器系统伦理争议
+                            </p>
+                            <div class="space-y-2 text-xs text-orange-600">
+                                <div class="flex items-start space-x-2">
+                                    <i class="fas fa-exclamation-triangle mt-1"></i>
+                                    <span>算法偏见可能导致误判</span>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <i class="fas fa-exclamation-triangle mt-1"></i>
+                                    <span>责任归属不清晰</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <h3 class="font-canela text-2xl font-bold text-gray-900">地缘政治与合规风险</h3>
+                        <div class="bg-blue-50 border-l-4 border-blue-400 p-6">
+                            <h4 class="font-semibold text-blue-800 mb-3">市场选择限制</h4>
+                            <p class="text-blue-700 text-sm mb-3">
+                                明确表示不为俄罗斯或其他潜在对手提供服务，限制全球市场拓展
+                            </p>
+                            <div class="space-y-2 text-xs text-blue-600">
+                                <div class="flex items-start space-x-2">
+                                    <i class="fas fa-globe mt-1"></i>
+                                    <span>依赖美欧市场，新兴市场渗透受限</span>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <i class="fas fa-shield-alt mt-1"></i>
+                                    <span>可能成为地缘政治紧张局势目标</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-purple-50 border-l-4 border-purple-400 p-6">
+                            <h4 class="font-semibold text-purple-800 mb-3">数据合规挑战</h4>
+                            <div class="space-y-3 text-sm text-purple-700">
+                                <div class="flex justify-between">
+                                    <span>GDPR合规</span>
+                                    <span class="font-semibold">高风险</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>数据本地化要求</span>
+                                    <span class="font-semibold">高成本</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>跨境数据传输</span>
+                                    <span class="font-semibold">复杂监管</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-100 border-l-4 border-gray-400 p-6">
+                            <h4 class="font-semibold text-gray-800 mb-3">德国违宪案例</h4>
+                            <p class="text-gray-700 text-sm">
+                                德国联邦宪法法院裁定黑森州警方使用Palantir监控软件违宪，凸显海外合规风险
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Risk Factors -->
+                <div class="bg-gradient-to-r from-red-50 to-orange-50 rounded-xl p-8 mt-12">
+                    <h3 class="font-canela text-2xl font-bold text-gray-900 mb-6">关键风险因素评估</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-white rounded-lg p-6">
+                            <div class="text-center mb-4">
+                                <div class="w-12 h-12 bg-red-500 rounded-full mx-auto mb-2 flex items-center justify-center">
+                                    <i class="fas fa-users text-white"></i>
+                                </div>
+                                <h4 class="font-semibold text-gray-900">客户集中度</h4>
+                                <div class="text-red-500 font-bold text-lg">高风险</div>
+                            </div>
+                            <div class="space-y-2 text-sm text-gray-600">
+                                <div class="flex justify-between">
+                                    <span>前20大客户收入占比</span>
+                                    <span class="font-semibold">41%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>政府业务占比</span>
+                                    <span class="font-semibold">55%</span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-2">
+                                    单个客户流失可能对业绩产生显著影响
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg p-6">
+                            <div class="text-center mb-4">
+                                <div class="w-12 h-12 bg-orange-500 rounded-full mx-auto mb-2 flex items-center justify-center">
+                                    <i class="fas fa-chart-line text-white"></i>
+                                </div>
+                                <h4 class="font-semibold text-gray-900">估值泡沫</h4>
+                                <div class="text-orange-500 font-bold text-lg">高风险</div>
+                            </div>
+                            <div class="space-y-2 text-sm text-gray-600">
+                                <div class="flex justify-between">
+                                    <span>市销率(P/S)</span>
+                                    <span class="font-semibold">112倍</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>动态市盈率</span>
+                                    <span class="font-semibold">634倍</span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-2">
+                                    远高于行业平均，存在回调压力
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg p-6">
+                            <div class="text-center mb-4">
+                                <div class="w-12 h-12 bg-yellow-500 rounded-full mx-auto mb-2 flex items-center justify-center">
+                                    <i class="fas fa-cogs text-white"></i>
+                                </div>
+                                <h4 class="font-semibold text-gray-900">技术依赖</h4>
+                                <div class="text-yellow-500 font-bold text-lg">中风险</div>
+                            </div>
+                            <div class="space-y-2 text-sm text-gray-600">
+                                <div class="flex justify-between">
+                                    <span>研发投入需求</span>
+                                    <span class="font-semibold">持续高</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>技术迭代压力</span>
+                                    <span class="font-semibold">快速变化</span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-2">
+                                    需持续创新保持技术领先
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg p-6">
+                            <div class="text-center mb-4">
+                                <div class="w-12 h-12 bg-blue-500 rounded-full mx-auto mb-2 flex items-center justify-center">
+                                    <i class="fas fa-globe text-white"></i>
+                                </div>
+                                <h4 class="font-semibold text-gray-900">市场竞争</h4>
+                                <div class="text-blue-500 font-bold text-lg">中风险</div>
+                            </div>
+                            <div class="space-y-2 text-sm text-gray-600">
+                                <div class="flex justify-between">
+                                    <span>云原生竞争</span>
+                                    <span class="font-semibold">激烈</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>获客成本</span>
+                                    <span class="font-semibold">上升</span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-2">
+                                    面临多维度竞争压力
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Internal Dissent -->
+                <div class="mt-12">
+                    <h3 class="font-canela text-2xl font-bold text-gray-900 mb-6">内部争议与员工反应</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-6">
+                            <h4 class="font-semibold text-gray-900 mb-4">员工抗议活动</h4>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex items-start space-x-3">
+                                    <i class="fas fa-users text-red-500 mt-1"></i>
+                                    <div>
+                                        <p class="text-gray-700 font-semibold">13名前员工公开信</p>
+                                        <p class="text-gray-600">敦促公司停止与特朗普政府合作，担心技术被滥用</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <i class="fas fa-comment text-orange-500 mt-1"></i>
+                                    <div>
+                                        <p class="text-gray-700 font-semibold">内部讨论限制</p>
+                                        <p class="text-gray-600">部分员工对公司某些合作项目表示担忧</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-6">
+                            <h4 class="font-semibold text-gray-900 mb-4">公司回应策略</h4>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex items-start space-x-3">
+                                    <i class="fas fa-shield-alt text-green-500 mt-1"></i>
+                                    <div>
+                                        <p class="text-gray-700 font-semibold">价值观声明</p>
+                                        <p class="text-gray-600">强调&#34;保卫自由&#34;使命，严格挑选客户</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <i class="fas fa-handshake text-blue-500 mt-1"></i>
+                                    <div>
+                                        <p class="text-gray-700 font-semibold">合作标准</p>
+                                        <p class="text-gray-600">不为俄罗斯等潜在对手提供服务</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- Future Outlook -->
+            <section id="future-outlook" class="space-y-12">
+                <div class="text-center mb-16">
+                    <h2 class="font-canela text-4xl font-bold text-gray-900 mb-4">公司立场与未来展望</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        定位&#34;西方世界防御者&#34;，AI战略驱动未来增长，机遇与挑战并存
+                    </p>
+                </div>
+
+                <!-- Company Positioning -->
+                <div class="bg-gradient-to-r from-blue-900 to-purple-900 rounded-xl p-8 text-white">
+                    <h3 class="font-canela text-2xl font-bold mb-6">公司立场与价值观</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="space-y-6">
+                            <div class="bg-white/10 rounded-lg p-6">
+                                <h4 class="font-semibold mb-3">使命宣言</h4>
+                                <div class="pull-quote border-l-4 border-yellow-400 bg-white/5 text-white">
+                                    &#34;我们是为那些保卫自由的人而存在的。Palantir是西方世界的防御者。&#34;
+                                    <cite class="block text-sm text-gray-300 mt-2">— Alex Karp, CEO</cite>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white/10 rounded-lg p-6">
+                                <h4 class="font-semibold mb-3">AI与数据安全立场</h4>
+                                <ul class="space-y-2 text-sm text-gray-200">
+                                    <li class="flex items-start space-x-2">
+                                        <i class="fas fa-check text-yellow-400 mt-1"></i>
+                                        <span>仅与西方盟国实体合作</span>
+                                    </li>
+                                    <li class="flex items-start space-x-2">
+                                        <i class="fas fa-check text-yellow-400 mt-1"></i>
+                                        <span>平台设计以安全为核心</span>
+                                    </li>
+                                    <li class="flex items-start space-x-2">
+                                        <i class="fas fa-check text-yellow-400 mt-1"></i>
+                                        <span>强调隐私与公民权利保护</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <div class="bg-white/10 rounded-lg p-6">
+                                <h4 class="font-semibold mb-3">文化特征</h4>
+                                <div class="space-y-3 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-300">企业文化</span>
+                                        <span class="font-semibold">使命至上、近乎军事化</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-300">员工要求</span>
+                                        <span class="font-semibold">高强度奉献精神</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-300">自我定位</span>
+                                        <span class="font-semibold">&#34;科技界的海军陆战队&#34;</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white/10 rounded-lg p-6">
+                                <h4 class="font-semibold mb-3">AI军备竞赛观点</h4>
+                                <p class="text-gray-200 text-sm leading-relaxed">
+                                    卡普认为AI军备竞赛最终赢家只能是两大国之一，美国因企业积极拥抱新技术而占据优势，欧洲盟友已落后需效仿美国做法。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Future Strategy -->
+                <div class="mt-12">
+                    <h3 class="font-canela text-2xl font-bold text-gray-900 mb-6">未来发展战略</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="bg-white border border-gray-200 rounded-xl p-6">
+                            <div class="text-center mb-4">
+                                <div class="w-16 h-16 bg-blue-500 rounded-full mx-auto mb-3 flex items-center justify-center">
+                                    <i class="fas fa-robot text-white text-xl"></i>
+                                </div>
+                                <h4 class="font-semibold text-gray-900">AIP平台聚焦</h4>
+                            </div>
+                            <div class="space-y-3 text-sm text-gray-700">
+                                <div class="flex items-start space-x-2">
+                                    <i class="fas fa-arrow-right text-blue-500 mt-1"></i>
+                                    <span>降低AI使用门槛，增强通用性</span>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <i class="fas fa-arrow-right text-blue-500 mt-1"></i>
+                                    <span>通过Bootcamp策略加速客户转化</span>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <i class="fas fa-arrow-right text-blue-500 mt-1"></i>
+                                    <span>弥补产品定制化过重问题</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white border border-gray-200 rounded-xl p-6">
+                            <div class="text-center mb-4">
+                                <div class="w-16 h-16 bg-green-500 rounded-full mx-auto mb-3 flex items-center justify-center">
+                                    <i class="fas fa-shield-alt text-white text-xl"></i>
+                                </div>
+                                <h4 class="font-semibold text-gray-900">政府业务深化</h4>
+                            </div>
+                            <div class="space-y-3 text-sm text-gray-700">
+                                <div class="flex items-start space-x-2">
+                                    <i class="fas fa-arrow-right text-green-500 mt-1"></i>
+                                    <span>深化与国防部、北约合作</span>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <i class="fas fa-arrow-right text-green-500 mt-1"></i>
+                                    <span>布局太空安全、AI核能基础设施</span>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <i class="fas fa-arrow-right text-green-500 mt-1"></i>
+                                    <span>通过游说巩固政府合同优势</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white border border-gray-200 rounded-xl p-6">
+                            <div class="text-center mb-4">
+                                <div class="w-16 h-16 bg-purple-500 rounded-full mx-auto mb-3 flex items-center justify-center">
+                                    <i class="fas fa-globe text-white text-xl"></i>
+                                </div>
+                                <h4 class="font-semibold text-gray-900">商业市场拓展</h4>
+                            </div>
+                            <div class="space-y-3 text-sm text-gray-700">
+                                <div class="flex items-start space-x-2">
+                                    <i class="fas fa-arrow-right text-purple-500 mt-1"></i>
+                                    <span>金融、医疗、能源、制造业扩张</span>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <i class="fas fa-arrow-right text-purple-500 mt-1"></i>
+                                    <span>欧洲和亚太市场开拓</span>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <i class="fas fa-arrow-right text-purple-500 mt-1"></i>
+                                    <span>应对激烈竞争和获客成本上升</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Industry Trends -->
+                <div class="bg-gray-50 rounded-xl p-8 mt-12">
+                    <h3 class="font-canela text-2xl font-bold text-gray-900 mb-6">行业趋势与机遇</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="space-y-6">
+                            <div class="bg-white rounded-lg p-6">
+                                <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
+                                    <i class="fas fa-chart-line text-blue-500 mr-2"></i>
+                                    数据爆炸增长
+                                </h4>
+                                <p class="text-gray-700 text-sm leading-relaxed">
+                                    企业和政府机构拥有海量数据，但对有效整合分析和利用的需求迫切，为Palantir提供广阔市场空间。
+                                </p>
+                            </div>
+                            
+                            <div class="bg-white rounded-lg p-6">
+                                <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
+                                    <i class="fas fa-brain text-green-500 mr-2"></i>
+                                    AI技术革命
+                                </h4>
+                                <p class="text-gray-700 text-sm leading-relaxed mb-3">
+                                    生成式AI和大型语言模型快速发展，AI平台市场年增长率预计达41%。
+                                </p>
+                                <div class="bg-green-50 rounded p-3">
+                                    <p class="text-green-700 text-xs">
+                                        AIP平台在军事应用展示中，操作员可使用ChatGPT式界面命令无人机侦察、生成攻击计划
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <div class="bg-white rounded-lg p-6">
+                                <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
+                                    <i class="fas fa-shield-alt text-red-500 mr-2"></i>
+                                    地缘政治紧张
+                                </h4>
+                                <p class="text-gray-700 text-sm leading-relaxed">
+                                    地缘政治紧张局势加剧，各国对技术优势的追求，为Palantir这类提供尖端技术的公司创造持续需求。
+                                </p>
+                            </div>
+                            
+                            <div class="bg-white rounded-lg p-6">
+                                <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
+                                    <i class="fas fa-database text-purple-500 mr-2"></i>
+                                    数据主权重视
+                                </h4>
+                                <p class="text-gray-700 text-sm leading-relaxed mb-3">
+                                    全球对数据主权和隐私保护的重视，各国数据法规不断出台，对全球业务拓展构成挑战。
+                                </p>
+                                <div class="bg-purple-50 rounded p-3">
+                                    <p class="text-purple-700 text-xs">
+                                        需要持续投入资源确保全球业务合规性
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Investment Summary -->
+                <div class="mt-12">
+                    <h3 class="font-canela text-2xl font-bold text-gray-900 mb-6">投资价值总结</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="space-y-6">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                                <h4 class="font-semibold text-green-800 mb-3">投资亮点</h4>
+                                <ul class="space-y-2 text-sm text-green-700">
+                                    <li class="flex items-start space-x-2">
+                                        <i class="fas fa-check text-green-500 mt-1"></i>
+                                        <span>AI平台AIP需求爆发式增长</span>
+                                    </li>
+                                    <li class="flex items-start space-x-2">
+                                        <i class="fas fa-check text-green-500 mt-1"></i>
+                                        <span>政府业务提供稳定收入基础</span>
+                                    </li>
+                                    <li class="flex items-start space-x-2">
+                                        <i class="fas fa-check text-green-500 mt-1"></i>
+                                        <span>技术护城河深厚，难以复制</span>
+                                    </li>
+                                    <li class="flex items-start space-x-2">
+                                        <i class="fas fa-check text-green-500 mt-1"></i>
+                                        <span>盈利能力显著改善，运营效率提升</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                                <h4 class="font-semibold text-blue-800 mb-3">长期增长驱动力</h4>
+                                <div class="space-y-3 text-sm text-blue-700">
+                                    <div class="flex justify-between">
+                                        <span>AI市场增长</span>
+                                        <span class="font-semibold">41%年复合增长率</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>数字化转型需求</span>
+                                        <span class="font-semibold">持续增长</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>国防AI应用</span>
+                                        <span class="font-semibold">战略优先级提升</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <div class="bg-red-50 border border-red-200 rounded-lg p-6">
+                                <h4 class="font-semibold text-red-800 mb-3">主要风险</h4>
+                                <ul class="space-y-2 text-sm text-red-700">
+                                    <li class="flex items-start space-x-2">
+                                        <i class="fas fa-exclamation-triangle text-red-500 mt-1"></i>
+                                        <span>估值过高，市盈率634倍</span>
+                                    </li>
+                                    <li class="flex items-start space-x-2">
+                                        <i class="fas fa-exclamation-triangle text-red-500 mt-1"></i>
+                                        <span>客户集中度高，前20大客户占比41%</span>
+                                    </li>
+                                    <li class="flex items-start space-x-2">
+                                        <i class="fas fa-exclamation-triangle text-red-500 mt-1"></i>
+                                        <span>地缘政治风险影响全球业务</span>
+                                    </li>
+                                    <li class="flex items-start space-x-2">
+                                        <i class="fas fa-exclamation-triangle text-red-500 mt-1"></i>
+                                        <span>技术竞争激烈，需持续创新投入</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+                                <h4 class="font-semibold text-yellow-800 mb-3">投资建议</h4>
+                                <div class="space-y-3 text-sm text-yellow-700">
+                                    <div class="flex items-start space-x-2">
+                                        <i class="fas fa-lightbulb text-yellow-500 mt-1"></i>
+                                        <span>长期看好AI战略价值，但短期估值泡沫明显</span>
+                                    </div>
+                                    <div class="flex items-start space-x-2">
+                                        <i class="fas fa-lightbulb text-yellow-500 mt-1"></i>
+                                        <span>建议持仓者适度减持，观望者等待回调机会</span>
+                                    </div>
+                                    <div class="flex items-start space-x-2">
+                                        <i class="fas fa-lightbulb text-yellow-500 mt-1"></i>
+                                        <span>关注Q2业绩指引和AIP商业化进展</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="mt-20 pt-12 border-t border-gray-200">
+                <div class="text-center text-gray-600">
+                    <p class="text-sm">
+                        本报告基于公开资料分析，仅供参考，不构成投资建议。投资有风险，决策需谨慎。
+                    </p>
+                    <p class="text-xs mt-2">数据来源：公司财报、公开报道、行业研究</p>
+                </div>
+            </footer>
+        </div>
+    </main>
+
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                // 主要颜色 - 确保高对比度
+                primaryColor: '#d4af37',
+                primaryTextColor: '#ffffff',
+                primaryBorderColor: '#1a1a1a',
+                
+                // 次要颜色
+                secondaryColor: '#f4f2e8',
+                secondaryTextColor: '#1a1a1a',
+                secondaryBorderColor: '#4a4a4a',
+                
+                // 第三级颜色
+                tertiaryColor: '#e5e5e5',
+                tertiaryTextColor: '#1a1a1a',
+                tertiaryBorderColor: '#4a4a4a',
+                
+                // 背景和线条
+                background: '#ffffff',
+                mainBkg: '#ffffff',
+                secondBkg: '#fafafa',
+                tertiaryBkg: '#f4f2e8',
+                
+                // 线条和边框
+                lineColor: '#4a4a4a',
+                edgeLabelBackground: '#ffffff',
+                
+                // 节点特定颜色 - 确保对比度
+                cScale0: '#d4af37',
+                cScale1: '#4a4a4a', 
+                cScale2: '#e5e5e5',
+                cScale3: '#fafafa',
+                cScale4: '#f4f2e8',
+                
+                // 文本颜色 - 根据背景调整
+                nodeTextColor: '#1a1a1a',
+                textColor: '#1a1a1a',
+                
+                // 确保不同节点类型有足够对比度
+                fillType0: '#d4af37',
+                fillType1: '#4a4a4a',
+                fillType2: '#e5e5e5',
+                fillType3: '#fafafa',
+                
+                // 多色节点支持
+                pie1: '#d4af37',
+                pie2: '#4a4a4a',
+                pie3: '#e5e5e5',
+                pie4: '#fafafa',
+                pie5: '#f4f2e8',
+                pie6: '#1a1a1a',
+                pie7: '#4a4a4a',
+                pie8: '#d4af37',
+                pie9: '#e5e5e5',
+                pie10: '#fafafa',
+                pie11: '#f4f2e8',
+                pie12: '#1a1a1a'
+            },
+            flowchart: {
+                useMaxWidth: false,
+                htmlLabels: true,
+                curve: 'basis',
+                padding: 20
+            },
+            fontSize: 14,
+            fontFamily: 'Inter, sans-serif'
+        });
+
+        // Mermaid diagram interaction functions
+        function zoomMermaid(button, factor) {
+            const container = button.closest('.mermaid-container');
+            const mermaidDiv = container.querySelector('.mermaid');
+            const svg = mermaidDiv.querySelector('svg');
+            
+            if (svg) {
+                let currentZoom = parseFloat(mermaidDiv.dataset.zoom) || 1;
+                currentZoom *= factor;
+                
+                // Limit zoom range
+                currentZoom = Math.max(0.5, Math.min(3, currentZoom));
+                
+                mermaidDiv.dataset.zoom = currentZoom;
+                svg.style.transform = `scale(${currentZoom}) translate(${mermaidDiv.dataset.panX || 0}px, ${mermaidDiv.dataset.panY || 0}px)`;
+            }
+        }
+
+        function resetMermaidZoom(button) {
+            const container = button.closest('.mermaid-container');
+            const mermaidDiv = container.querySelector('.mermaid');
+            const svg = mermaidDiv.querySelector('svg');
+            
+            if (svg) {
+                mermaidDiv.dataset.zoom = 1;
+                mermaidDiv.dataset.panX = 0;
+                mermaidDiv.dataset.panY = 0;
+                svg.style.transform = 'scale(1) translate(0px, 0px)';
+            }
+        }
+
+        function toggleMermaidFullscreen(button) {
+            const container = button.closest('.mermaid-container');
+            const mermaidDiv = container.querySelector('.mermaid');
+            
+            if (mermaidDiv.classList.contains('mermaid-fullscreen')) {
+                // Exit fullscreen
+                mermaidDiv.classList.remove('mermaid-fullscreen');
+                document.body.style.overflow = '';
+                button.textContent = '全屏';
+            } else {
+                // Enter fullscreen
+                mermaidDiv.classList.add('mermaid-fullscreen');
+                document.body.style.overflow = 'hidden';
+                button.textContent = '退出全屏';
+            }
+        }
+
+        // Add drag functionality to mermaid diagrams
+        document.addEventListener('DOMContentLoaded', function() {
+            const mermaidDivs = document.querySelectorAll('.mermaid');
+            
+            mermaidDivs.forEach(mermaidDiv => {
+                let isDragging = false;
+                let startX, startY, initialPanX, initialPanY;
+                
+                // Initialize default values
+                mermaidDiv.dataset.zoom = '1';
+                mermaidDiv.dataset.panX = '0';
+                mermaidDiv.dataset.panY = '0';
+                
+                mermaidDiv.addEventListener('mousedown', function(e) {
+                    const svg = this.querySelector('svg');
+                    if (svg && e.target.closest('svg')) {
+                        isDragging = true;
+                        startX = e.clientX;
+                        startY = e.clientY;
+                        initialPanX = parseFloat(this.dataset.panX) || 0;
+                        initialPanY = parseFloat(this.dataset.panY) || 0;
+                        e.preventDefault();
+                    }
+                });
+                
+                document.addEventListener('mousemove', function(e) {
+                    if (isDragging) {
+                        const deltaX = e.clientX - startX;
+                        const deltaY = e.clientY - startY;
+                        const newPanX = initialPanX + deltaX;
+                        const newPanY = initialPanY + deltaY;
+                        
+                        mermaidDiv.dataset.panX = newPanX;
+                        mermaidDiv.dataset.panY = newPanY;
+                        
+                        const svg = mermaidDiv.querySelector('svg');
+                        const zoom = parseFloat(mermaidDiv.dataset.zoom) || 1;
+                        svg.style.transform = `scale(${zoom}) translate(${newPanX}px, ${newPanY}px)`;
+                    }
+                });
+                
+                document.addEventListener('mouseup', function() {
+                    isDragging = false;
+                });
+                
+                // Mouse wheel zoom
+                mermaidDiv.addEventListener('wheel', function(e) {
+                    e.preventDefault();
+                    const svg = this.querySelector('svg');
+                    if (svg) {
+                        const factor = e.deltaY > 0 ? 0.9 : 1.1;
+                        let currentZoom = parseFloat(this.dataset.zoom) || 1;
+                        currentZoom *= factor;
+                        currentZoom = Math.max(0.5, Math.min(3, currentZoom));
+                        
+                        this.dataset.zoom = currentZoom;
+                        const panX = parseFloat(this.dataset.panX) || 0;
+                        const panY = parseFloat(this.dataset.panY) || 0;
+                        svg.style.transform = `scale(${currentZoom}) translate(${panX}px, ${panY}px)`;
+                    }
+                });
+            });
+        });
+
+        // Table of Contents functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tocLinks = document.querySelectorAll('.toc-link');
+            const sections = document.querySelectorAll('section[id]');
+
+            // Smooth scrolling for TOC links
+            tocLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Update active TOC link on scroll
+            function updateActiveTocLink() {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (window.scrollY >= sectionTop - 200) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                tocLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            // Update active link on scroll
+            window.addEventListener('scroll', updateActiveTocLink);
+            updateActiveTocLink(); // Initial call
+        });
+
+        // Citation click handlers
+        document.querySelectorAll('.citation').forEach(citation => {
+            citation.addEventListener('click', function(e) {
+                e.preventDefault();
+                // In a real implementation, this would link to actual sources
+                alert('Citation: This would link to the actual source material.');
+            });
+        });
+
+        // Mobile TOC toggle
+        document.querySelector('#toc-toggle').addEventListener('click', function() {
+            const sidebar = document.querySelector('.toc-sidebar');
+            sidebar.classList.toggle('open');
+        });
+    </script>
+
+</body></html>
