@@ -45,6 +45,16 @@
     "category": "gemini"
   },
   {
+    "filename": "gemini9.1_爱的建筑学：交互式探索报告.html",
+    "title": "爱的建筑学：交互式探索报告",
+    "category": "gemini"
+  },
+  {
+    "filename": "gemini9.2_依恋的架构：交互式探索.html",
+    "title": "依恋的架构：交互式探索",
+    "category": "gemini"
+  },
+  {
     "filename": "kimi1_开源大模型深度调研与分析报告.html",
     "title": "开源大模型深度调研与分析报告",
     "category": "kimi"
@@ -82,6 +92,11 @@
   {
     "filename": "kimi8_Palantir Technologies 深度研究报告.html",
     "title": "Palantir Technologies 深度研究报告",
+    "category": "kimi"
+  },
+  {
+    "filename": "kimi9_爱情的科学：从生物学机制到婚姻策略.html",
+    "title": "爱情的科学：从生物学机制到婚姻策略",
     "category": "kimi"
   }
 ]
