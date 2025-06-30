@@ -1,5 +1,10 @@
 [
   {
+    "filename": "gemini10_互动报告：财产与意识的起源.html",
+    "title": "互动报告：财产与意识的起源",
+    "category": "gemini"
+  },
+  {
     "filename": "gemini1_RWKV模型：重塑RNN，挑战Transformer.html",
     "title": "RWKV模型：重塑RNN，挑战Transformer",
     "category": "gemini"
@@ -53,6 +58,11 @@
     "filename": "gemini9.2_依恋的架构：交互式探索.html",
     "title": "依恋的架构：交互式探索",
     "category": "gemini"
+  },
+  {
+    "filename": "kimi10_私有制的起源与阶级意识的启蒙.html",
+    "title": "私有制的起源与阶级意识的启蒙",
+    "category": "kimi"
   },
   {
     "filename": "kimi1_开源大模型深度调研与分析报告.html",
