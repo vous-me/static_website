@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大模型深度研究报告动态目录</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .card {
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .section-title {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen py-12 px-4">
+        <div class="max-w-6xl mx-auto">
+            <!-- 页面标题 -->
+            <div class="text-center mb-16">
+                <h1 class="text-5xl font-bold text-white mb-4">大模型深度研究报告动态目录</h1>
+                <p class="text-xl text-white/80">深度调研与分析报告集合</p>
+            </div>
+
+            <!-- Kimi 系列报告 -->
+            <div class="mb-16">
+                <h2 class="text-3xl font-bold section-title mb-8 text-center">Kimi 系列报告</h2>
+                <div id="kimi-container" class="grid md:grid-cols-2 gap-8">
+                    <!-- 动态生成的Kimi系列报告卡片将在这里显示 -->
+                </div>
+            </div>
+
+            <!-- Gemini 系列报告 -->
+            <div class="mb-16">
+                <h2 class="text-3xl font-bold section-title mb-8 text-center">Gemini 系列报告</h2>
+                <div id="gemini-container" class="grid md:grid-cols-2 gap-8">
+                    <!-- 动态生成的Gemini系列报告卡片将在这里显示 -->
+                </div>
+            </div>
+
+            <!-- 加载状态 -->
+            <div id="loading-indicator" class="text-center mb-16">
+                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+                    <p class="text-white/80">正在检测目录中的报告文件...</p>
+                </div>
+            </div>
+
+            <!-- 底部信息 -->
+            <div id="info-section" class="text-center" style="display: none;">
+                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
+                    <h3 class="text-2xl font-bold text-white mb-4">关于这些报告</h3>
+                    <p class="text-white/80 leading-relaxed max-w-3xl mx-auto mb-4">
+                        这些报告深入分析了当前大模型领域的最新发展趋势，包括开源生态系统、技术架构创新、商业模式演进等关键议题。
+                        每份报告都采用了交互式设计，提供丰富的可视化内容和深度分析，帮助读者全面理解大模型技术的发展现状和未来方向。
+                    </p>
+                    <div id="file-stats" class="text-sm text-white/60">
+                        <!-- 动态显示检测到的文件统计信息 -->
+                    </div>
+                    <p class="text-white/80 leading-relaxed max-w-3xl mx-auto mb-4">
+                        这些报告的版权归原作者所有，仅供学习交流使用，不得用于商业用途。
+                        商务联系+邮箱：tian7uio@qq.com
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 动态加载 manifest.json 并生成目录
+        async function loadManifest() {
+            const response = await fetch('manifest.json');
+            if (!response.ok) {
+                document.body.innerHTML = '<div class="text-center text-white text-2xl mt-32">manifest.json 加载失败，请先运行 Node 脚本生成。</div>';
+                return;
+            }
+            const manifest = await response.json();
+            return manifest;
+        }
+
+        // 分类颜色映射
+        const categoryGradients = {
+            kimi: 'from-blue-500 to-purple-600',
+            gemini: 'from-orange-500 to-red-600',
+            gemin: 'from-pink-500 to-rose-600',
+            other: 'from-gray-400 to-gray-600'
+        };
+
+        // 生成卡片HTML
+        function generateCard(item, index, prefix) {
+            const shortPrefix = prefix.toUpperCase().charAt(0);
+            const number = index + 1;
+            const gradient = categoryGradients[prefix] || categoryGradients.other;
+            return `
+                <div class="card bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-r ${gradient} rounded-lg flex items-center justify-center mr-4">
+                            <span class="text-white font-bold text-xl">${shortPrefix}${number}</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white">${item.title || item.filename}</h3>
+                    </div>
+                    <p class="text-white/80 mb-6 leading-relaxed">${item.description || ''}</p>
+                    <a href="${item.filename}" class="inline-flex items-center px-6 py-3 bg-gradient-to-r ${gradient} text-white font-medium rounded-lg hover:shadow-lg transition-all duration-300 hover:scale-105">
+                        查看报告
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+            `;
+        }
+
+        async function generateDynamicIndex() {
+            const loadingIndicator = document.querySelector('#loading-indicator');
+            const infoSection = document.querySelector('#info-section');
+            const fileStats = document.querySelector('#file-stats');
+            const kimiContainer = document.querySelector('#kimi-container');
+            const geminiContainer = document.querySelector('#gemini-container');
+
+            const manifest = await loadManifest();
+            if (!manifest) return;
+
+            // 按分类分组
+            const categories = {};
+            for (const item of manifest) {
+                const cat = item.category || 'other';
+                if (!categories[cat]) categories[cat] = [];
+                categories[cat].push(item);
+            }
+
+            // Kimi 系列
+            if (categories.kimi && categories.kimi.length > 0) {
+                kimiContainer.innerHTML = categories.kimi.map((item, idx) => generateCard(item, idx, 'kimi')).join('');
+                kimiContainer.parentElement.style.display = 'block';
+            } else {
+                kimiContainer.parentElement.style.display = 'none';
+            }
+
+            // Gemini 系列
+            if (categories.gemini && categories.gemini.length > 0) {
+                geminiContainer.innerHTML = categories.gemini.map((item, idx) => generateCard(item, idx, 'gemini')).join('');
+                geminiContainer.parentElement.style.display = 'block';
+            } else {
+                geminiContainer.parentElement.style.display = 'none';
+            }
+
+            // 其他系列（如 gemin、other）
+            let otherHtml = '';
+            for (const cat of Object.keys(categories)) {
+                if (cat !== 'kimi' && cat !== 'gemini') {
+                    otherHtml += `<h2 class="text-3xl font-bold section-title mb-8 text-center">${cat.charAt(0).toUpperCase() + cat.slice(1)} 系列报告</h2>`;
+                    otherHtml += `<div class="grid md:grid-cols-2 gap-8 mb-16">`;
+                    otherHtml += categories[cat].map((item, idx) => generateCard(item, idx, cat)).join('');
+                    otherHtml += `</div>`;
+                }
+            }
+            if (otherHtml) {
+                // 插入到 Gemini 系列后面
+                geminiContainer.parentElement.insertAdjacentHTML('afterend', otherHtml);
+            }
+
+            // 更新文件统计信息
+            if (fileStats) {
+                const totalFiles = manifest.length;
+                const kimiCount = categories.kimi ? categories.kimi.length : 0;
+                const geminiCount = categories.gemini ? categories.gemini.length : 0;
+                let otherCount = totalFiles - kimiCount - geminiCount;
+                fileStats.textContent = `检测到 ${totalFiles} 个报告文件 | Kimi系列: ${kimiCount} 个 | Gemini系列: ${geminiCount} 个${otherCount > 0 ? ` | 其他: ${otherCount} 个` : ''}`;
+            }
+
+            // 隐藏加载指示器，显示内容
+            if (loadingIndicator) loadingIndicator.style.display = 'none';
+            if (infoSection) infoSection.style.display = 'block';
+
+            // 页面加载动画
+            setTimeout(() => {
+                const cards = document.querySelectorAll('.card');
+                cards.forEach((card, index) => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(30px)';
+                    setTimeout(() => {
+                        card.style.transition = 'all 0.6s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 200);
+                });
+            }, 100);
+        }
+
+        document.addEventListener('DOMContentLoaded', generateDynamicIndex);
+    </script>
+</body>
+</html>

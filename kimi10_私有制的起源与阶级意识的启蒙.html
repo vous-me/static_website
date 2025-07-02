@@ -1,0 +1,1755 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>私有制的起源与阶级意识的启蒙</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'serif': ['Playfair Display', 'serif'],
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#1e293b',
+                        secondary: '#475569',
+                        accent: '#dc2626',
+                        muted: '#64748b',
+                        background: '#f8fafc',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hero-overlay {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(71, 85, 105, 0.75) 100%);
+        }
+        .toc-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 280px;
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            z-index: 50;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, #dc2626 0%, transparent 100%);
+            margin: 3rem 0;
+        }
+        .quote-accent {
+            border-left: 4px solid #dc2626;
+            background: linear-gradient(135deg, #fef2f2 0%, #f8fafc 100%);
+        }
+        .citation-link {
+            color: #dc2626;
+            text-decoration: none;
+            font-size: 0.875rem;
+            vertical-align: super;
+            font-weight: 500;
+        }
+        .citation-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Mermaid diagram styling */
+        .mermaid-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px;
+            max-height: 700px;
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mermaid {
+            width: 100%;
+            height: auto;
+            cursor: grab;
+            transition: transform 0.3s ease;
+            transform-origin: center center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .mermaid:active {
+            cursor: grabbing;
+        }
+        
+        .mermaid svg {
+            max-width: 100% !important;
+            max-height: 100% !important;
+            height: auto !important;
+            font-family: 'Inter', sans-serif !important;
+            font-size: 14px !important;
+        }
+        
+        /* Enhanced node styling with better contrast for different colors */
+        .mermaid .node rect,
+        .mermaid .node circle,
+        .mermaid .node ellipse,
+        .mermaid .node polygon {
+            stroke: #1e293b !important;
+            stroke-width: 2px !important;
+        }
+        
+        /* Default node styling */
+        .mermaid .node rect {
+            fill: #f8fafc !important;
+        }
+        
+        /* Timeline sections with distinct colors and proper contrast */
+        .mermaid .section0 {
+            fill: #f1f5f9 !important;
+        }
+        
+        .mermaid .section1 {
+            fill: #e0f2fe !important;
+        }
+        
+        .mermaid .section2 {
+            fill: #fef3c7 !important;
+        }
+        
+        .mermaid .section3 {
+            fill: #fce7f3 !important;
+        }
+        
+        .mermaid .section4 {
+            fill: #ecfdf5 !important;
+        }
+        
+        /* Node label styling with high contrast */
+        .mermaid .nodeLabel {
+            color: #1e293b !important;
+            font-weight: 600 !important;
+            font-size: 13px !important;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+        }
+        
+        .mermaid .edgePath .path {
+            stroke: #475569 !important;
+            stroke-width: 2px !important;
+        }
+        
+        .mermaid .edgeLabel {
+            background-color: #ffffff !important;
+            color: #1e293b !important;
+            font-weight: 600 !important;
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 4px !important;
+            padding: 2px 6px !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        /* Zoom controls */
+        .mermaid-controls {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .mermaid-control-btn {
+            background: #1e293b;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        .mermaid-control-btn:hover {
+            background: #475569;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+        }
+        
+        .mermaid-control-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .mermaid-container {
+                min-height: 400px;
+                padding: 20px;
+                margin: 20px 0;
+            }
+            
+            .mermaid svg {
+                font-size: 12px !important;
+            }
+            
+            .mermaid .nodeLabel {
+                font-size: 11px !important;
+            }
+            
+            .mermaid-controls {
+                top: 10px;
+                right: 10px;
+                padding: 6px;
+            }
+            
+            .mermaid-control-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .mermaid-container {
+                min-height: 350px;
+                padding: 15px;
+            }
+            
+            .mermaid svg {
+                font-size: 10px !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background font-sans text-primary leading-relaxed">
+
+    <!-- Fixed Table of Contents -->
+    <div class="toc-fixed">
+        <h3 class="font-serif text-lg font-semibold text-primary mb-4">目录</h3>
+        <nav class="space-y-2">
+            <a href="#introduction" class="block text-sm text-secondary hover:text-accent transition-colors py-1">引言</a>
+            <a href="#section-1" class="block text-sm text-secondary hover:text-accent transition-colors py-1">1. 私有制的起源与演变</a>
+            <div class="ml-3 space-y-1">
+                <a href="#section-1-1" class="block text-xs text-muted hover:text-accent transition-colors py-1">1.1 原始公有制向私有制转变</a>
+                <a href="#section-1-2" class="block text-xs text-muted hover:text-accent transition-colors py-1">1.2 生产力发展与社会分工</a>
+                <a href="#section-1-3" class="block text-xs text-muted hover:text-accent transition-colors py-1">1.3 不同社会形态下的私有制</a>
+                <a href="#section-1-4" class="block text-xs text-muted hover:text-accent transition-colors py-1">1.4 马克思主义经典论述</a>
+            </div>
+            <a href="#section-2" class="block text-sm text-secondary hover:text-accent transition-colors py-1">2. 阶级意识的形成与发展</a>
+            <div class="ml-3 space-y-1">
+                <a href="#section-2-1" class="block text-xs text-muted hover:text-accent transition-colors py-1">2.1 阶级意识觉醒过程</a>
+                <a href="#section-2-2" class="block text-xs text-muted hover:text-accent transition-colors py-1">2.2 共同阶级利益诉求</a>
+                <a href="#section-2-3" class="block text-xs text-muted hover:text-accent transition-colors py-1">2.3 有组织的反抗斗争</a>
+                <a href="#section-2-4" class="block text-xs text-muted hover:text-accent transition-colors py-1">2.4 马克思主义阶级理论</a>
+            </div>
+            <a href="#section-3" class="block text-sm text-secondary hover:text-accent transition-colors py-1">3. 不同地域与文明中的实践</a>
+            <div class="ml-3 space-y-1">
+                <a href="#section-3-1" class="block text-xs text-muted hover:text-accent transition-colors py-1">3.1 中国历史上的实践</a>
+                <a href="#section-3-2" class="block text-xs text-muted hover:text-accent transition-colors py-1">3.2 欧洲历史上的实践</a>
+                <a href="#section-3-3" class="block text-xs text-muted hover:text-accent transition-colors py-1">3.3 中亚历史上的实践</a>
+                <a href="#section-3-4" class="block text-xs text-muted hover:text-accent transition-colors py-1">3.4 非洲历史上的实践</a>
+            </div>
+            <a href="#section-4" class="block text-sm text-secondary hover:text-accent transition-colors py-1">4. 马克思主义的传播与影响</a>
+            <div class="ml-3 space-y-1">
+                <a href="#section-4-1" class="block text-xs text-muted hover:text-accent transition-colors py-1">4.1 在非洲的传播本土化</a>
+                <a href="#section-4-2" class="block text-xs text-muted hover:text-accent transition-colors py-1">4.2 非洲社会主义关系</a>
+                <a href="#section-4-3" class="block text-xs text-muted hover:text-accent transition-colors py-1">4.3 阶级斗争理论认知</a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Hero Section with Bento Grid -->
+        <section class="relative min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+            <div class="hero-overlay absolute inset-0"></div>
+            <div class="relative z-10 container mx-auto px-8 py-16">
+                <!-- Bento Grid Layout -->
+                <div class="grid grid-cols-12 gap-6 h-screen">
+                    <!-- Main Title Area -->
+                    <div class="col-span-8 flex flex-col justify-center">
+                        <h1 class="font-serif text-6xl font-bold text-white mb-6 leading-tight">
+                            <span class="italic">私有制的起源</span><br/>
+                            <span class="text-4xl font-normal">与阶级意识的启蒙</span>
+                        </h1>
+                        <p class="text-xl text-slate-200 mb-8 max-w-2xl leading-relaxed">
+                            探索人类社会从原始公有制到阶级社会的历史转变，揭示被剥削阶级意识觉醒的复杂过程与马克思主义理论的深刻洞见
+                        </p>
+                        <div class="flex items-center space-x-6">
+                            <div class="flex items-center text-slate-300">
+                                <i class="fas fa-clock mr-2"></i>
+                                <span>深度研究</span>
+                            </div>
+                            <div class="flex items-center text-slate-300">
+                                <i class="fas fa-globe mr-2"></i>
+                                <span>跨文明分析</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visual Elements Grid -->
+                    <div class="col-span-4 grid grid-rows-3 gap-4">
+                        <!-- Top Card -->
+                        <div class="bg-white/90 backdrop-blur-sm rounded-lg p-6 shadow-lg">
+                            <div class="flex items-center mb-3">
+                                <i class="fas fa-hammer text-accent text-xl mr-3"></i>
+                                <h3 class="font-serif font-semibold text-primary">生产力发展</h3>
+                            </div>
+                            <p class="text-sm text-secondary">金属工具出现，农业畜牧业分离，剩余产品产生</p>
+                        </div>
+
+                        <!-- Middle Card -->
+                        <div class="bg-white/90 backdrop-blur-sm rounded-lg p-6 shadow-lg">
+                            <div class="flex items-center mb-3">
+                                <i class="fas fa-users text-accent text-xl mr-3"></i>
+                                <h3 class="font-serif font-semibold text-primary">阶级分化</h3>
+                            </div>
+                            <p class="text-sm text-secondary">从&#34;自在阶级&#34;到&#34;自为阶级&#34;的意识转变过程</p>
+                        </div>
+
+                        <!-- Bottom Card -->
+                        <div class="bg-white/90 backdrop-blur-sm rounded-lg p-6 shadow-lg">
+                            <div class="flex items-center mb-3">
+                                <i class="fas fa-fist-raised text-accent text-xl mr-3"></i>
+                                <h3 class="font-serif font-semibold text-primary">有组织斗争</h3>
+                            </div>
+                            <p class="text-sm text-secondary">从自发反抗到有组织政治行动的历史演进</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Highlights -->
+                <div class="grid grid-cols-4 gap-6 mt-16">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
+                        <h4 class="font-serif text-lg font-semibold text-white mb-2">历史维度</h4>
+                        <p class="text-sm text-slate-200">从原始社会到现代社会的纵向分析</p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
+                        <h4 class="font-serif text-lg font-semibold text-white mb-2">地域广度</h4>
+                        <p class="text-sm text-slate-200">涵盖中国、欧洲、中亚、非洲的横向比较</p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
+                        <h4 class="font-serif text-lg font-semibold text-white mb-2">理论深度</h4>
+                        <p class="text-sm text-slate-200">马克思主义经典理论的系统阐述</p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
+                        <h4 class="font-serif text-lg font-semibold text-white mb-2">现实意义</h4>
+                        <p class="text-sm text-slate-200">为理解现代社会发展提供历史视角</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Introduction -->
+        <section id="introduction" class="py-16 bg-white">
+            <div class="container mx-auto px-8 max-w-4xl">
+                <div class="quote-accent p-8 rounded-lg mb-12">
+                    <p class="text-lg leading-relaxed text-primary font-medium">
+                        &#34;私有制的产生根源于生产力的发展、社会分工的细化以及剩余产品的出现，它导致了原始公有制的瓦解和阶级社会的形成。被剥削阶级的阶级意识并非一蹴而就，而是在长期的压迫和反抗实践中，逐渐从对个体苦难的感知发展到对共同阶级地位、利益和使命的认知，最终从&#39;自在的阶级&#39;转变为&#39;自为的阶级&#39;，并开始进行有组织的反抗和斗争。&#34;
+                    </p>
+                </div>
+
+                <div class="prose prose-lg max-w-none">
+                    <p class="text-lg text-secondary leading-relaxed mb-6">
+                        马克思主义经典作家深刻揭示了私有制的起源、本质及其与阶级意识、阶级斗争的内在联系，认为私有制是阶级产生的经济基础，阶级斗争是阶级社会发展的直接动力，而无产阶级的历史使命是消灭私有制和阶级，实现共产主义。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Section 1: 私有制的起源与演变 -->
+        <section id="section-1" class="py-16 bg-slate-50">
+            <div class="container mx-auto px-8 max-w-6xl">
+                <header class="mb-16">
+                    <h2 class="font-serif text-4xl font-bold text-primary mb-6">私有制的起源与演变</h2>
+                    <p class="text-xl text-secondary max-w-3xl leading-relaxed">
+                        从原始社会的共同劳动、平均分配，到阶级社会的生产资料私有，这一历史性转变的根本动力何在？
+                    </p>
+                </header>
+
+                <!-- Subsection 1.1 -->
+                <div id="section-1-1" class="mb-16">
+                    <h3 class="font-serif text-2xl font-semibold text-primary mb-8">原始公有制向私有制的转变</h3>
+                    
+                    <div class="grid md:grid-cols-2 gap-8 mb-8">
+                        <div class="bg-white rounded-lg p-8 shadow-sm">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">原始公有制特征</h4>
+                            <ul class="space-y-3 text-secondary">
+                                <li class="flex items-start">
+                                    <i class="fas fa-circle text-accent text-xs mt-2 mr-3"></i>
+                                    <span>生产力水平极其低下，共同劳动，平均分配</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-circle text-accent text-xs mt-2 mr-3"></i>
+                                    <span>生产资料和劳动产品归集体所有</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-circle text-accent text-xs mt-2 mr-3"></i>
+                                    <span>没有私有财产，也没有私有观念<a href="https://ccj.pku.edu.cn/Article/DownLoad?id=301277694&amp;&amp;type=ArticleFile" class="citation-link">[15]</a></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-circle text-accent text-xs mt-2 mr-3"></i>
+                                    <span>以血缘关系为基础的氏族公社制度</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white rounded-lg p-8 shadow-sm">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">转变的关键因素</h4>
+                            <ul class="space-y-3 text-secondary">
+                                <li class="flex items-start">
+                                    <i class="fas fa-tools text-accent text-sm mt-1 mr-3"></i>
+                                    <span>金属工具的出现和应用</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-seedling text-accent text-sm mt-1 mr-3"></i>
+                                    <span>农业和畜牧业的分离<a href="http://philosophychina.cssn.cn/zxlp/mkszyzx/ztyj_20346/201609/t20160930_3221797.shtml" class="citation-link">[7]</a></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-user text-accent text-sm mt-1 mr-3"></i>
+                                    <span>个体劳动成为可能</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-coins text-accent text-sm mt-1 mr-3"></i>
+                                    <span>剩余产品开始出现</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="quote-accent p-8 rounded-lg mb-8">
+                        <p class="text-lg leading-relaxed text-primary">
+                            <strong>私有制的产生并非一蹴而就，而是人类社会发展到一定阶段的产物。</strong> 
+                            随着生产力的发展，特别是金属工具的出现和农业、畜牧业的分离，个体劳动成为可能，剩余产品开始出现，这为私有制的产生奠定了物质基础。
+                        </p>
+                    </div>
+
+                    <div class="prose prose-lg max-w-none text-secondary">
+                        <p class="mb-6">
+                            最初的私有财产主要是生产工具、生活用品和牲畜等动产。马克思和恩格斯指出，&#34;无论在古代或现代民族中，真正的私有制只是随着动产的出现才出现的&#34;<a href="https://ccj.pku.edu.cn/Article/DownLoad?id=301277694&amp;&amp;type=ArticleFile" class="citation-link">[15]</a>。在原始社会长期形成的习俗中，谁生产的东西就归谁所有，这为个人占有剩余产品提供了观念上的依据。
+                        </p>
+                        <p class="mb-6">
+                            随着个体家庭在生产中的作用日益重要，家庭私有财产逐渐积累，与氏族公有制产生了矛盾。父权制取代母权制后，财产继承制度也发生了变化，父亲的财产开始由子女继承，进一步巩固了家庭私有制<a href="http://marxism.cass.cn/kyywsl/202401/t20240131_5731504.shtml" class="citation-link">[1]</a>。
+                        </p>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-slate-100 to-slate-50 rounded-lg p-8 mt-8">
+                        <h4 class="font-serif text-lg font-semibold text-primary mb-4">私有化进程的关键节点</h4>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                                    <i class="fas fa-hammer text-accent text-xl"></i>
+                                </div>
+                                <h5 class="font-semibold text-primary mb-2">动产私有化</h5>
+                                <p class="text-sm text-secondary">生产工具、生活用品、牲畜等</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                                    <i class="fas fa-home text-accent text-xl"></i>
+                                </div>
+                                <h5 class="font-semibold text-primary mb-2">家庭私有制</h5>
+                                <p class="text-sm text-secondary">个体家庭财产积累</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                                    <i class="fas fa-map text-accent text-xl"></i>
+                                </div>
+                                <h5 class="font-semibold text-primary mb-2">土地私有化</h5>
+                                <p class="text-sm text-secondary">从动产扩展到不动产</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subsection 1.2 -->
+                <div id="section-1-2" class="mb-16">
+                    <h3 class="font-serif text-2xl font-semibold text-primary mb-8">生产力发展、社会分工与剩余产品的出现</h3>
+                    
+                    <div class="quote-accent p-8 rounded-lg mb-8">
+                        <p class="text-xl leading-relaxed text-primary font-medium">
+                            <strong>生产力的发展是私有制产生的根本原因。</strong>
+                        </p>
+                    </div>
+
+                    <!-- Social Division of Labor Timeline -->
+                    <div class="bg-white rounded-lg p-8 shadow-sm mb-8">
+                        <h4 class="font-serif text-lg font-semibold text-primary mb-6 text-center">三次社会大分工演进</h4>
+                        <div class="mermaid-container">
+                            <div class="mermaid-controls">
+                                <button class="mermaid-control-btn" onclick="zoomMermaid(this, 1.2)" title="放大">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <button class="mermaid-control-btn" onclick="zoomMermaid(this, 0.8)" title="缩小">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button class="mermaid-control-btn" onclick="resetMermaid(this)" title="重置">
+                                    <i class="fas fa-home"></i>
+                                </button>
+                            </div>
+                            <div class="mermaid" id="mermaid-1">
+                                timeline
+                                    title 社会分工发展历程
+                                    
+                                    第一次大分工 : 农业与畜牧业分离
+                                                  : 剩余产品出现
+                                                  : 交换成为可能
+                                    
+                                    第二次大分工 : 手工业与农业分离
+                                                  : 生产力大幅提高
+                                                  : 商品生产发展
+                                                  : 阶级分化明朗化
+                                    
+                                    第三次大分工 : 商人阶级出现
+                                                  : 专门从事商品交换
+                                                  : 私有制普遍化
+                                                  : 贫富分化加剧
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-white rounded-lg p-8 shadow-sm">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">
+                                <i class="fas fa-cogs text-accent mr-3"></i>
+                                技术进步推动力
+                            </h4>
+                            <ul class="space-y-3 text-secondary">
+                                <li>• 石器的磨制技术改进</li>
+                                <li>• 青铜器和铁器的发明应用<a href="https://ccj.pku.edu.cn/Article/DownLoad?id=301277694&amp;&amp;type=ArticleFile" class="citation-link">[15]</a></li>
+                                <li>• 劳动生产率极大提高</li>
+                                <li>• 个体生产成为可能</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white rounded-lg p-8 shadow-sm">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">
+                                <i class="fas fa-chart-line text-accent mr-3"></i>
+                                经济发展后果
+                            </h4>
+                            <ul class="space-y-3 text-secondary">
+                                <li>• 剩余产品为私有制提供物质前提</li>
+                                <li>• 占有他人劳动产品成为可能<a href="https://ccj.pku.edu.cn/Article/DownLoad?id=301277694&amp;&amp;type=ArticleFile" class="citation-link">[6]</a></li>
+                                <li>• 商品生产和交换发展</li>
+                                <li>• 社会成员分化加剧</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 p-6 bg-slate-100 rounded-lg">
+                        <p class="text-secondary leading-relaxed">
+                            <strong>个体生产的出现和劳动个体化的趋势，是私有制产生的决定性因素</strong><a href="http://www.qstheory.cn/dukan/hqwg/2020-02/21/c_1125601695.htm" class="citation-link">[4]</a>。当个体家庭能够独立完成生产任务并拥有剩余产品时，私有观念便随之产生并强化。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Subsection 1.3 -->
+                <div id="section-1-3" class="mb-16">
+                    <h3 class="font-serif text-2xl font-semibold text-primary mb-8">不同社会形态下的私有制</h3>
+                    
+                    <div class="grid lg:grid-cols-3 gap-8">
+                        <!-- Ancient Society -->
+                        <div class="bg-white rounded-lg p-8 shadow-sm border-l-4 border-amber-500">
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-landmark text-amber-600 text-2xl mr-3"></i>
+                                <h4 class="font-serif text-lg font-semibold text-primary">古代社会</h4>
+                            </div>
+                            <div class="space-y-4 text-secondary">
+                                <p><strong>特征：</strong>奴隶主占有生产资料和奴隶</p>
+                                <p><strong>核心：</strong>奴隶被视为&#34;会说话的工具&#34;<a href="https://www.wenxiaobai.com/api/expends/detail?article=77ba6f33-9a66-4c44-b1fc-8c129be0f27a" class="citation-link">[72]</a></p>
+                                <p><strong>基础：</strong>土地为主要生产资料，被奴隶主贵族占有</p>
+                                <p><strong>关系：</strong>奴隶完全依附于奴隶主</p>
+                            </div>
+                        </div>
+
+                        <!-- Feudal Society -->
+                        <div class="bg-white rounded-lg p-8 shadow-sm border-l-4 border-green-500">
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-castle text-green-600 text-2xl mr-3"></i>
+                                <h4 class="font-serif text-lg font-semibold text-primary">封建社会</h4>
+                            </div>
+                            <div class="space-y-4 text-secondary">
+                                <p><strong>特征：</strong>封建地主占有土地</p>
+                                <p><strong>方式：</strong>通过土地占有剥削农民<a href="http://historychina.net/wszl/xlxh/2005-12-09/28301.shtml" class="citation-link">[65]</a></p>
+                                <p><strong>形式：</strong>劳役地租、实物地租、货币地租</p>
+                                <p><strong>关系：</strong>农民对地主存在人身依附</p>
+                            </div>
+                        </div>
+
+                        <!-- Capitalist Society -->
+                        <div class="bg-white rounded-lg p-8 shadow-sm border-l-4 border-blue-500">
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-industry text-blue-600 text-2xl mr-3"></i>
+                                <h4 class="font-serif text-lg font-semibold text-primary">资本主义社会</h4>
+                            </div>
+                            <div class="space-y-4 text-secondary">
+                                <p><strong>特征：</strong>资本家占有生产资料</p>
+                                <p><strong>关系：</strong>工人成为雇佣劳动者<a href="https://xueheng.nju.edu.cn/xsxx/20230409/i242306.html" class="citation-link">[35]</a></p>
+                                <p><strong>核心：</strong>商品生产和剩余价值榨取</p>
+                                <p><strong>矛盾：</strong>资产阶级与无产阶级对立</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quote-accent p-8 rounded-lg mt-8">
+                        <p class="text-lg leading-relaxed text-primary">
+                            马克思和恩格斯在《共产党宣言》中指出，<strong>现代的资产阶级私有制是建立在阶级对立上面、建立在一些人对另一些人的剥削上面的产品生产和占有的最后而又最完备的表现</strong><a href="http://marxism.cass.cn/jjdd/201106/t20110615_1973604.shtml" class="citation-link">[33]</a>。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Subsection 1.4 -->
+                <div id="section-1-4" class="mb-16">
+                    <h3 class="font-serif text-2xl font-semibold text-primary mb-8">马克思主义经典作家论私有制的起源与本质</h3>
+                    
+                    <div class="bg-white rounded-lg p-8 shadow-sm mb-8">
+                        <div class="flex items-start mb-6">
+                            <img src="https://kimi-web-img.moonshot.cn/img/placeholder-0620/%E5%9B%BE%E7%89%874.png" alt="恩格斯肖像" class="w-24 h-32 object-cover rounded-lg mr-6" referrerpolicy="no-referrer" data-modified="1" data-score="10000.00"/>
+                            <div>
+                                <h4 class="font-serif text-lg font-semibold text-primary mb-3">恩格斯《家庭、私有制和国家的起源》</h4>
+                                <p class="text-secondary leading-relaxed">
+                                    恩格斯对私有制的起源和本质进行了系统而深刻的阐述，认为<strong>私有制不是从来就有的，而是社会生产发展到一定阶段的产物，是一种历史范畴</strong><a href="http://www.qstheory.cn/dukan/hqwg/2020-02/21/c_1125601695.htm" class="citation-link">[4]</a>。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-slate-100 rounded-lg p-8">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">私有制产生的条件</h4>
+                            <div class="space-y-4 text-secondary">
+                                <div class="flex items-start">
+                                    <span class="bg-accent text-white text-xs font-semibold px-2 py-1 rounded mr-3 mt-1">前提</span>
+                                    <span>劳动分工是私有制产生的社会前提</span>
+                                </div>
+                                <div class="flex items-start">
+                                    <span class="bg-accent text-white text-xs font-semibold px-2 py-1 rounded mr-3 mt-1">物质</span>
+                                    <span>剩余产品的增加是物质前提</span>
+                                </div>
+                                <div class="flex items-start">
+                                    <span class="bg-accent text-white text-xs font-semibold px-2 py-1 rounded mr-3 mt-1">决定</span>
+                                    <span>劳动个体化趋势是决定性因素<a href="http://marxism.cass.cn/jjdd/202009/t20200908_5180345.shtml" class="citation-link">[53]</a></span>
+                                </div>
+                                <div class="flex items-start">
+                                    <span class="bg-accent text-white text-xs font-semibold px-2 py-1 rounded mr-3 mt-1">促进</span>
+                                    <span>交换的发展促进普遍化</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-100 rounded-lg p-8">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">马克思主义核心观点</h4>
+                            <div class="space-y-4 text-secondary">
+                                <div class="flex items-start">
+                                    <i class="fas fa-quote-left text-accent mr-3 mt-1"></i>
+                                    <span>&#34;共产党人可以把自己的理论概括为一句话：消灭私有制&#34;<a href="http://marxism.cass.cn/jjdd/201106/t20110615_1973604.shtml" class="citation-link">[33]</a></span>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-balance-scale text-accent mr-3 mt-1"></i>
+                                    <span>私有制的本质是少数人对生产资料的占有</span>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-users-slash text-accent mr-3 mt-1"></i>
+                                    <span>通过对生产资料占有剥削他人劳动</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 p-6 bg-gradient-to-r from-slate-50 to-slate-100 rounded-lg">
+                        <h4 class="font-serif text-lg font-semibold text-primary mb-3">《德意志意识形态》中的深刻论述</h4>
+                        <p class="text-secondary leading-relaxed">
+                            马克思和恩格斯指出，分工的各个不同发展阶段，同时也就是所有制的各种不同形式。分工的发展产生了个人利益与共同利益之间的矛盾，共同利益才采取了国家这种与实际的单个利益和全体利益相脱离的独立形式<a href="https://www.hanspub.org/journal/paperinformation?paperid=60380" class="citation-link">[13]</a>。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Section 2: 阶级意识的形成与发展 -->
+        <section id="section-2" class="py-16 bg-white">
+            <div class="container mx-auto px-8 max-w-6xl">
+                <header class="mb-16">
+                    <h2 class="font-serif text-4xl font-bold text-primary mb-6">阶级意识的形成与发展</h2>
+                    <p class="text-xl text-secondary max-w-3xl leading-relaxed">
+                        从个体苦难的感知到共同阶级地位的认识，被剥削阶级如何实现从&#34;自在&#34;到&#34;自为&#34;的历史性转变？
+                    </p>
+                </header>
+
+                <!-- Subsection 2.1 -->
+                <div id="section-2-1" class="mb-16">
+                    <h3 class="font-serif text-2xl font-semibold text-primary mb-8">被剥削阶级的阶级意识觉醒过程</h3>
+                    
+                    <div class="quote-accent p-8 rounded-lg mb-8">
+                        <p class="text-lg leading-relaxed text-primary">
+                            <strong>被剥削阶级的阶级意识觉醒是一个复杂而漫长的过程，并非一蹴而就。</strong> 
+                            最初，被剥削者可能只是感受到个体的不幸和压迫，而没有意识到这种压迫是源于整个阶级的地位和制度性的剥削。
+                        </p>
+                    </div>
+
+                    <!-- Class Consciousness Development Timeline -->
+                    <div class="bg-slate-50 rounded-lg p-8 mb-8">
+                        <h4 class="font-serif text-lg font-semibold text-primary mb-6 text-center">阶级意识觉醒的阶段演进</h4>
+                        <div class="mermaid-container">
+                            <div class="mermaid-controls">
+                                <button class="mermaid-control-btn" onclick="zoomMermaid(this, 1.2)" title="放大">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <button class="mermaid-control-btn" onclick="zoomMermaid(this, 0.8)" title="缩小">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button class="mermaid-control-btn" onclick="resetMermaid(this)" title="重置">
+                                    <i class="fas fa-home"></i>
+                                </button>
+                            </div>
+                            <div class="mermaid" id="mermaid-2">
+                                graph LR
+                                    A[个体苦难感知] --&gt; B[零星自发反抗]
+                                    B --&gt; C[共同处境认识]
+                                    C --&gt; D[阶级利益明确]
+                                    D --&gt; E[有组织斗争]
+                                    
+                                    style A fill:#fef2f2,stroke:#dc2626,stroke-width:2px,color:#1e293b
+                                    style B fill:#fef2f2,stroke:#dc2626,stroke-width:2px,color:#1e293b
+                                    style C fill:#f0f9ff,stroke:#0369a1,stroke-width:2px,color:#1e293b
+                                    style D fill:#f0f9ff,stroke:#0369a1,stroke-width:2px,color:#1e293b
+                                    style E fill:#ecfdf5,stroke:#059669,stroke-width:2px,color:#1e293b
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8 mb-8">
+                        <div class="bg-white rounded-lg p-8 shadow-sm border">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">
+                                <i class="fas fa-exclamation-triangle text-accent mr-3"></i>
+                                早期特征：自发与分散
+                            </h4>
+                            <ul class="space-y-3 text-secondary">
+                                <li class="flex items-start">
+                                    <span class="w-2 h-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                                    <span>奴隶社会的斯巴达克斯起义：渴望自由和平等<a href="https://www.sohu.com/a/855956247_121199693" class="citation-link">[71]</a></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="w-2 h-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                                    <span>早期反抗往往是自发的、零散的</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="w-2 h-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                                    <span>缺乏明确的阶级意识和政治目标</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white rounded-lg p-8 shadow-sm border">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">
+                                <i class="fas fa-lightbulb text-accent mr-3"></i>
+                                觉醒过程：从分散到联合
+                            </h4>
+                            <ul class="space-y-3 text-secondary">
+                                <li class="flex items-start">
+                                    <span class="w-2 h-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                                    <span>工业发展使无产阶级人数增加</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="w-2 h-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                                    <span>日益结合成更大的集体<a href="https://www.szft.gov.cn/bmxx_qt/qwdx/wskt/lldt/content/post_3291937.html" class="citation-link">[66]</a></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="w-2 h-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                                    <span>越来越感觉到自己的力量</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-8">
+                        <h4 class="font-serif text-lg font-semibold text-primary mb-4">恩格斯《英国工人阶级状况》的深刻观察</h4>
+                        <p class="text-secondary leading-relaxed mb-4">
+                            工人阶级逐步认识到他们与资产阶级是两个不同的阶级，有着不同的习惯语、思想、观念、习俗、道德原则、宗教与政治<a href="http://marxism.cass.cn/mksjbyl/202401/t20240104_5724542.shtml" class="citation-link">[9]</a>。
+                        </p>
+                        <p class="text-secondary leading-relaxed">
+                            这种认识是阶级意识觉醒的关键一步，标志着从个体意识到阶级意识的根本转变。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Subsection 2.2 -->
+                <div id="section-2-2" class="mb-16">
+                    <h3 class="font-serif text-2xl font-semibold text-primary mb-8">共同阶级利益诉求的形成</h3>
+                    
+                    <div class="quote-accent p-8 rounded-lg mb-8">
+                        <p class="text-lg leading-relaxed text-primary">
+                            <strong>共同阶级利益诉求的形成是被剥削阶级从&#34;自在的阶级&#34;向&#34;自为的阶级&#34;转变的重要标志。</strong>
+                            当被剥削阶级成员意识到他们共同的悲惨处境并非个别现象，而是整个阶级所面临的系统性压迫时，共同的利益诉求便开始萌芽。
+                        </p>
+                    </div>
+
+                    <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                        <!-- UK Chartist Movement -->
+                        <div class="bg-white rounded-lg p-8 shadow-sm border-l-4 border-blue-500">
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-flag-uk text-blue-600 text-2xl mr-3"></i>
+                                <h4 class="font-serif text-lg font-semibold text-primary">英国宪章运动</h4>
+                            </div>
+                            <div class="space-y-4 text-secondary">
+                                <p><strong>时间：</strong>1836-1848年</p>
+                                <p><strong>核心：</strong>以《人民宪章》为核心的政治纲领</p>
+                                <p><strong>诉求：</strong>要求取得普选权，参与国家管理<a href="https://www.sohu.com/a/230094640_100028727" class="citation-link">[77]</a></p>
+                                <p><strong>认识：</strong>&#34;普选权问题是饭碗问题&#34;</p>
+                            </div>
+                        </div>
+
+                        <!-- Taiping Heavenly Kingdom -->
+                        <div class="bg-white rounded-lg p-8 shadow-sm border-l-4 border-red-500">
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-yin-yang text-red-600 text-2xl mr-3"></i>
+                                <h4 class="font-serif text-lg font-semibold text-primary">太平天国运动</h4>
+                            </div>
+                            <div class="space-y-4 text-secondary">
+                                <p><strong>纲领：</strong>《天朝田亩制度》</p>
+                                <p><strong>理想：</strong>&#34;凡天下田，天下人同耕&#34;<a href="https://news.ifeng.com/history/special/taipingtianguo/201001/0114_9267_1511037.shtml" class="citation-link">[85]</a></p>
+                                <p><strong>目标：</strong>&#34;无处不均匀，无人不饱暖&#34;</p>
+                                <p><strong>反映：</strong>农民对土地和生产资料的强烈诉求</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-lg p-8">
+                        <h4 class="font-serif text-lg font-semibold text-primary mb-4">阶级利益诉求的深化过程</h4>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                                    <i class="fas fa-user text-accent text-xl"></i>
+                                </div>
+                                <h5 class="font-semibold text-primary mb-2">个体层面</h5>
+                                <p class="text-sm text-secondary">个人苦难感知，生存需求</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                                    <i class="fas fa-users text-accent text-xl"></i>
+                                </div>
+                                <h5 class="font-semibold text-primary mb-2">群体层面</h5>
+                                <p class="text-sm text-secondary">共同处境认识，联合需求</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                                    <i class="fas fa-fist-raised text-accent text-xl"></i>
+                                </div>
+                                <h5 class="font-semibold text-primary mb-2">阶级层面</h5>
+                                <p class="text-sm text-secondary">政治权利诉求，制度变革</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subsection 2.3 -->
+                <div id="section-2-3" class="mb-16">
+                    <h3 class="font-serif text-2xl font-semibold text-primary mb-8">有组织的反抗与斗争的开端</h3>
+                    
+                    <div class="quote-accent p-8 rounded-lg mb-8">
+                        <p class="text-lg leading-relaxed text-primary">
+                            当被剥削阶级的阶级意识逐渐觉醒，并形成共同的阶级利益诉求后，<strong>有组织的反抗和斗争便成为必然。</strong>
+                        </p>
+                    </div>
+
+                    <div class="grid lg:grid-cols-3 gap-8 mb-8">
+                        <!-- UK Chartist Association -->
+                        <div class="bg-white rounded-lg p-6 shadow-sm">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">英国宪章协会</h4>
+                            <div class="space-y-3 text-secondary text-sm">
+                                <p><strong>性质：</strong>第一个真正工人阶级的政党<a href="https://www.marxists.org/chinese/reference-books/british-labour-movement-1770-1920/02.htm" class="citation-link">[78]</a></p>
+                                <p><strong>纲领：</strong>人民宪章</p>
+                                <p><strong>组织：</strong>会员制、分组、选举执委会</p>
+                                <p><strong>策略：</strong>和平和宪法手段</p>
+                            </div>
+                        </div>
+
+                        <!-- Spartacus Uprising -->
+                        <div class="bg-white rounded-lg p-6 shadow-sm">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">斯巴达克斯起义</h4>
+                            <div class="space-y-3 text-secondary text-sm">
+                                <p><strong>时间：</strong>公元前73-71年</p>
+                                <p><strong>规模：</strong>古罗马最大奴隶起义<a href="https://www.163.com/dy/article/I99O68BM0534QVSU.html" class="citation-link">[74]</a></p>
+                                <p><strong>组织：</strong>奴隶和自由民组成的起义军</p>
+                                <p><strong>战术：</strong>灵活多样的军事战略</p>
+                            </div>
+                        </div>
+
+                        <!-- Chinese Peasant Uprisings -->
+                        <div class="bg-white rounded-lg p-6 shadow-sm">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">中国农民起义</h4>
+                            <div class="space-y-3 text-secondary text-sm">
+                                <p><strong>历程：</strong>陈胜吴广、黄巢、李自成<a href="https://news.ifeng.com/history/special/taipingtianguo/201001/0114_9267_1511037.shtml" class="citation-link">[85]</a></p>
+                                <p><strong>组织：</strong>从分散到严密政权机构</p>
+                                <p><strong>政策：</strong>军政合一，社会政策推行</p>
+                                <p><strong>特点：</strong>相对严密的组织和政权</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-slate-100 to-slate-50 rounded-lg p-8">
+                        <h4 class="font-serif text-lg font-semibold text-primary mb-4">斗争水平的提升轨迹</h4>
+                        <div class="grid md:grid-cols-4 gap-4">
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-2">
+                                    <i class="fas fa-tools text-gray-600"></i>
+                                </div>
+                                <p class="text-sm font-medium text-primary">捣毁机器</p>
+                                <p class="text-xs text-secondary">经济斗争初期</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-yellow-200 rounded-full flex items-center justify-center mx-auto mb-2">
+                                    <i class="fas fa-coins text-yellow-600"></i>
+                                </div>
+                                <p class="text-sm font-medium text-primary">提高工资</p>
+                                <p class="text-xs text-secondary">经济权益诉求</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-blue-200 rounded-full flex items-center justify-center mx-auto mb-2">
+                                    <i class="fas fa-vote-yea text-blue-600"></i>
+                                </div>
+                                <p class="text-sm font-medium text-primary">政治权利</p>
+                                <p class="text-xs text-secondary">参政议政要求</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-red-200 rounded-full flex items-center justify-center mx-auto mb-2">
+                                    <i class="fas fa-crown text-red-600"></i>
+                                </div>
+                                <p class="text-sm font-medium text-primary">夺取政权</p>
+                                <p class="text-xs text-secondary">制度根本变革</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subsection 2.4 -->
+                <div id="section-2-4" class="mb-16">
+                    <h3 class="font-serif text-2xl font-semibold text-primary mb-8">马克思主义经典作家论阶级意识与阶级斗争</h3>
+                    
+                    <div class="bg-white rounded-lg p-8 shadow-sm mb-8">
+                        <div class="flex items-start">
+                            <i class="fas fa-quote-left text-accent text-3xl mr-6 mt-2"></i>
+                            <div>
+                                <p class="text-xl leading-relaxed text-primary font-medium mb-4">
+                                    &#34;至今一切社会的历史都是阶级斗争的历史&#34;<a href="http://marxism.cass.cn/jjdd/201106/t20110615_1973604.shtml" class="citation-link">[33]</a>
+                                </p>
+                                <p class="text-secondary">—— 马克思、恩格斯《共产党宣言》</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8 mb-8">
+                        <div class="bg-slate-50 rounded-lg p-8">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">马克思主义阶级理论核心</h4>
+                            <ul class="space-y-3 text-secondary">
+                                <li class="flex items-start">
+                                    <i class="fas fa-link text-accent mr-3 mt-1"></i>
+                                    <span>阶级的存在仅仅同生产发展的一定历史阶段相联系</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-arrows-alt text-accent mr-3 mt-1"></i>
+                                    <span>阶级斗争必然导致无产阶级专政<a href="https://xueheng.nju.edu.cn/xsxx/20230409/i242306.html" class="citation-link">[35]</a></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-bridge text-accent mr-3 mt-1"></i>
+                                    <span>专政本身是达到消灭阶级的过渡</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-50 rounded-lg p-8">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">&#34;自在阶级&#34;与&#34;自为阶级&#34;</h4>
+                            <div class="space-y-4">
+                                <div class="border-l-4 border-gray-300 pl-4">
+                                    <h5 class="font-semibold text-primary mb-1">自在阶级</h5>
+                                    <p class="text-sm text-secondary">尚未认识到受剥削根源和整个阶级历史使命的工人阶级<a href="http://theory.people.com.cn/n1/2019/1016/c40531-31403251.html" class="citation-link">[70]</a></p>
+                                </div>
+                                <div class="border-l-4 border-accent pl-4">
+                                    <h5 class="font-semibold text-primary mb-1">自为阶级</h5>
+                                    <p class="text-sm text-secondary">在实践中认识到资本主义制度本质，组织起来为推翻资产阶级统治而斗争的工人阶级</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quote-accent p-8 rounded-lg">
+                        <h4 class="font-serif text-lg font-semibold text-primary mb-4">无产阶级阶级意识的根本特征</h4>
+                        <p class="text-secondary leading-relaxed">
+                            无产阶级的阶级意识具有不同于以往任何阶级的根本特征，<strong>它要求根本消灭阶级，实现全人类的解放</strong><a href="http://marxism.cass.cn/zyyd/202312/t20231213_5714324.shtml" class="citation-link">[30]</a>。这种斗争不仅是经济斗争，更是政治斗争，其最终目标是获得国家政权，改变生产资料所有制，从而实现自身的解放和全人类的解放。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Section 3: 不同地域与文明中的私有制与阶级意识 -->
+        <section id="section-3" class="py-16 bg-slate-50">
+            <div class="container mx-auto px-8 max-w-6xl">
+                <header class="mb-16">
+                    <h2 class="font-serif text-4xl font-bold text-primary mb-6">不同地域与文明中的私有制与阶级意识</h2>
+                    <p class="text-xl text-secondary max-w-3xl leading-relaxed">
+                        从东方的农耕文明到西方的商业社会，从游牧民族到殖民地区，不同文明如何孕育出各具特色的阶级结构与意识形态？
+                    </p>
+                </header>
+
+                <!-- Subsection 3.1 -->
+                <div id="section-3-1" class="mb-16">
+                    <h3 class="font-serif text-2xl font-semibold text-primary mb-8">中国历史上的私有制与阶级意识</h3>
+                    
+                    <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                        <div class="bg-white rounded-lg p-8 shadow-sm">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">
+                                <i class="fas fa-seedling text-accent mr-3"></i>
+                                私有制发展历程
+                            </h4>
+                            <div class="space-y-4 text-secondary">
+                                <div class="border-l-4 border-accent pl-4">
+                                    <h5 class="font-semibold text-primary">起源</h5>
+                                    <p class="text-sm">原始社会末期，农业手工业进步，剩余产品出现<a href="https://www.gov.cn/test/2005-06/08/content_4910.htm" class="citation-link">[50][51]</a></p>
+                                </div>
+                                <div class="border-l-4 border-accent pl-4">
+                                    <h5 class="font-semibold text-primary">确立</h5>
+                                    <p class="text-sm">春秋战国时期，铁器牛耕推广，井田制瓦解</p>
+                                </div>
+                                <div class="border-l-4 border-accent pl-4">
+                                    <h5 class="font-semibold text-primary">法制化</h5>
+                                    <p class="text-sm">商鞅变法&#34;废井田，开阡陌&#34;，法律承认土地私有</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg p-8 shadow-sm">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">
+                                <i class="fas fa-fist-raised text-accent mr-3"></i>
+                                农民阶级意识表现
+                            </h4>
+                            <div class="space-y-3 text-secondary">
+                                <div class="flex items-start">
+                                    <span class="bg-accent text-white text-xs px-2 py-1 rounded mr-3 mt-1">秦末</span>
+                                    <span class="text-sm">陈胜吴广：&#34;王侯将相宁有种乎&#34;</span>
+                                </div>
+                                <div class="flex items-start">
+                                    <span class="bg-accent text-white text-xs px-2 py-1 rounded mr-3 mt-1">东汉</span>
+                                    <span class="text-sm">黄巾起义：&#34;苍天已死，黄天当立&#34;</span>
+                                </div>
+                                <div class="flex items-start">
+                                    <span class="bg-accent text-white text-xs px-2 py-1 rounded mr-3 mt-1">唐末</span>
+                                    <span class="text-sm">黄巢起义：&#34;冲天香阵透长安，满城尽带黄金甲&#34;</span>
+                                </div>
+                                <div class="flex items-start">
+                                    <span class="bg-accent text-white text-xs px-2 py-1 rounded mr-3 mt-1">明末</span>
+                                    <span class="text-sm">李自成起义：&#34;均田免赋&#34;<a href="http://historychina.net/wszl/xlxh/2005-12-09/28301.shtml" class="citation-link">[65]</a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-red-50 to-orange-50 rounded-lg p-8">
+                        <h4 class="font-serif text-lg font-semibold text-primary mb-4">太平天国运动的阶级意识高度</h4>
+                        <p class="text-secondary leading-relaxed mb-4">
+                            太平天国运动提出的《天朝田亩制度》，试图建立一个土地公有、平均分配的理想社会，是中国农民阶级意识发展到一定高度的体现<a href="https://news.ifeng.com/history/special/taipingtianguo/201001/0114_9267_1511037.shtml" class="citation-link">[85]</a>。
+                        </p>
+                        <p class="text-secondary leading-relaxed">
+                            中国早期共产主义者在接受马克思主义的过程中，也受到了中国传统文化中民本思想和近代无政府主义思潮的影响，将抽象的&#34;平民&#34;概念具体化为&#34;劳工&#34;、&#34;劳农&#34;，阶级意识不断成长<a href="http://jds.cssn.cn/xscg/xslw/201605/t20160506_5251636.shtml" class="citation-link">[39]</a>。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Subsection 3.2 -->
+                <div id="section-3-2" class="mb-16">
+                    <h3 class="font-serif text-2xl font-semibold text-primary mb-8">欧洲历史上的私有制与阶级意识</h3>
+                    
+                    <div class="grid lg:grid-cols-3 gap-8 mb-8">
+                        <!-- Ancient Greece &amp; Rome -->
+                        <div class="bg-white rounded-lg p-6 shadow-sm border-l-4 border-amber-500">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">古希腊罗马</h4>
+                            <div class="space-y-3 text-secondary text-sm">
+                                <p><strong>制度：</strong>奴隶制为主要生产方式</p>
+                                <p><strong>特征：</strong>奴隶主占有土地、牲畜、工具和奴隶<a href="https://www.wenxiaobai.com/api/expends/detail?article=77ba6f33-9a66-4c44-b1fc-8c129be0f27a" class="citation-link">[72]</a></p>
+                                <p><strong>反抗：</strong>斯巴达克斯起义（前73-71年）</p>
+                                <p><strong>影响：</strong>促使统治阶级反思奴隶待遇</p>
+                            </div>
+                        </div>
+
+                        <!-- Medieval Feudalism -->
+                        <div class="bg-white rounded-lg p-6 shadow-sm border-l-4 border-green-500">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">中世纪封建</h4>
+                            <div class="space-y-3 text-secondary text-sm">
+                                <p><strong>制度：</strong>封建领主土地所有制</p>
+                                <p><strong>关系：</strong>农奴制，农民束缚在土地上</p>
+                                <p><strong>矛盾：</strong>农民阶级与封建领主</p>
+                                <p><strong>起义：</strong>瓦特·泰勒起义、德国农民战争</p>
+                            </div>
+                        </div>
+
+                        <!-- Modern Capitalism -->
+                        <div class="bg-white rounded-lg p-6 shadow-sm border-l-4 border-blue-500">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">现代资本主义</h4>
+                            <div class="space-y-3 text-secondary text-sm">
+                                <p><strong>兴起：</strong>商品经济，资产阶级出现</p>
+                                <p><strong>革命：</strong>法国大革命推翻封建制度<a href="https://www.bilibili.com/read/cv15875800/" class="citation-link">[82]</a></p>
+                                <p><strong>觉醒：</strong>工人阶级登上历史舞台</p>
+                                <p><strong>运动：</strong>欧洲三大工人运动</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg p-8 shadow-sm mb-8">
+                        <h4 class="font-serif text-lg font-semibold text-primary mb-6">欧洲工人运动重要节点</h4>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <h5 class="font-semibold text-primary mb-3">早期阶段</h5>
+                                <ul class="space-y-2 text-secondary text-sm">
+                                    <li>• 英国&#34;卢德运动&#34;：破坏机器的反抗</li>
+                                    <li>• 机器使用使劳动差别减小</li>
+                                    <li>• 工资降到同样低水平</li>
+                                    <li>• 无产阶级利益趋同<a href="https://www.szft.gov.cn/bmxx_qt/qwdx/wskt/lldt/content/post_3291937.html" class="citation-link">[66]</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold text-primary mb-3">政治觉醒</h5>
+                                <ul class="space-y-2 text-secondary text-sm">
+                                    <li>• 英国宪章运动（1836-1848）</li>
+                                    <li>• 第一次独立政治斗争<a href="https://baike.baidu.com/item/%E8%8B%B1%E5%9B%BD%E5%AE%AA%E7%AB%A0%E8%BF%90%E5%8A%A8/1550242" class="citation-link">[76][77]</a></li>
+                                    <li>• 要求普选权争取政治地位</li>
+                                    <li>• 标志着工人阶级政治力量觉醒<a href="http://theory.people.com.cn/n1/2019/1016/c40531-31403251.html" class="citation-link">[70]</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quote-accent p-8 rounded-lg">
+                        <h4 class="font-serif text-lg font-semibold text-primary mb-4">马克思主义在欧洲的诞生</h4>
+                        <p class="text-secondary leading-relaxed">
+                            马克思和恩格斯通过对欧洲特别是英国和法国社会矛盾和阶级斗争的观察，创立了科学社会主义理论，为无产阶级的解放斗争指明了方向<a href="https://xueheng.nju.edu.cn/xsxx/20230409/i242306.html" class="citation-link">[42]</a>。欧洲启蒙运动的兴起，为资产阶级反对封建专制、争取政治权利提供了思想武器<a href="https://fuwu.12371.cn/2014/02/17/ARTI1392605801189385_all.shtml" class="citation-link">[81]</a>。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Subsection 3.3 -->
+                <div id="section-3-3" class="mb-16">
+                    <h3 class="font-serif text-2xl font-semibold text-primary mb-8">中亚历史上的私有制与阶级意识</h3>
+                    
+                    <div class="grid md:grid-cols-2 gap-8 mb-8">
+                        <div class="bg-white rounded-lg p-8 shadow-sm">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">
+                                <i class="fas fa-horse text-accent mr-3"></i>
+                                游牧社会特征
+                            </h4>
+                            <ul class="space-y-3 text-secondary">
+                                <li class="flex items-start">
+                                    <span class="w-2 h-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                                    <span>牲畜是最主要的私有财产</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="w-2 h-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                                    <span>商品交换促进私有制发展<a href="http://marxism.cass.cn/mkszyfzs/202106/t20210607_5338851.shtml" class="citation-link">[46]</a></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="w-2 h-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                                    <span>氏族部落内部贫富分化</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="w-2 h-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                                    <span>军事首领权力财富增长<a href="https://www.chinesefolklore.org.cn/web/index.php?Page=2&amp;NewsID=9528" class="citation-link">[44]</a></span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white rounded-lg p-8 shadow-sm">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">
+                                <i class="fas fa-city text-accent mr-3"></i>
+                                绿洲城市文明
+                            </h4>
+                            <ul class="space-y-3 text-secondary">
+                                <li class="flex items-start">
+                                    <span class="w-2 h-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                                    <span>早期城市文明在公元前出现<a href="http://hrczh.cass.cn/sxqy/sjs/202303/t20230317_5634555.shtml" class="citation-link">[60]</a></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="w-2 h-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                                    <span>灌溉农业为基础</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="w-2 h-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                                    <span>神庙和王权占据重要地位</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="w-2 h-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                                    <span>存在明显社会分化和阶级对立</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-lg p-8">
+                        <h4 class="font-serif text-lg font-semibold text-primary mb-4">中亚地区的特殊性</h4>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div>
+                                <h5 class="font-semibold text-primary mb-2">地理位置</h5>
+                                <p class="text-sm text-secondary">地处东西方交通要道，丝绸之路重要组成部分</p>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold text-primary mb-2">商业贸易</h5>
+                                <p class="text-sm text-secondary">促进私有财富积累和阶级分化，商人阶级出现</p>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold text-primary mb-2">复杂性</h5>
+                                <p class="text-sm text-secondary">阶级意识与民族、宗教等因素交织<a href="https://m.thepaper.cn/wifiKey_detail.jsp?contid=10757912&amp;from=wifiKey" class="citation-link">[59]</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subsection 3.4 -->
+                <div id="section-3-4" class="mb-16">
+                    <h3 class="font-serif text-2xl font-semibold text-primary mb-8">非洲历史上的私有制与阶级意识</h3>
+                    
+                    <div class="bg-white rounded-lg p-8 shadow-sm mb-8">
+                        <div class="flex items-start mb-6">
+                            <img src="https://kimi-web-img.moonshot.cn/img/placeholder-0620/%E5%9B%BE%E7%89%8715.png" alt="非洲传统村社生活场景" class="w-32 h-24 object-cover rounded-lg mr-6" referrerpolicy="no-referrer" data-modified="1" data-score="10000.00"/>
+                            <div>
+                                <h4 class="font-serif text-lg font-semibold text-primary mb-3">殖民前的非洲社会</h4>
+                                <p class="text-secondary leading-relaxed">
+                                    非洲社会学家阿米尔卡·卡布拉尔分析认为，<strong>早在帝国主义入侵之前，非洲社会就已处于阶级分层状态</strong>，存在贵族、宗教人士、工匠、农民、工人和酋长等不同社会群体<a href="http://marxism.cass.cn/gwmszy/202401/t20240111_5727217.shtml" class="citation-link">[47]</a>。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                        <div class="bg-white rounded-lg p-8 shadow-sm">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">传统非洲社会结构</h4>
+                            <div class="space-y-4 text-secondary">
+                                <div class="border-l-4 border-accent pl-4">
+                                    <h5 class="font-semibold text-primary">王国帝国</h5>
+                                    <p class="text-sm">古埃及、马里帝国、桑海帝国等形成的统治阶层</p>
+                                </div>
+                                <div class="border-l-4 border-accent pl-4">
+                                    <h5 class="font-semibold text-primary">奴隶制度</h5>
+                                    <p class="text-sm">战俘、债务人和罪犯可能沦为奴隶</p>
+                                </div>
+                                <div class="border-l-4 border-accent pl-4">
+                                    <h5 class="font-semibold text-primary">村社制度</h5>
+                                    <p class="text-sm">土地归村社集体所有，分配给家庭使用</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg p-8 shadow-sm">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">殖民统治影响</h4>
+                            <div class="space-y-4 text-secondary">
+                                <div class="border-l-4 border-red-500 pl-4">
+                                    <h5 class="font-semibold text-primary">经济结构</h5>
+                                    <p class="text-sm">单一作物种植，矿产资源掠夺<a href="http://marxism.cass.cn/gwmszy/202312/t20231210_5704975.shtml" class="citation-link">[25]</a></p>
+                                </div>
+                                <div class="border-l-4 border-red-500 pl-4">
+                                    <h5 class="font-semibold text-primary">阶级关系</h5>
+                                    <p class="text-sm">传统经济结构瓦解，大量人民沦为无产阶级</p>
+                                </div>
+                                <div class="border-l-4 border-red-500 pl-4">
+                                    <h5 class="font-semibold text-primary">新生阶级</h5>
+                                    <p class="text-sm">催生民族资产阶级和买办阶级</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quote-accent p-8 rounded-lg">
+                        <h4 class="font-serif text-lg font-semibold text-primary mb-4">反殖民斗争与阶级意识觉醒</h4>
+                        <p class="text-secondary leading-relaxed mb-4">
+                            <strong>反殖民主义斗争成为非洲人民阶级意识觉醒的重要契机。</strong>在争取民族独立的过程中，非洲人民逐渐认识到殖民主义的剥削本质，并开始联合起来进行反抗<a href="https://www.hanspub.org/journal/paperinformation?paperid=37951" class="citation-link">[48]</a>。
+                        </p>
+                        <p class="text-secondary leading-relaxed">
+                            非洲的阶级问题往往与种族、部落、宗教等身份认同交织在一起，使得阶级意识的形成和阶级斗争的开展更加复杂<a href="https://tech.sina.cn/2019-12-25/detail-iihnzahi9797328.d.html" class="citation-link">[62]</a>。一些非洲国家在独立后选择了社会主义道路，试图通过国有化和计划经济来消除殖民主义的影响。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Section 4: 马克思主义在特定区域的传播与影响 -->
+        <section id="section-4" class="py-16 bg-white">
+            <div class="container mx-auto px-8 max-w-6xl">
+                <header class="mb-16">
+                    <h2 class="font-serif text-4xl font-bold text-primary mb-6">马克思主义在特定区域的传播与影响</h2>
+                    <p class="text-xl text-secondary max-w-3xl leading-relaxed">
+                        作为一种源于欧洲的革命理论，马克思主义如何在不同的文化土壤中生根发芽，又如何被本土化改造以适应特定历史条件？
+                    </p>
+                </header>
+
+                <!-- Subsection 4.1 -->
+                <div id="section-4-1" class="mb-16">
+                    <h3 class="font-serif text-2xl font-semibold text-primary mb-8">马克思主义在非洲的传播与本土化</h3>
+                    
+                    <div class="quote-accent p-8 rounded-lg mb-8">
+                        <p class="text-lg leading-relaxed text-primary">
+                            <strong>马克思主义作为一种源于欧洲的社会理论和革命学说，其在非洲的传播与本土化是一个复杂且多层面的过程。</strong>
+                            真正有意识地将马克思主义作为分析工具和行动指南，更多地发生在20世纪，特别是与反殖民主义斗争和民族解放运动相结合。
+                        </p>
+                    </div>
+
+                    <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                        <div class="bg-slate-50 rounded-lg p-8">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">传播路径</h4>
+                            <div class="space-y-4">
+                                <div class="flex items-start">
+                                    <div class="w-8 h-8 bg-accent/10 rounded-full flex items-center justify-center mr-4 mt-1">
+                                        <span class="text-accent font-semibold text-sm">1</span>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-semibold text-primary">间接传入</h5>
+                                        <p class="text-sm text-secondary">通过殖民者、传教士及早期知识分子</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="w-8 h-8 bg-accent/10 rounded-full flex items-center justify-center mr-4 mt-1">
+                                        <span class="text-accent font-semibold text-sm">2</span>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-semibold text-primary">主动吸收</h5>
+                                        <p class="text-sm text-secondary">20世纪与反殖民斗争结合</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="w-8 h-8 bg-accent/10 rounded-full flex items-center justify-center mr-4 mt-1">
+                                        <span class="text-accent font-semibold text-sm">3</span>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-semibold text-primary">本土化</h5>
+                                        <p class="text-sm text-secondary">与非洲具体实际相结合</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 rounded-lg p-8">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">代表人物</h4>
+                            <div class="space-y-4">
+                                <div class="border-l-4 border-accent pl-4">
+                                    <h5 class="font-semibold text-primary">阿米尔卡·卡布拉尔</h5>
+                                    <p class="text-sm text-secondary">几内亚比绍思想家，运用马克思主义分析非洲社会结构<a href="http://marxism.cass.cn/gwmszy/202401/t20240111_5727217.shtml" class="citation-link">[47]</a></p>
+                                </div>
+                                <div class="border-l-4 border-accent pl-4">
+                                    <h5 class="font-semibold text-primary">谢克·安塔·迪奥普</h5>
+                                    <p class="text-sm text-secondary">塞内加尔思想家，探索适合非洲的解放道路</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-8">
+                        <h4 class="font-serif text-lg font-semibold text-primary mb-4">卡布拉尔的理论贡献</h4>
+                        <p class="text-secondary leading-relaxed mb-4">
+                            卡布拉尔认为，民族解放斗争不仅是反对新殖民主义和复兴生产力的过程，也是一场革命，通过武装斗争，非洲人民能够发展和培育革命意识。这种革命意识的形成与社会各阶层在社会结构中的地位相对应。
+                        </p>
+                        <p class="text-secondary leading-relaxed">
+                            <strong>马克思主义在非洲的传播并非简单的照搬照抄，而是经历了一个与非洲具体实际相结合的本土化过程。</strong>非洲的思想家和革命者在吸收马克思主义基本原理的同时，也强调非洲社会的特殊性，如村社制度、部落文化、以及殖民主义造成的扭曲发展等。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Subsection 4.2 -->
+                <div id="section-4-2" class="mb-16">
+                    <h3 class="font-serif text-2xl font-semibold text-primary mb-8">非洲社会主义与马克思主义的关系</h3>
+                    
+                    <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                        <div class="bg-white rounded-lg p-8 shadow-sm border-l-4 border-green-500">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">共同点</h4>
+                            <ul class="space-y-3 text-secondary">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mr-3 mt-1"></i>
+                                    <span>反对剥削，追求社会平等</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mr-3 mt-1"></i>
+                                    <span>主张生产资料公有制<a href="http://marxism.cass.cn/gwmszy/202312/t20231210_5704975.shtml" class="citation-link">[385]</a></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mr-3 mt-1"></i>
+                                    <span>符合非洲传统村社集体主义价值观</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mr-3 mt-1"></i>
+                                    <span>摆脱殖民主义影响的有效途径</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white rounded-lg p-8 shadow-sm border-l-4 border-orange-500">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">区别</h4>
+                            <ul class="space-y-3 text-secondary">
+                                <li class="flex items-start">
+                                    <i class="fas fa-times text-orange-500 mr-3 mt-1"></i>
+                                    <span>强调非洲不存在典型阶级对立</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-times text-orange-500 mr-3 mt-1"></i>
+                                    <span>认为阶级斗争理论不完全适用</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-times text-orange-500 mr-3 mt-1"></i>
+                                    <span>倾向于和平渐进方式实现社会主义</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-times text-orange-500 mr-3 mt-1"></i>
+                                    <span>强调民族团结而非无产阶级专政</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg p-8 shadow-sm mb-8">
+                        <h4 class="font-serif text-lg font-semibold text-primary mb-4">实践案例：坦桑尼亚&#34;乌贾马社会主义&#34;</h4>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                    <i class="fas fa-home text-blue-600"></i>
+                                </div>
+                                <h5 class="font-semibold text-primary mb-2">土地公有</h5>
+                                <p class="text-sm text-secondary">在非洲传统村社基础上建设</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                    <i class="fas fa-users text-green-600"></i>
+                                </div>
+                                <h5 class="font-semibold text-primary mb-2">集体劳动</h5>
+                                <p class="text-sm text-secondary">强调集体主义价值观</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                    <i class="fas fa-balance-scale text-purple-600"></i>
+                                </div>
+                                <h5 class="font-semibold text-primary mb-2">公平分配</h5>
+                                <p class="text-sm text-secondary">追求社会平等目标</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quote-accent p-8 rounded-lg">
+                        <h4 class="font-serif text-lg font-semibold text-primary mb-4">理论与实践的评价</h4>
+                        <p class="text-secondary leading-relaxed">
+                            <strong>非洲社会主义可以看作是马克思主义在非洲特定历史条件下的本土化尝试，它既吸收了马克思主义的某些元素，又根据非洲的实际情况进行了调整和改造。</strong>尽管许多非洲社会主义的实验未能取得预期的成功，但它反映了非洲人民对公平正义和社会进步的追求，也体现了马克思主义在世界范围内的影响力。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Subsection 4.3 -->
+                <div id="section-4-3" class="mb-16">
+                    <h3 class="font-serif text-2xl font-semibold text-primary mb-8">非洲领导人对阶级斗争理论的认知演变</h3>
+                    
+                    <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                        <div class="bg-slate-50 rounded-lg p-8">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">早期阶段：民族矛盾优先</h4>
+                            <ul class="space-y-3 text-secondary">
+                                <li class="flex items-start">
+                                    <i class="fas fa-flag text-accent mr-3 mt-1"></i>
+                                    <span>侧重于民族矛盾，强调全体非洲人民团结</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-shield-alt text-accent mr-3 mt-1"></i>
+                                    <span>反对共同敌人——殖民主义者</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-times-circle text-accent mr-3 mt-1"></i>
+                                    <span>认为民族矛盾是主要矛盾</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-question-circle text-accent mr-3 mt-1"></i>
+                                    <span>甚至认为非洲传统社会不存在明显阶级分化</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-50 rounded-lg p-8">
+                            <h4 class="font-serif text-lg font-semibold text-primary mb-4">后期阶段：阶级意识觉醒</h4>
+                            <ul class="space-y-3 text-secondary">
+                                <li class="flex items-start">
+                                    <i class="fas fa-eye text-accent mr-3 mt-1"></i>
+                                    <span>开始关注国内社会经济不平等问题</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-search text-accent mr-3 mt-1"></i>
+                                    <span>逐渐认识到阶级和阶级斗争的存在</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-tools text-accent mr-3 mt-1"></i>
+                                    <span>将阶级斗争理论应用于分析本国社会</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-hammer text-accent mr-3 mt-1"></i>
+                                    <span>试图通过社会主义改造消除阶级差别<a href="http://marxism.cass.cn/gwmszy/202312/t20231210_5704975.shtml" class="citation-link">[385]</a></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg p-8 shadow-sm mb-8">
+                        <h4 class="font-serif text-lg font-semibold text-primary mb-6">代表性领导人观点</h4>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="border-l-4 border-accent pl-6">
+                                <h5 class="font-semibold text-primary mb-2">恩古瓦比（刚果劳动党）</h5>
+                                <p class="text-secondary text-sm leading-relaxed">
+                                    阶级在刚果沦为殖民地之前就已经存在，殖民统治使得一部分人沦为无产阶级，而另一部分人则通过政治活动成为资产阶级或买办阶级，两者之间存在剥削和对立。
+                                </p>
+                            </div>
+                            <div class="border-l-4 border-accent pl-6">
+                                <h5 class="font-semibold text-primary mb-2">萨莫拉（莫桑比克解放阵线）</h5>
+                                <p class="text-secondary text-sm leading-relaxed">
+                                    马列主义是理解阶级斗争的伟大工具，为非洲人民的解放斗争提供了理论指导。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quote-accent p-8 rounded-lg">
+                        <h4 class="font-serif text-lg font-semibold text-primary mb-4">认知的复杂性与局限性</h4>
+                        <p class="text-secondary leading-relaxed mb-4">
+                            非洲领导人对阶级斗争理论的理解和应用也存在差异和局限性。一些领导人强调非洲的特殊性，认为非洲的阶级结构不同于欧洲，因此不能简单套用经典的阶级斗争模式。他们更倾向于通过和平的、改良的方式来解决阶级矛盾，强调民族团结和国家主导的作用。
+                        </p>
+                        <p class="text-secondary leading-relaxed">
+                            总体而言，<strong>非洲领导人对阶级斗争理论的认知是一个在实践中不断探索和深化的过程，反映了马克思主义理论与非洲具体实际相结合的复杂性和艰巨性。</strong>外部势力的干预和国内复杂的政治经济形势，也使得阶级斗争理论在非洲的实践面临诸多挑战。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section class="py-16 bg-slate-900 text-white">
+            <div class="container mx-auto px-8 max-w-4xl">
+                <h2 class="font-serif text-3xl font-bold mb-8 text-center">结语</h2>
+                <div class="prose prose-lg prose-invert max-w-none">
+                    <p class="text-xl leading-relaxed mb-6 text-center">
+                        私有制的产生与阶级意识的启蒙，构成了人类社会发展的重要线索。从原始社会的共同劳动到阶级社会的剥削压迫，从个体苦难的感知到共同阶级利益的认识，这一历史进程展现了社会发展的复杂性和规律性。
+                    </p>
+                    <p class="text-lg leading-relaxed mb-6 text-center">
+                        马克思主义经典作家深刻揭示了私有制的起源、本质及其与阶级意识、阶级斗争的内在联系，为我们理解社会发展的规律提供了科学的理论指导。在不同地域和文明中，这一理论的传播、应用和本土化过程，进一步丰富了马克思主义的理论宝库。
+                    </p>
+                    <p class="text-lg leading-relaxed text-center">
+                        历史的经验告诉我们，只有通过深刻的社会变革，才能最终消除阶级差别和剥削，实现人的全面解放和社会的真正进步。
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Initialize Mermaid with enhanced configuration
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#f8fafc',
+                primaryTextColor: '#1e293b',
+                primaryBorderColor: '#1e293b',
+                lineColor: '#475569',
+                secondaryColor: '#ffffff',
+                tertiaryColor: '#f1f5f9',
+                background: '#ffffff',
+                mainBkg: '#f8fafc',
+                secondBkg: '#ffffff',
+                tertiaryBkg: '#f1f5f9',
+                cScale0: '#f1f5f9',
+                cScale1: '#e0f2fe',
+                cScale2: '#fef3c7',
+                cScale3: '#fce7f3',
+                cScale4: '#ecfdf5',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '14px'
+            },
+            timeline: {
+                numberSectionStyles: 5,
+                disableMulticolor: false
+            },
+            flowchart: {
+                useMaxWidth: false,
+                htmlLabels: true
+            },
+            fontFamily: 'Inter, sans-serif'
+        });
+        
+        // Enhanced Mermaid zoom and drag functionality
+        let mermaidScales = new Map();
+        let mermaidPositions = new Map();
+        let isDragging = false;
+        let dragStart = { x: 0, y: 0 };
+        
+        function zoomMermaid(button, factor) {
+            const container = button.closest('.mermaid-container');
+            const mermaidDiv = container.querySelector('.mermaid');
+            const mermaidId = mermaidDiv.id;
+            
+            let currentScale = mermaidScales.get(mermaidId) || 1;
+            let newScale = currentScale * factor;
+            
+            // Limit zoom range
+            newScale = Math.max(0.5, Math.min(3, newScale));
+            
+            mermaidScales.set(mermaidId, newScale);
+            
+            const position = mermaidPositions.get(mermaidId) || { x: 0, y: 0 };
+            mermaidDiv.style.transform = `translate(${position.x}px, ${position.y}px) scale(${newScale})`;
+        }
+        
+        function resetMermaid(button) {
+            const container = button.closest('.mermaid-container');
+            const mermaidDiv = container.querySelector('.mermaid');
+            const mermaidId = mermaidDiv.id;
+            
+            mermaidScales.set(mermaidId, 1);
+            mermaidPositions.set(mermaidId, { x: 0, y: 0 });
+            mermaidDiv.style.transform = 'translate(0px, 0px) scale(1)';
+        }
+        
+        // Enhanced drag functionality for mermaid diagrams
+        document.addEventListener('DOMContentLoaded', function() {
+            const mermaidDivs = document.querySelectorAll('.mermaid');
+            
+            mermaidDivs.forEach(mermaidDiv => {
+                const mermaidId = mermaidDiv.id;
+                
+                // Initialize default scale and position
+                mermaidScales.set(mermaidId, 1);
+                mermaidPositions.set(mermaidId, { x: 0, y: 0 });
+                
+                // Mouse events
+                mermaidDiv.addEventListener('mousedown', function(e) {
+                    // Don't drag if clicking on SVG text or interactive elements
+                    if (e.target.tagName === 'text' || e.target.closest('text')) return;
+                    
+                    isDragging = true;
+                    dragStart.x = e.clientX;
+                    dragStart.y = e.clientY;
+                    
+                    const position = mermaidPositions.get(mermaidId);
+                    if (position) {
+                        dragStart.offsetX = position.x;
+                        dragStart.offsetY = position.y;
+                    }
+                    
+                    mermaidDiv.style.cursor = 'grabbing';
+                    e.preventDefault();
+                });
+                
+                // Wheel zoom
+                mermaidDiv.addEventListener('wheel', function(e) {
+                    e.preventDefault();
+                    
+                    const factor = e.deltaY > 0 ? 0.9 : 1.1;
+                    const currentScale = mermaidScales.get(mermaidId) || 1;
+                    const newScale = Math.max(0.5, Math.min(3, currentScale * factor));
+                    
+                    mermaidScales.set(mermaidId, newScale);
+                    
+                    const position = mermaidPositions.get(mermaidId) || { x: 0, y: 0 };
+                    mermaidDiv.style.transform = `translate(${position.x}px, ${position.y}px) scale(${newScale})`;
+                });
+            });
+            
+            // Global mouse move and up events
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                
+                const activeMermaid = document.querySelector('.mermaid:hover');
+                if (!activeMermaid) return;
+                
+                const mermaidId = activeMermaid.id;
+                const deltaX = e.clientX - dragStart.x;
+                const deltaY = e.clientY - dragStart.y;
+                
+                const newX = (dragStart.offsetX || 0) + deltaX;
+                const newY = (dragStart.offsetY || 0) + deltaY;
+                
+                mermaidPositions.set(mermaidId, { x: newX, y: newY });
+                
+                const scale = mermaidScales.get(mermaidId) || 1;
+                activeMermaid.style.transform = `translate(${newX}px, ${newY}px) scale(${scale})`;
+            });
+            
+            document.addEventListener('mouseup', function() {
+                if (isDragging) {
+                    isDragging = false;
+                    document.querySelectorAll('.mermaid').forEach(div => {
+                        div.style.cursor = 'grab';
+                    });
+                }
+            });
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Highlight active section in TOC
+        const observerOptions = {
+            rootMargin: '-20% 0px -70% 0px'
+        };
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Remove active class from all TOC links
+                    document.querySelectorAll('.toc-fixed a').forEach(link => {
+                        link.classList.remove('text-accent', 'font-semibold');
+                        link.classList.add('text-secondary');
+                    });
+                    
+                    // Add active class to current section's TOC link
+                    const activeLink = document.querySelector(`.toc-fixed a[href="#${entry.target.id}"]`);
+                    if (activeLink) {
+                        activeLink.classList.remove('text-secondary');
+                        activeLink.classList.add('text-accent', 'font-semibold');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section[id], div[id]').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+
+</body></html>
