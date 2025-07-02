@@ -1,0 +1,977 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手淫对男性精力及身心健康的影响与应对</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Mermaid -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #1e293b;
+            --secondary: #475569;
+            --accent: #0ea5e9;
+            --neutral: #f8fafc;
+            --base-100: #ffffff;
+            --sage-50: #f6f7f6;
+            --sage-100: #e9ebe9;
+            --sage-200: #d4d8d4;
+            --sage-300: #b0b9b0;
+            --sage-400: #8a948a;
+            --sage-500: #6b736b;
+            --sage-600: #555a55;
+            --sage-700: #464a46;
+            --sage-800: #3a3d3a;
+            --sage-900: #323532;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--primary);
+            background-color: var(--neutral);
+            line-height: 1.7;
+        }
+        
+        .serif {
+            font-family: 'Crimson Text', serif;
+        }
+        
+        .toc {
+            position: fixed;
+            left: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 280px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .toc a {
+            display: block;
+            padding: 0.5rem 0;
+            color: var(--secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-left: 3px solid transparent;
+            padding-left: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .toc a:hover {
+            color: var(--accent);
+            border-left-color: var(--accent);
+            background: rgba(14, 165, 233, 0.05);
+            transform: translateX(4px);
+        }
+        
+        .toc .level-2 {
+            padding-left: 2rem;
+            font-size: 0.85rem;
+        }
+        
+        .toc .level-3 {
+            padding-left: 3rem;
+            font-size: 0.8rem;
+        }
+        
+        .main-content {
+            margin-left: 320px;
+            max-width: 900px;
+            padding: 0 2rem;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(14, 165, 233, 0.1) 0%, transparent 100%);
+            pointer-events: none;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--secondary);
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+        
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 600;
+            margin: 3rem 0 1.5rem 0;
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+        }
+        
+        .subsection-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem 0;
+            color: var(--primary);
+        }
+        
+        .subsubsection-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.75rem 0;
+            color: var(--secondary);
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+        
+        .citation {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid transparent;
+            transition: border-bottom-color 0.3s ease;
+        }
+        
+        .citation:hover {
+            border-bottom-color: var(--accent);
+        }
+        
+        .quote-block {
+            background: var(--sage-50);
+            border-left: 4px solid var(--sage-400);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            font-style: italic;
+            position: relative;
+        }
+        
+        .quote-block::before {
+            content: '"';
+            font-size: 3rem;
+            color: var(--sage-400);
+            position: absolute;
+            top: -0.5rem;
+            left: 1rem;
+            font-family: 'Crimson Text', serif;
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--sage-200);
+        }
+        
+        .data-point {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin: 0.25rem;
+        }
+        
+        .key-insight {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 1px solid #f59e0b;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-weight: 500;
+        }
+        
+        .myth-vs-reality {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .myth, .reality {
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+        
+        .myth {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border: 1px solid #ef4444;
+        }
+        
+        .reality {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            border: 1px solid #22c55e;
+        }
+        
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px;
+            max-height: 80vh;
+            width: 100%;
+            overflow: hidden;
+            background: var(--base-100);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            cursor: grab;
+            position: relative;
+            border: 1px solid var(--sage-200);
+        }
+        
+        .mermaid:active {
+            cursor: grabbing;
+        }
+        
+        .mermaid svg {
+            max-width: 90%;
+            max-height: 90%;
+            width: auto;
+            height: auto;
+            transition: transform 0.3s ease;
+            background: var(--base-100);
+            border-radius: 8px;
+            padding: 2rem;
+        }
+        
+        .mermaid-container {
+            position: relative;
+            margin: 2rem 0;
+            background: var(--base-100);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--sage-200);
+            overflow: hidden;
+        }
+        
+        .mermaid-controls {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+            padding: 0.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mermaid-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            min-width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .mermaid-btn:hover {
+            background: var(--accent);
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+        }
+        
+        .mermaid-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .zoom-indicator {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            background: rgba(30, 41, 59, 0.9);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            z-index: 10;
+        }
+        
+        @media (max-width: 1200px) {
+            .toc {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.25rem;
+            }
+            .section-title {
+                font-size: 1.75rem;
+            }
+            .subsection-title {
+                font-size: 1.5rem;
+            }
+            .myth-vs-reality {
+                grid-template-columns: 1fr;
+            }
+            .mermaid {
+                min-height: 300px;
+            }
+            .mermaid svg {
+                max-width: 95%;
+                max-height: 95%;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Table of Contents -->
+    <nav class="toc">
+        <h3 class="font-semibold mb-4 serif">目录</h3>
+        <a href="#hero" class="level-1">概述</a>
+        <a href="#relationship" class="level-1">1. 手淫与记忆力的关系</a>
+        <a href="#general-view" class="level-2">1.1 普遍观点：适度手淫不影响记忆力</a>
+        <a href="#expert-interpretation" class="level-2">1.2 专家解读：规律自慰无害</a>
+        <a href="#frequent-effects" class="level-1">2. 频繁手淫的潜在影响</a>
+        <a href="#physiological" class="level-2">2.1 对生理机能的可能影响</a>
+        <a href="#physical-fatigue" class="level-3">2.1.1 身体疲劳感</a>
+        <a href="#mental-concentration" class="level-3">2.1.2 精神集中度下降</a>
+        <a href="#psychological" class="level-2">2.2 对心理状态的可能影响</a>
+        <a href="#mood-swings" class="level-3">2.2.1 情绪波动</a>
+        <a href="#indirect-effects" class="level-3">2.2.2 间接影响记忆力</a>
+        <a href="#healthy-approach" class="level-1">3. 如何正确面对手淫</a>
+        <a href="#normalcy" class="level-2">3.1 认识手淫的普遍性与正常性</a>
+        <a href="#moderation" class="level-2">3.2 保持适度与规律</a>
+        <a href="#mental-health" class="level-2">3.3 关注心理健康</a>
+        <a href="#professional-help" class="level-2">3.4 寻求专业帮助</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section id="hero" class="hero-section">
+            <h1 class="hero-title serif">手淫对男性精力及身心健康的影响与应对</h1>
+            <p class="hero-subtitle">科学认识自慰行为，构建健康性观念</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                <div class="bg-white/60 backdrop-blur-sm p-6 rounded-lg">
+                    <h3 class="font-semibold text-lg mb-3 serif">核心观点</h3>
+                    <p class="text-gray-700">适度手淫通常被认为是正常的生理行为，一般不会对记忆力、精力或整体健康产生负面影响，甚至可能通过缓解压力、改善情绪和睡眠对身心有益。</p>
+                </div>
+                <div class="bg-white/60 backdrop-blur-sm p-6 rounded-lg">
+                    <h3 class="font-semibold text-lg mb-3 serif">关键提醒</h3>
+                    <p class="text-gray-700">频繁或过度的自慰行为则可能导致身体疲劳、精神不集中、情绪波动，并可能间接影响记忆力和注意力。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 1: Relationship with Memory -->
+        <section id="relationship">
+            <h2 class="section-title serif">1. 手淫与记忆力的关系</h2>
+            
+            <div id="general-view">
+                <h3 class="subsection-title serif">1.1 普遍观点：适度手淫不影响记忆力</h3>
+                <p>根据现有医学研究和专家观点，<strong>适度的手淫行为本身通常不会直接导致记忆力衰退</strong> <a href="https://m.youlai.cn/sjingbian/article/4A7D27g4g4V.html" class="citation" target="_blank">[144]</a><a href="https://www.drshyam.com/does-masturbation-cause-memory-loss/" class="citation" target="_blank">[155]</a>。记忆力的形成和巩固主要依赖于大脑中海马体和前额叶皮层的神经网络功能，而适度的、作为正常生理活动的手淫行为，并不会对这些神经网络的正常运作或结构造成损害 <a href="https://www.drshyam.com/does-masturbation-cause-memory-loss/" class="citation" target="_blank">[155]</a>。</p>
+                
+                <div class="quote-block">
+                    北京中医药大学东直门医院的李海松主任医师指出，手淫本身并不会影响记忆力。导致记忆力减退的主要原因往往是与手淫相关的焦虑、紧张等负面心理状态，而非手淫行为本身。
+                </div>
+                
+                <p>李海松主任医师认为，当个体对手淫持有错误的认知，例如认为手淫会"伤肾"、"伤脑"时，这种观念可能导致其产生焦虑、抑郁等不良情绪，进而间接影响记忆力 <a href="https://m.dayi.org.cn/qa/34761.html" class="citation" target="_blank">[24]</a>。事实上，通过手淫的方式排出精液，在一定程度上可以缓解压力感和紧张感，改善心情，从这个角度看，<strong>适度的手淫对记忆力并无害处，甚至可能有一定的积极作用</strong> <a href="https://m.dayi.org.cn/qa/34761.html" class="citation" target="_blank">[24]</a>。</p>
+            </div>
+
+            <div id="expert-interpretation" class="mt-8">
+                <h3 class="subsection-title serif">1.2 专家解读：规律自慰无害，反有益于情绪与睡眠</h3>
+                <p>许多医学专家和性学研究者认为，<strong>规律的、适度的自慰行为不仅对身体无害，反而可能对个体的情绪调节和睡眠质量产生积极影响</strong> <a href="https://www.medicalnewstoday.com/articles/masturbation-effects-on-brain" class="citation" target="_blank">[87]</a><a href="https://www.medicalnewstoday.com/articles/masturbation-effects-on-brain" class="citation" target="_blank">[138]</a>。</p>
+                
+                <div class="highlight-box">
+                    <h4 class="font-semibold mb-3">自慰过程中的神经化学变化</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                        <div class="text-center p-3 bg-white/50 rounded-lg">
+                            <div class="text-2xl mb-2">🧠</div>
+                            <div class="font-semibold">多巴胺</div>
+                            <div class="text-sm text-gray-600">愉悦感和奖赏机制</div>
+                        </div>
+                        <div class="text-center p-3 bg-white/50 rounded-lg">
+                            <div class="text-2xl mb-2">😌</div>
+                            <div class="font-semibold">内啡肽</div>
+                            <div class="text-sm text-gray-600">镇痛和欣快感</div>
+                        </div>
+                        <div class="text-center p-3 bg-white/50 rounded-lg">
+                            <div class="text-2xl mb-2">💕</div>
+                            <div class="font-semibold">催产素</div>
+                            <div class="text-sm text-gray-600">亲密感和放松感</div>
+                        </div>
+                        <div class="text-center p-3 bg-white/50 rounded-lg">
+                            <div class="text-2xl mb-2">😴</div>
+                            <div class="font-semibold">血清素</div>
+                            <div class="text-sm text-gray-600">情绪稳定和睡眠调节</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p>从神经化学的角度来看，自慰过程中及达到性高潮时，大脑会释放多种神经递质和激素，例如多巴胺、内啡肽、催产素和血清素等 <a href="https://www.medicalnewstoday.com/articles/masturbation-effects-on-brain" class="citation" target="_blank">[87]</a><a href="https://zanducare.com/blogs/exploring-ayurveda/exploring-the-impact-of-masturbation-on-memory-and-cognitive-health" class="citation" target="_blank">[104]</a>。多巴胺与愉悦感和奖赏机制相关，能够提升情绪；内啡肽具有镇痛和产生欣快感的作用，有助于缓解压力和焦虑；催产素则与亲密感、信任感和放松感有关，有助于降低皮质醇（一种压力激素）的水平；血清素则对情绪稳定和睡眠调节有重要作用 <a href="https://www.juguandian.com/blog_q/well/masturbation-for-stress-relief-benefits-6751548_cn" class="citation" target="_blank">[115]</a>。</p>
+                
+                <div class="key-insight">
+                    <i class="fas fa-lightbulb mr-2"></i>
+                    <strong>研究发现：</strong>2019年一项针对778名成年人的调查研究发现，受访者普遍认为性高潮（包括通过自慰达到的）与积极的睡眠结果相关，许多人感觉自慰有助于缩短入睡时间并改善睡眠质量。
+                </div>
+                
+                <p>良好的睡眠对于认知功能，特别是记忆巩固和学习能力至关重要。因此，通过改善睡眠，适度的自慰行为可能间接对认知功能产生积极影响。此外，一些小型研究也提示，性活动（包括自慰）可能对老年人的认知功能，如回忆和数字排序能力，有积极影响 <a href="https://www.medicalnewstoday.com/articles/masturbation-effects-on-brain" class="citation" target="_blank">[87]</a><a href="https://www.medicalnewstoday.com/articles/masturbation-effects-on-brain" class="citation" target="_blank">[105]</a>。</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Potential Effects of Frequent Masturbation -->
+        <section id="frequent-effects">
+            <h2 class="section-title serif">2. 频繁手淫的潜在影响</h2>
+            
+            <div id="physiological">
+                <h3 class="subsection-title serif">2.1 对生理机能的可能影响</h3>
+                
+                <div id="physical-fatigue">
+                    <h4 class="subsubsection-title serif">2.1.1 身体疲劳感</h4>
+                    <p><strong>频繁或过度的自慰行为可能导致身体出现明显的疲劳感</strong>。这种疲劳感可能源于多个方面。首先，自慰过程本身是一种体力消耗活动，尤其是在短时间内多次或长时间进行时，身体能量的消耗会更为显著，从而导致疲惫感 <a href="https://health.baidu.com/m/detail/ar_10519102582167807045" class="citation" target="_blank">[18]</a><a href="https://www.droracle.ai/articles/104004/jerking-off-takes-energy" class="citation" target="_blank">[65]</a>。</p>
+                    
+                    <div class="myth-vs-reality">
+                        <div class="myth">
+                            <h5 class="font-bold text-red-700 mb-2"><i class="fas fa-times-circle mr-2"></i>误解</h5>
+                            <p class="text-sm">手淫消耗大量体力，等同于剧烈运动</p>
+                        </div>
+                        <div class="reality">
+                            <h5 class="font-bold text-green-700 mb-2"><i class="fas fa-check-circle mr-2"></i>事实</h5>
+                            <p class="text-sm">单次手淫的能量消耗相当于步行或爬楼梯，但频繁进行可能导致累积疲劳</p>
+                        </div>
+                    </div>
+                    
+                    <p>虽然单次自慰的能量消耗相对较小，大致相当于以每小时3至4英里的速度在跑步机上行走或快速爬两段楼梯 <a href="https://www.droracle.ai/articles/104004/jerking-off-takes-energy" class="citation" target="_blank">[65]</a>，但如果频率过高，累积的能量消耗也可能导致身体感到疲倦。其次，频繁的性兴奋和高潮会刺激神经系统，导致神经兴奋过度，进而可能引发神经系统的疲劳和虚弱感 <a href="https://health.baidu.com/m/detail/ar_10519102582167807045" class="citation" target="_blank">[18]</a><a href="https://www.durex.com.cn/lovelove-knowledge-bothsexes/syddymywh" class="citation" target="_blank">[97]</a>。</p>
+                    
+                    <div class="quote-block">
+                        中医理论认为，过度手淫会消耗肾精，而肾精是维持人体生命活动和能量的基本物质，肾精亏虚则可能导致全身乏力、精神不振。
+                    </div>
+                    
+                    <p>中医理论也支持这一观点，认为过度手淫会消耗肾精，而肾精是维持人体生命活动和能量的基本物质，肾精亏虚则可能导致全身乏力、精神不振 <a href="https://health.baidu.com/m/detail/qr_9883194878648276297" class="citation" target="_blank">[37]</a><a href="https://m.dayi.org.cn/qa/349948.html" class="citation" target="_blank">[39]</a>。此外，手淫后可能伴随的睡眠质量下降（例如因过度兴奋难以入睡或睡眠过浅）也会加剧白天的疲劳感 <a href="https://health.baidu.com/m/detail/ar_10519102582167807045" class="citation" target="_blank">[18]</a><a href="https://health.baidu.com/m/detail/ar_10589888011164959144" class="citation" target="_blank">[21]</a>。</p>
+                </div>
+                
+                <div id="mental-concentration" class="mt-8">
+                    <h4 class="subsubsection-title serif">2.1.2 精神集中度下降</h4>
+                    <p><strong>频繁手淫与精神集中度下降之间存在一定的关联</strong>，其机制可能涉及生理和心理多个层面。从生理角度看，过度手淫可能导致睡眠质量下降，例如因性兴奋导致入睡困难或睡眠过浅，而睡眠不足会直接影响第二天的注意力和专注力 <a href="https://health.baidu.com/m/detail/ar_10589888011164959144" class="citation" target="_blank">[21]</a><a href="https://zhuanlan.zhihu.com/p/531587310" class="citation" target="_blank">[49]</a>。</p>
+                    
+                    <div class="mermaid-container">
+                        <div class="mermaid-controls">
+                            <button class="mermaid-btn" onclick="zoomMermaid('concentration-chart', 1.2)" title="放大">
+                                <i class="fas fa-search-plus"></i>
+                            </button>
+                            <button class="mermaid-btn" onclick="zoomMermaid('concentration-chart', 0.8)" title="缩小">
+                                <i class="fas fa-search-minus"></i>
+                            </button>
+                            <button class="mermaid-btn" onclick="resetMermaid('concentration-chart')" title="重置">
+                                <i class="fas fa-undo"></i>
+                            </button>
+                        </div>
+                        <div class="zoom-indicator" id="concentration-chart-zoom">100%</div>
+                        <div class="mermaid" id="concentration-chart">
+                            graph TD
+                                A[频繁手淫] --> B[睡眠质量下降]
+                                A --> C[多巴胺水平波动]
+                                A --> D[激素水平失衡]
+                                B --> E[注意力不集中]
+                                C --> E
+                                D --> E
+                                E --> F[学习工作效率下降]
+                                
+                                style A fill:#fee2e2,stroke:#dc2626,stroke-width:2px,color:#7f1d1d
+                                style E fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#92400e
+                                style F fill:#fecaca,stroke:#dc2626,stroke-width:2px,color:#7f1d1d
+                                style B fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,color:#0c4a6e
+                                style C fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,color:#0c4a6e
+                                style D fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,color:#0c4a6e
+                        </div>
+                    </div>
+                    
+                    <p>此外，频繁手淫可能导致大脑中多巴胺等神经递质水平的波动。虽然多巴胺与奖励和愉悦感相关，但过度的多巴胺释放可能导致神经传递的不平衡，进而影响注意力和专注能力 <a href="https://health.baidu.com/m/detail/ar_10589888011164959144" class="citation" target="_blank">[21]</a><a href="https://www.163.com/dy/article/IM0ODM8N05148PF4.html" class="citation" target="_blank">[55]</a>。一些研究还指出，过度手淫可能导致体内激素水平（如睾酮）的失衡，这也可能对大脑功能，包括警觉度和注意力产生负面影响 <a href="https://health.baidu.com/m/detail/ar_10589888011164959144" class="citation" target="_blank">[21]</a>。</p>
+                    
+                    <p>从心理层面看，过度手淫可能使个体花费过多时间和精力在性幻想和自慰行为上，从而分散了其在学习、工作等其他重要事务上的注意力 <a href="https://health.baidu.com/m/detail/ar_10589888011164959144" class="citation" target="_blank">[21]</a><a href="https://www.draroras.com/blog/wp-content/uploads/2024/09/Masturbation-Side-Effect.pdf" class="citation" target="_blank">[156]</a>。同时，因手淫产生的内疚、焦虑等负面情绪也会对大脑功能产生干扰，影响个体的精神状态和集中注意力的能力 <a href="https://health.baidu.com/m/detail/ar_10589888011164959144" class="citation" target="_blank">[21]</a><a href="https://www.hbsa.com.cn/list_77/268.html" class="citation" target="_blank">[47]</a>。</p>
+                </div>
+            </div>
+            
+            <div id="psychological" class="mt-8">
+                <h3 class="subsection-title serif">2.2 对心理状态的可能影响</h3>
+                
+                <div id="mood-swings">
+                    <h4 class="subsubsection-title serif">2.2.1 情绪波动（焦虑、内疚、羞耻感）</h4>
+                    <p><strong>频繁或强迫性的手淫行为常常与负面情绪体验紧密相关，如焦虑、内疚、羞耻感等</strong> <a href="https://health.baidu.com/m/detail/ar_10519102582167807045" class="citation" target="_blank">[18]</a><a href="https://cont.jd.com/content/1812_j_1_fpBme3fbd5" class="citation" target="_blank">[34]</a>。这些情绪波动可能源于多个方面。</p>
+                    
+                    <div class="highlight-box">
+                        <h5 class="font-semibold mb-3">情绪波动的来源</h5>
+                        <div class="space-y-3">
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <strong>社会文化压力：</strong>社会文化和个人价值观对手淫行为的负面评价，可能导致个体在进行手淫后产生强烈的内疚感和羞耻感
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <strong>失控感：</strong>当手淫行为失去控制，成为一种强迫性习惯时，个体可能会因为无法克制自己的行为而感到沮丧、无助
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <strong>恶性循环：</strong>个体试图通过手淫来发泄负面情绪，但手淫后往往感到更加失落和空虚，反而强化了负面情绪
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p>首先，社会文化和个人价值观对手淫行为的负面评价，可能导致个体在进行手淫后产生强烈的内疚感和羞耻感，认为自己做了"错事"或"不道德"的行为 <a href="https://health.baidu.com/m/detail/ar_10519102582167807045" class="citation" target="_blank">[18]</a><a href="https://cont.jd.com/content/1812_j_1_fpBme3fbd5" class="citation" target="_blank">[34]</a>。这种心理压力如果长期存在，容易演变成焦虑情绪。</p>
+                    
+                    <p>其次，当手淫行为失去控制，成为一种强迫性习惯时，个体可能会因为无法克制自己的行为而感到沮丧、无助和自我否定，这些情绪进一步加剧了焦虑和抑郁的风险 <a href="https://www.juguandian.com/blog_q/well/what-is-masturbation-addiction-5077411_cn" class="citation" target="_blank">[29]</a><a href="https://m.dxy.com/disease/77/detail" class="citation" target="_blank">[42]</a>。知乎专栏的一篇文章指出，坏情绪与手淫行为可能形成恶性循环，即个体试图通过手淫来发泄负面情绪，但手淫后往往感到更加失落和空虚，反而强化了负面情绪 <a href="https://zhuanlan.zhihu.com/p/440990106" class="citation" target="_blank">[28]</a>。</p>
+                </div>
+                
+                <div id="indirect-effects" class="mt-8">
+                    <h4 class="subsubsection-title serif">2.2.2 间接影响记忆力与注意力</h4>
+                    <p><strong>频繁手淫对心理状态的负面影响，特别是焦虑、抑郁等情绪问题，可以间接导致记忆力与注意力的下降</strong>。当个体因过度手淫或对手淫行为产生错误认知而长期处于焦虑、紧张或抑郁状态时，这些负面情绪会占用大量的心理资源，使得个体难以将注意力有效地集中在学习、工作等任务上 <a href="https://health.baidu.com/m/detail/ar_10589888011164959144" class="citation" target="_blank">[21]</a><a href="https://m.dayi.org.cn/qa/34761.html" class="citation" target="_blank">[24]</a>。</p>
+                    
+                    <div class="quote-block">
+                        北京中医药大学东直门医院的李海松主任医师指出，认为手淫对身体有损害而引起的焦虑、紧张等心理状态，才是导致记忆力减退的真正原因，而非手淫行为本身。
+                    </div>
+                    
+                    <p>持续的负面情绪还会影响睡眠质量，而睡眠不足则会进一步损害认知功能，包括记忆巩固和注意力维持 <a href="https://health.baidu.com/m/detail/ar_10589888011164959144" class="citation" target="_blank">[21]</a><a href="https://zhuanlan.zhihu.com/p/274465859" class="citation" target="_blank">[43]</a>。此外，一些研究提到，强迫性手淫可能与潜在的抑郁症或焦虑症相关，个体可能通过手淫来试图提升情绪、放松或减轻压力，但这种应对方式往往效果不佳，反而可能加剧原有的心理问题，形成恶性循环，从而对认知功能造成更长远的影响 <a href="https://www.juguandian.com/blog_q/well/what-is-masturbation-addiction-5077411_cn" class="citation" target="_blank">[29]</a>。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Healthy Approach -->
+        <section id="healthy-approach">
+            <h2 class="section-title serif">3. 如何正确面对手淫</h2>
+            
+            <div id="normalcy">
+                <h3 class="subsection-title serif">3.1 认识手淫的普遍性与正常性</h3>
+                <p><strong>正确面对手淫的首要步骤是认识到它是一种普遍且正常的生理和心理现象</strong> <a href="https://www.durex.com.cn/lovelove-knowledge-bothsexes/syddymywh" class="citation" target="_blank">[97]</a><a href="https://m.douban.com/book/review/12987647/" class="citation" target="_blank">[111]</a>。从生物学角度看，手淫是性成熟和性紧张时期，个体对性的好奇和探索，以及缓解性冲动的一种方式 <a href="https://www.rmhospital.com/article/id/4031.html" class="citation" target="_blank">[112]</a>。</p>
+                
+                <div class="highlight-box">
+                    <h4 class="font-semibold mb-3">手淫普遍性的证据</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white/50 p-4 rounded-lg">
+                            <div class="text-3xl font-bold text-blue-600 mb-2">93%</div>
+                            <div class="text-sm">美国男性有过手淫经历（金赛性学报告）</div>
+                        </div>
+                        <div class="bg-white/50 p-4 rounded-lg">
+                            <div class="text-3xl font-bold text-pink-600 mb-2">62%</div>
+                            <div class="text-sm">美国女性有过手淫经历（金赛性学报告）</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p>大量研究表明，绝大多数男性和相当比例的女性都有过手淫经历 <a href="https://www.durex.com.cn/lovelove-knowledge-bothsexes/syddymywh" class="citation" target="_blank">[97]</a><a href="https://m.douban.com/book/review/12987647/" class="citation" target="_blank">[111]</a>。例如，金赛性学报告曾指出，美国男性的手淫比例高达93%，女性为62% <a href="https://m.douban.com/book/review/12987647/" class="citation" target="_blank">[111]</a>。精神分析大师弗洛伊德也认为手淫是每个人过渡到正常性生活的必经阶段 <a href="https://m.douban.com/book/review/12987647/" class="citation" target="_blank">[111]</a>。</p>
+                
+                <div class="key-insight">
+                    <i class="fas fa-heart mr-2"></i>
+                    <strong>重要提醒：</strong>个体不必因为自己有手淫行为而感到羞耻、内疚或认为自己不正常。手淫并非道德败坏的表现，也不是一种疾病。
+                </div>
+            </div>
+            
+            <div id="moderation" class="mt-8">
+                <h3 class="subsection-title serif">3.2 保持适度与规律</h3>
+                <p>尽管手淫是正常行为，但<strong>关键在于保持适度与规律，避免过度沉溺</strong> <a href="https://www.haodf.com/neirong/wenzhang/424164808.html" class="citation" target="_blank">[95]</a><a href="https://www.durex.com.cn/lovelove-knowledge-bothsexes/syddymywh" class="citation" target="_blank">[97]</a>。所谓"适度"，并没有一个统一的标准，因为个体差异很大，需要根据自身的身体状况、精神状态和生活节奏来调整。</p>
+                
+                <div class="mermaid-container">
+                    <div class="mermaid-controls">
+                        <button class="mermaid-btn" onclick="zoomMermaid('moderation-chart', 1.2)" title="放大">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                        <button class="mermaid-btn" onclick="zoomMermaid('moderation-chart', 0.8)" title="缩小">
+                            <i class="fas fa-search-minus"></i>
+                        </button>
+                        <button class="mermaid-btn" onclick="resetMermaid('moderation-chart')" title="重置">
+                            <i class="fas fa-undo"></i>
+                        </button>
+                    </div>
+                    <div class="zoom-indicator" id="moderation-chart-zoom">100%</div>
+                    <div class="mermaid" id="moderation-chart">
+                        flowchart LR
+                            A[适度标准] --> B[身体状况]
+                            A --> C[精神状态]
+                            A --> D[生活节奏]
+                            
+                            B --> B1[无疲劳感]
+                            B --> B2[无不适症状]
+                            
+                            C --> C1[情绪稳定]
+                            C --> C2[注意力集中]
+                            
+                            D --> D1[不影响工作学习]
+                            D --> D2[不影响社交]
+                            
+                            style A fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#1e3a8a
+                            style B fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#92400e
+                            style C fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#92400e
+                            style D fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#92400e
+                            style B1 fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#166534
+                            style B2 fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#166534
+                            style C1 fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#166534
+                            style C2 fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#166534
+                            style D1 fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#166534
+                            style D2 fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#166534
+                    </div>
+                </div>
+                
+                <p>如果手淫行为开始干扰到日常生活、工作学习、人际交往，或者导致身体出现不适（如疲劳、注意力不集中等），或者引发强烈的负面情绪，那么就可能属于"过度"的范畴 <a href="https://www.haodf.com/neirong/wenzhang/424164808.html" class="citation" target="_blank">[95]</a><a href="https://www.ckbhospital.com/blogs/10-side-effects-of-masturbation" class="citation" target="_blank">[102]</a>。<strong>过度频繁的手淫，例如每天多次，可能会对身体和精神造成不必要的负担</strong> <a href="https://www.haodf.com/neirong/wenzhang/424164808.html" class="citation" target="_blank">[95]</a><a href="https://m.douban.com/book/review/12987647/" class="citation" target="_blank">[111]</a>。</p>
+                
+                <div class="quote-block">
+                    中医理论强调"精满自溢"，适度的宣泄有益，但过度耗损肾精则可能对健康不利。
+                </div>
+                
+                <p>中医理论也强调"精满自溢"，适度的宣泄有益，但过度耗损肾精则可能对健康不利 <a href="https://zhuanlan.zhihu.com/p/677006398" class="citation" target="_blank">[93]</a><a href="https://m.douban.com/book/review/12987647/" class="citation" target="_blank">[111]</a>。因此，个体需要学会观察和感知自己的身体和情绪反应，找到适合自己的频率。培养广泛的兴趣爱好，积极参与体育锻炼、社交活动等，有助于转移对性问题的过度关注，从而更好地控制手淫的频率，使其保持在健康、适度的范围内 <a href="https://www.rmhospital.com/article/id/4031.html" class="citation" target="_blank">[112]</a>。</p>
+            </div>
+            
+            <div id="mental-health" class="mt-8">
+                <h3 class="subsection-title serif">3.3 关注心理健康，避免过度心理压力</h3>
+                <p>面对手淫，<strong>关注心理健康，避免因此产生过度的心理压力至关重要</strong>。如前所述，许多与手淫相关的负面影响，如焦虑、内疚、羞耻感等，并非源于行为本身，而是源于个体对手淫的负面认知和评价 <a href="https://m.douban.com/book/review/12987647/" class="citation" target="_blank">[111]</a><a href="https://www.rmhospital.com/article/id/4031.html" class="citation" target="_blank">[112]</a>。</p>
+                
+                <div class="highlight-box">
+                    <h4 class="font-semibold mb-3">心理健康维护策略</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-white/60 p-4 rounded-lg">
+                            <h5 class="font-semibold mb-2"><i class="fas fa-brain mr-2 text-blue-500"></i>认知调整</h5>
+                            <p class="text-sm">建立正确的性观念，科学认识手淫的普遍性和正常性</p>
+                        </div>
+                        <div class="bg-white/60 p-4 rounded-lg">
+                            <h5 class="font-semibold mb-2"><i class="fas fa-heart mr-2 text-red-500"></i>自我接纳</h5>
+                            <p class="text-sm">接纳自己的性需求和性行为，避免过度的自我批判</p>
+                        </div>
+                        <div class="bg-white/60 p-4 rounded-lg">
+                            <h5 class="font-semibold mb-2"><i class="fas fa-comments mr-2 text-green-500"></i>沟通交流</h5>
+                            <p class="text-sm">与信任的亲友沟通，或者寻求专业的心理咨询师的帮助</p>
+                        </div>
+                        <div class="bg-white/60 p-4 rounded-lg">
+                            <h5 class="font-semibold mb-2"><i class="fas fa-running mr-2 text-purple-500"></i>健康生活</h5>
+                            <p class="text-sm">培养健康的生活方式，包括规律作息、均衡饮食、适度运动</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <p>社会文化、传统观念甚至一些错误信息都可能加剧这种心理压力。因此，<strong>建立正确的性观念，科学认识手淫的普遍性和正常性，是缓解心理压力的前提</strong> <a href="https://m.douban.com/book/review/12987647/" class="citation" target="_blank">[111]</a>。如果个体因为手淫而感到困扰，首先应该尝试调整自己的认知，理解这并非一种"错误"或"罪恶"。</p>
+                
+                <p>同时，要学会接纳自己，包括自己的性需求和性行为，避免过度的自我批判和攻击 <a href="https://m.douban.com/book/review/12987647/" class="citation" target="_blank">[111]</a>。如果负面情绪难以自行排解，可以尝试与信任的亲友沟通，或者寻求专业的心理咨询师的帮助 <a href="https://www.juguandian.com/blog_q/well/what-is-masturbation-addiction-5077411_cn" class="citation" target="_blank">[114]</a>。</p>
+            </div>
+            
+            <div id="professional-help" class="mt-8">
+                <h3 class="subsection-title serif">3.4 寻求专业帮助（如产生严重心理困扰）</h3>
+                <p><strong>当手淫行为引发严重的心理困扰，如持续的焦虑、抑郁、强烈的羞耻感、自我厌恶，或者手淫行为发展到无法自控、严重影响正常生活和社交功能的程度时，寻求专业的帮助是非常必要的</strong> <a href="https://www.juguandian.com/blog_q/well/what-is-masturbation-addiction-5077411_cn" class="citation" target="_blank">[114]</a>。</p>
+                
+                <div class="key-insight">
+                    <i class="fas fa-user-md mr-2"></i>
+                    <strong>专业帮助的价值：</strong>专业的心理咨询师或性治疗师可以帮助个体深入探讨手淫行为背后的心理动因，识别并处理深层问题，发展出更健康的应对策略。
+                </div>
+                
+                <p>专业的心理咨询师或性治疗师可以帮助个体深入探讨手淫行为背后的心理动因，例如是否存在潜在的抑郁、焦虑症，或者是否与过去的创伤经历有关 <a href="https://www.juguandian.com/blog_q/well/what-is-masturbation-addiction-5077411_cn" class="citation" target="_blank">[114]</a>。通过谈话治疗等方式，专业人士可以帮助个体识别并处理这些深层问题，发展出更健康的应对策略，从而减少对手淫的过度依赖或强迫性行为 <a href="https://www.juguandian.com/blog_q/well/what-is-masturbation-addiction-5077411_cn" class="citation" target="_blank">[114]</a>。</p>
+                
+                <p>在某些情况下，如果存在共病的其他精神障碍，如重度抑郁症或强迫症，医生也可能会考虑药物治疗的辅助作用 <a href="https://www.juguandian.com/blog_q/well/what-is-masturbation-addiction-5077411_cn" class="citation" target="_blank">[114]</a>。重要的是要认识到，<strong>寻求专业帮助并非软弱的表现，而是对自己负责、积极解决问题的明智之举</strong>。</p>
+                
+                <div class="quote-block">
+                    专业人士能够提供科学的评估和个性化的干预方案，帮助个体摆脱困境，重建健康的生活状态。如果手淫带来的负面情绪已经影响到日常生活、工作学习、人际交往，或者个体感到无法自行摆脱由此产生的心理压力，那么及时寻求专业支持是至关重要的。
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section class="mt-12 p-8 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl">
+            <h2 class="text-2xl font-bold mb-4 serif">总结</h2>
+            <p class="text-lg leading-relaxed">
+                适度手淫通常被认为是正常的生理行为，一般不会对记忆力、精力或整体健康产生负面影响，甚至可能通过缓解压力、改善情绪和睡眠对身心有益。然而，频繁或过度的自慰行为则可能导致身体疲劳、精神不集中、情绪波动（如焦虑、内疚），并可能间接影响记忆力和注意力。正确面对手淫的关键在于认识其普遍性与正常性，保持适度与规律，关注心理健康，并在必要时寻求专业帮助。
+            </p>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-16 pt-8 border-t border-gray-200 text-center text-gray-600 text-sm">
+            <p>本报告基于现有医学研究和专家观点，旨在提供科学、客观的信息，帮助读者建立健康的性观念。</p>
+            <p class="mt-2">如需专业帮助，请咨询医疗健康专业人士。</p>
+        </footer>
+    </main>
+
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                // Primary colors with high contrast
+                primaryColor: '#dbeafe',
+                primaryTextColor: '#1e3a8a',
+                primaryBorderColor: '#2563eb',
+                
+                // Secondary colors
+                secondaryColor: '#fef3c7',
+                secondaryTextColor: '#92400e',
+                secondaryBorderColor: '#d97706',
+                
+                // Tertiary colors
+                tertiaryColor: '#dcfce7',
+                tertiaryTextColor: '#166534',
+                tertiaryBorderColor: '#16a34a',
+                
+                // Background and lines
+                background: '#ffffff',
+                mainBkg: '#ffffff',
+                lineColor: '#374151',
+                
+                // Text colors for better contrast
+                textColor: '#1f2937',
+                darkTextColor: '#111827',
+                
+                // Node specific colors with high contrast
+                cScale0: '#dbeafe',
+                cScale1: '#fef3c7', 
+                cScale2: '#dcfce7',
+                cScale3: '#f3e8ff',
+                cScale4: '#fce7f3',
+                
+                // Ensure text is always dark on light backgrounds
+                nodeBkg: '#ffffff',
+                nodeTextColor: '#1f2937',
+                
+                // Edge and arrow colors
+                edgeLabelBackground: '#ffffff',
+                edgeLabelText: '#374151',
+                
+                // Cluster colors
+                clusterBkg: '#f8fafc',
+                clusterBorder: '#cbd5e1'
+            },
+            flowchart: {
+                useMaxWidth: false,
+                htmlLabels: true,
+                curve: 'basis',
+                padding: 20
+            },
+            sequence: {
+                useMaxWidth: false,
+                wrap: true
+            },
+            gantt: {
+                useMaxWidth: false
+            }
+        });
+
+        // Mermaid zoom and drag functionality
+        let mermaidStates = {};
+
+        function initializeMermaidInteraction() {
+            document.querySelectorAll('.mermaid').forEach(mermaidElement => {
+                const id = mermaidElement.id;
+                mermaidStates[id] = {
+                    scale: 1,
+                    translateX: 0,
+                    translateY: 0,
+                    isDragging: false,
+                    startX: 0,
+                    startY: 0
+                };
+
+                // Add drag functionality
+                mermaidElement.addEventListener('mousedown', startDrag);
+                mermaidElement.addEventListener('mousemove', drag);
+                mermaidElement.addEventListener('mouseup', endDrag);
+                mermaidElement.addEventListener('mouseleave', endDrag);
+                
+                // Add wheel zoom
+                mermaidElement.addEventListener('wheel', handleWheel);
+                
+                // Add touch support for mobile
+                mermaidElement.addEventListener('touchstart', startDragTouch);
+                mermaidElement.addEventListener('touchmove', dragTouch);
+                mermaidElement.addEventListener('touchend', endDrag);
+            });
+        }
+
+        function startDrag(e) {
+            const id = e.currentTarget.id;
+            mermaidStates[id].isDragging = true;
+            mermaidStates[id].startX = e.clientX - mermaidStates[id].translateX;
+            mermaidStates[id].startY = e.clientY - mermaidStates[id].translateY;
+            e.currentTarget.style.cursor = 'grabbing';
+        }
+
+        function startDragTouch(e) {
+            const id = e.currentTarget.id;
+            const touch = e.touches[0];
+            mermaidStates[id].isDragging = true;
+            mermaidStates[id].startX = touch.clientX - mermaidStates[id].translateX;
+            mermaidStates[id].startY = touch.clientY - mermaidStates[id].translateY;
+        }
+
+        function drag(e) {
+            const id = e.currentTarget.id;
+            if (!mermaidStates[id].isDragging) return;
+            e.preventDefault();
+            
+            mermaidStates[id].translateX = e.clientX - mermaidStates[id].startX;
+            mermaidStates[id].translateY = e.clientY - mermaidStates[id].startY;
+            
+            updateMermaidTransform(id);
+        }
+
+        function dragTouch(e) {
+            const id = e.currentTarget.id;
+            if (!mermaidStates[id].isDragging) return;
+            e.preventDefault();
+            
+            const touch = e.touches[0];
+            mermaidStates[id].translateX = touch.clientX - mermaidStates[id].startX;
+            mermaidStates[id].translateY = touch.clientY - mermaidStates[id].startY;
+            
+            updateMermaidTransform(id);
+        }
+
+        function endDrag(e) {
+            const id = e.currentTarget.id;
+            mermaidStates[id].isDragging = false;
+            e.currentTarget.style.cursor = 'grab';
+        }
+
+        function handleWheel(e) {
+            e.preventDefault();
+            const id = e.currentTarget.id;
+            const delta = e.deltaY > 0 ? 0.9 : 1.1;
+            
+            const newScale = Math.max(0.3, Math.min(3, mermaidStates[id].scale * delta));
+            mermaidStates[id].scale = newScale;
+            
+            updateMermaidTransform(id);
+            updateZoomIndicator(id);
+        }
+
+        function zoomMermaid(id, factor) {
+            const newScale = Math.max(0.3, Math.min(3, mermaidStates[id].scale * factor));
+            mermaidStates[id].scale = newScale;
+            
+            updateMermaidTransform(id);
+            updateZoomIndicator(id);
+        }
+
+        function resetMermaid(id) {
+            mermaidStates[id].scale = 1;
+            mermaidStates[id].translateX = 0;
+            mermaidStates[id].translateY = 0;
+            
+            updateMermaidTransform(id);
+            updateZoomIndicator(id);
+        }
+
+        function updateMermaidTransform(id) {
+            const mermaidElement = document.getElementById(id);
+            const svg = mermaidElement.querySelector('svg');
+            if (svg) {
+                svg.style.transform = `translate(${mermaidStates[id].translateX}px, ${mermaidStates[id].translateY}px) scale(${mermaidStates[id].scale})`;
+            }
+        }
+
+        function updateZoomIndicator(id) {
+            const indicator = document.getElementById(`${id}-zoom`);
+            if (indicator) {
+                indicator.textContent = `${Math.round(mermaidStates[id].scale * 100)}%`;
+            }
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Highlight current section in TOC
+        function highlightCurrentSection() {
+            const sections = document.querySelectorAll('section[id], div[id]');
+            const tocLinks = document.querySelectorAll('.toc a');
+            
+            let currentSection = '';
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 100 && rect.bottom >= 100) {
+                    currentSection = section.id;
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('bg-blue-100', 'border-blue-500');
+                if (link.getAttribute('href') === `#${currentSection}`) {
+                    link.classList.add('bg-blue-100', 'border-blue-500');
+                }
+            });
+        }
+
+        // Update on scroll
+        window.addEventListener('scroll', highlightCurrentSection);
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            highlightCurrentSection();
+            // Initialize mermaid interactions after a short delay to ensure mermaid has rendered
+            setTimeout(initializeMermaidInteraction, 1000);
+        });
+    </script>
+</body>
+</html>

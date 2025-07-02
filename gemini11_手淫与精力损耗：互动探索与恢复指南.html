@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手淫与精力损耗：互动探索与恢复指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals (Calm Harmony) -->
+    <!-- Application Structure Plan: The SPA is designed as a guided journey. It starts with a Hero section to validate the user's feelings. Next, the "Core Conflict" section uses an interactive chart to visualize the discrepancy between science and experience. The "Unified Model" section then provides the central explanation using an animated diagram, bridging Western psychology and TCM. A "Symptom Checker" helps differentiate the user's experience from the medical condition POIS. Finally, the "Recovery Plan" section offers actionable steps in a user-friendly tabbed format. This thematic flow prioritizes user understanding and empowerment over a rigid, academic structure. -->
+    <!-- Visualization & Content Choices: 1. Core Conflict (Goal: Compare): A Chart.js radar chart visualizes the positive "Biochemical Cocktail" of orgasm versus the negative feeling of "Fatigue". Interaction: A toggle reveals the fatigue, creating a powerful visual metaphor for the user's conflict. Justification: More engaging than text, it immediately validates the user's experience. 2. Unified Model (Goal: Explain Relationship): An HTML/CSS flowchart (using Tailwind) shows the causal link from Guilt -> Stress -> Fatigue. Interaction: Elements fade in on scroll to guide understanding. Justification: An animated diagram simplifies a complex concept without needing external libraries. 3. POIS Differentiator (Goal: Organize/Inform): A simple, clear HTML comparison table. Interaction: Minimal, focusing on clarity. Justification: The most effective way to present differential diagnostic criteria. 4. Recovery Plan (Goal: Organize/Inform): An interactive tabbed component. Interaction: Clicking tabs switches content. Justification: Organizes extensive advice into manageable sections, improving usability. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #FDFBF8;
+            color: #3a3a3a;
+        }
+        .calm-shadow {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-button:hover, .nav-button.active {
+            color: #A38560;
+            border-bottom-color: #A38560;
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+        .tab-button.active {
+            background-color: #A38560;
+            color: #ffffff;
+        }
+        .tab-button:not(.active) {
+            background-color: #EFEAE4;
+            color: #A38560;
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 40vh;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 calm-shadow">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-[#A38560]">精力恢复指南</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#conflict" class="nav-button pb-1">核心矛盾</a>
+                <a href="#bridge" class="nav-button pb-1">根本原因</a>
+                <a href="#checker" class="nav-button pb-1">症状自查</a>
+                <a href="#recovery" class="nav-button pb-1">恢复计划</a>
+            </div>
+            <div class="md:hidden">
+                <select id="mobile-nav" class="bg-white border border-gray-300 rounded-md py-2 px-3 text-gray-700">
+                    <option value="#hero">首页</option>
+                    <option value="#conflict">核心矛盾</option>
+                    <option value="#bridge">根本原因</option>
+                    <option value="#checker">症状自查</option>
+                    <option value="#recovery">恢复计划</option>
+                </select>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero" class="py-20 md:py-32 bg-[#F8F5F1]">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-800 mb-4 fade-in">感到疲惫？你的感受是真实的。</h2>
+                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto fade-in" style="transition-delay: 200ms;">许多人都有过手淫后精力不济的体验，这与“手淫健康无害”的普遍说法似乎相悖。本指南将以一种非评判的视角，融合现代科学与传统智慧，帮助你理解这种疲劳的真正来源，并提供一套全面的身心恢复策略。</p>
+            </div>
+        </section>
+
+        <section id="conflict" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 fade-in">科学与体感的矛盾</h3>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto fade-in">从生物化学角度看，性高潮是一场有益身心的“激素鸡尾酒会”。但这为什么与你“被掏空”的感觉截然不同？让我们直观地看看这个矛盾。</p>
+                </div>
+                <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                    <div class="w-full md:w-1/2 fade-in">
+                        <div class="chart-container">
+                            <canvas id="conflictChart"></canvas>
+                        </div>
+                        <div class="text-center mt-4">
+                            <button id="toggleFatigueBtn" class="bg-[#A38560] text-white px-6 py-2 rounded-full hover:bg-[#8e7354] transition-colors">点击揭示：我的真实感受</button>
+                        </div>
+                    </div>
+                    <div id="conflict-text" class="w-full md:w-1/2 space-y-4 fade-in">
+                        <h4 class="text-2xl font-bold text-gray-700">积极的“化学风暴”</h4>
+                        <p class="text-gray-600">高潮时，大脑会释放大量带来愉悦、放松和满足感的物质：</p>
+                        <ul class="list-none space-y-2">
+                            <li class="flex items-start"><span class="text-[#A38560] text-xl mr-2">✓</span><div><strong>多巴胺 & 内啡肽：</strong> 创造愉悦与激励。</div></li>
+                            <li class="flex items-start"><span class="text-[#A38560] text-xl mr-2">✓</span><div><strong>催产素 & 血清素：</strong> 促进放松、减轻压力。</div></li>
+                            <li class="flex items-start"><span class="text-[#A38560] text-xl mr-2">✓</span><div><strong>催乳素：</strong> 带来性满足感，但也可能导致暂时的睡意。</div></li>
+                        </ul>
+                        <p class="mt-4 text-gray-600">从生理上讲，这个过程是健康的，甚至是恢复性的。那么，消耗感从何而来？</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="bridge" class="py-16 md:py-24 bg-[#F8F5F1]">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 fade-in">搭建桥梁：统一东西方智慧</h3>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto fade-in">问题的关键不在于生理消耗，而在于心理反应。你的精神状态，能够真实地触发一种消耗能量的生理压力。这个模型连接了现代心理学和传统中医的洞见。</p>
+                </div>
+
+                <div class="max-w-4xl mx-auto space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                        <div class="fade-in p-6 bg-white rounded-lg calm-shadow">
+                            <div class="text-4xl mb-3">😔</div>
+                            <h4 class="text-xl font-semibold mb-2">第1步：心理诠释</h4>
+                            <p class="text-gray-600">源于文化或个人观念的<strong class="text-[#A38560]">内疚、羞耻、焦虑感</strong>，将一个自然行为解读为“错误”。</p>
+                        </div>
+                        <div class="flex items-center justify-center text-4xl text-gray-400 fade-in" style="transition-delay: 200ms;">→</div>
+                        <div class="fade-in p-6 bg-white rounded-lg calm-shadow" style="transition-delay: 400ms;">
+                            <div class="text-4xl mb-3">⚡️</div>
+                            <h4 class="text-xl font-semibold mb-2">第2步：生理应激</h4>
+                            <p class="text-gray-600">心理压力激活了身体的应激系统 (HPA轴)，导致皮质醇等<strong class="text-[#A38560]">压力激素失调</strong>。</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-center text-4xl text-gray-400 fade-in" style="transition-delay: 600ms;">↓</div>
+                    <div class="fade-in p-8 bg-white rounded-lg calm-shadow text-center" style="transition-delay: 800ms;">
+                        <div class="text-4xl mb-3">🔋</div>
+                        <h4 class="text-xl font-semibold mb-2">最终结果：能量耗竭</h4>
+                        <p class="text-gray-600">身体长期处于低度“战或逃”状态，造成累积性“磨损”(<strong class="text-[#A38560]">稳态失调负荷</strong>)，表现为<strong class="text-[#A38560]">深度疲劳和脑雾</strong>。</p>
+                        <p class="text-sm text-gray-500 mt-4 italic">这与传统中医里“过劳”或“情志不遂”导致“<strong class="text-[#A38560]">肾精亏虚</strong>”的观念，在现象上惊人地一致。</p>
+                    </div>
+                </div>
+                 <div class="text-center mt-12 fade-in" style="transition-delay: 1000ms;">
+                    <p class="text-lg text-gray-700 font-medium">结论：你失去的不是“精液”，而是被<strong class="text-[#A38560]">无形的心理压力</strong>消耗的生命能量。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="checker" class="py-16 md:py-24">
+             <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 fade-in">快速自查：是心理疲劳还是罕见病症？</h3>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto fade-in">绝大多数情况下的疲劳源于心理因素。但了解一种罕见的临床病症——高潮后疾病综合征 (POIS)，有助于你更准确地评估自身状况。请注意，这不能替代专业医疗诊断。</p>
+                </div>
+                <div class="max-w-4xl mx-auto bg-white rounded-lg calm-shadow overflow-hidden fade-in">
+                    <div class="grid grid-cols-1 md:grid-cols-2">
+                        <div class="p-6 md:p-8 border-b md:border-b-0 md:border-r border-gray-200">
+                            <h4 class="text-2xl font-bold text-gray-700 mb-4">心理诱发性疲劳 (常见)</h4>
+                            <ul class="space-y-3 text-gray-600">
+                                <li class="flex items-start"><span class="text-green-500 text-xl mr-2">✓</span><div><strong>核心感受：</strong>主要是精力不振、情绪低落、脑雾，与内疚感同步出现。</div></li>
+                                <li class="flex items-start"><span class="text-green-500 text-xl mr-2">✓</span><div><strong>发作时间：</strong>行为后不久，但与情绪波动紧密相关。</div></li>
+                                <li class="flex items-start"><span class="text-green-500 text-xl mr-2">✓</span><div><strong>持续时间：</strong>可变，从几小时到几天，取决于整体压力水平。</div></li>
+                                <li class="flex items-start"><span class="text-green-500 text-xl mr-2">✓</span><div><strong>根本原因：</strong>心理压力激活HPA轴，导致稳态失调负荷。</div></li>
+                            </ul>
+                        </div>
+                        <div class="p-6 md:p-8 bg-amber-50">
+                            <h4 class="text-2xl font-bold text-gray-700 mb-4">高潮后疾病综合征 (POIS, 罕见)</h4>
+                            <ul class="space-y-3 text-gray-600">
+                                <li class="flex items-start"><span class="text-orange-500 text-xl mr-2">!</span><div><strong>核心感受：</strong>强烈的<strong class="text-orange-600">流感样症状</strong>，如发热、肌肉酸痛、喉咙痛、鼻塞。</div></li>
+                                <li class="flex items-start"><span class="text-orange-500 text-xl mr-2">!</span><div><strong>发作时间：</strong>射精后几乎立即（数秒到数小时内）发作。</div></li>
+                                <li class="flex items-start"><span class="text-orange-500 text-xl mr-2">!</span><div><strong>持续时间：</strong>典型持续2至7天，然后自行缓解。</div></li>
+                                <li class="flex items-start"><span class="text-orange-500 text-xl mr-2">!</span><div><strong>根本原因：</strong>可能是对精液成分的自身免疫或过敏反应。</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="recovery" class="py-16 md:py-24 bg-[#F8F5F1]">
+            <div class="container mx-auto px-6">
+                 <div class="text-center mb-12">
+                    <h3 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 fade-in">你的综合恢复行动计划</h3>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto fade-in">恢复活力的关键在于降低整体压力负荷，并重建身心资源。这需要一个从心理、生理到生活方式的全面方案。</p>
+                </div>
+                <div class="max-w-5xl mx-auto fade-in">
+                    <div class="mb-6 flex flex-wrap justify-center gap-2 md:gap-4">
+                        <button class="tab-button active px-4 py-2 md:px-6 md:py-3 rounded-full font-semibold text-sm md:text-base" data-tab="mindset">🧠 心理重新校准</button>
+                        <button class="tab-button px-4 py-2 md:px-6 md:py-3 rounded-full font-semibold text-sm md:text-base" data-tab="body">💪 生理基础重建</button>
+                        <button class="tab-button px-4 py-2 md:px-6 md:py-3 rounded-full font-semibold text-sm md:text-base" data-tab="support">🌿 草本与传统支持</button>
+                    </div>
+
+                    <div class="bg-white rounded-lg calm-shadow p-6 md:p-10 min-h-[400px]">
+                        <div id="mindset" class="tab-content space-y-6">
+                            <h4 class="text-2xl font-bold text-[#A38560]">解放被内疚束缚的能量</h4>
+                            <p class="text-gray-600">这是最关键的一步。能量不是“流失”的，而是被负面情绪“消耗”的。</p>
+                            <div>
+                                <h5 class="font-semibold text-lg mb-2">1. 认知重构练习 (CBT)</h5>
+                                <p class="text-gray-600 mb-2">挑战并替换引发内疚的自动化思维。</p>
+                                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                    <p class="mb-1"><strong>旧思维：</strong>“我又浪费了精力，今天肯定废了。”</p>
+                                    <p><strong>新思维：</strong>“我通过一种自然方式放松了。疲劳感是一个信号，提醒我整体压力太高，需要更关注睡眠和营养了。”</p>
+                                </div>
+                            </div>
+                             <div>
+                                <h5 class="font-semibold text-lg mb-2">2. 正念与自我关怀</h5>
+                                <p class="text-gray-600">以不加评判的态度观察自己的感受和冲动，在“冲动”和“行动”之间创造一个选择的空间。对自己温柔一些。</p>
+                            </div>
+                             <div>
+                                <h5 class="font-semibold text-lg mb-2">3. 应对强迫行为</h5>
+                                <p class="text-gray-600">如果感觉失控，尝试识别触发因素（如压力、无聊），并发展健康的替代活动（如运动、社交、培养爱好）。</p>
+                            </div>
+                        </div>
+
+                        <div id="body" class="tab-content hidden space-y-6">
+                            <h4 class="text-2xl font-bold text-[#A38560]">为你的身体补充“后天之精”</h4>
+                            <p class="text-gray-600">通过营养、运动和睡眠，为身体提供恢复所需的资源，降低整体压力。</p>
+                            <div>
+                                <h5 class="font-semibold text-lg mb-2">1. 促进激素平衡的饮食</h5>
+                                <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                    <li><strong>多吃：</strong>全谷物、蔬菜、鱼类、坚果、瘦肉。</li>
+                                    <li><strong>关键营养素：</strong>富含<strong class="text-[#A38560]">锌</strong>的食物（如牡蛎、牛肉、南瓜籽）和<strong class="text-[#A38560]">B族维生素</strong>（如鸡蛋、绿叶蔬菜）对能量代谢至关重要。</li>
+                                    <li><strong>少吃：</strong>加工食品、高糖饮料和垃圾食品。</li>
+                                </ul>
+                            </div>
+                             <div>
+                                <h5 class="font-semibold text-lg mb-2">2. 提升精力的运动方案</h5>
+                                <p class="text-gray-600">运动是天然的抗抑郁剂和能量助推器。</p>
+                                <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                    <li><strong>有氧运动：</strong>每周150分钟中等强度运动（如快走、慢跑、骑行）。</li>
+                                    <li><strong>力量训练：</strong>每周2次，锻炼所有主要肌群。</li>
+                                </ul>
+                            </div>
+                             <div>
+                                <h5 class="font-semibold text-lg mb-2">3. 优化睡眠</h5>
+                                <p class="text-gray-600">睡眠是恢复HPA轴功能、平衡激素和身心的基石。</p>
+                                <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                     <li>保持规律的作息时间（即使在周末）。</li>
+                                     <li>营造一个凉爽、黑暗、安静的睡眠环境。</li>
+                                     <li>睡前1小时避免使用电子设备。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div id="support" class="tab-content hidden space-y-6">
+                            <h4 class="text-2xl font-bold text-[#A38560]">借助草本与传统智慧的力量</h4>
+                            <p class="text-gray-600">在专业人士指导下，一些草本和中成药可以作为有益的辅助。<strong>（注：使用前请咨询医生或专业TCM医师）</strong></p>
+                            <div>
+                                <h5 class="font-semibold text-lg mb-2">1. 适应原草本 (调节HPA轴)</h5>
+                                <ul class="list-disc list-inside text-gray-600 space-y-2">
+                                    <li><strong>南非醉茄 (Ashwagandha):</strong> 有助于缓解压力相关的焦虑、改善睡眠，属于镇静性适应原。</li>
+                                    <li><strong>红景天 (Rhodiola):</strong> 有助于对抗压力引起的疲劳、提升精力，属于激励性适应原。</li>
+                                </ul>
+                            </div>
+                             <div>
+                                <h5 class="font-semibold text-lg mb-2">2. 中药支持 (滋养肾精)</h5>
+                                 <ul class="list-disc list-inside text-gray-600 space-y-2">
+                                    <li><strong>六味地黄丸:</strong> 这是中医用于滋补肾阴最著名的经典方剂，其适应症（如腰膝酸软、疲劳、头晕）与用户体验高度吻合。其“三补三泻”的精妙结构确保滋补而不滋腻。</li>
+                                </ul>
+                            </div>
+                             <div class="bg-amber-50 border-l-4 border-amber-400 text-amber-800 p-4 rounded-r-lg">
+                                <p><strong>重要提示：</strong>这些补充剂并非“速效药”。它们的作用是支持身体的自我调节系统，需要与健康的生活方式相结合才能发挥最佳效果。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-[#3a3a3a] text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p class="font-semibold text-lg mb-2">通往精力恢复的道路，是一条走向自我关怀与身心平衡的旅程。</p>
+            <p class="text-gray-400">本应用信息仅供参考，不能替代专业医疗建议。© 2025 精力恢复指南</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Fade-in animation on scroll
+            const faders = document.querySelectorAll('.fade-in');
+            const appearOptions = {
+                threshold: 0.2,
+                rootMargin: "0px 0px -50px 0px"
+            };
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+            // Mobile Navigation
+            const mobileNav = document.getElementById('mobile-nav');
+            mobileNav.addEventListener('change', function(e) {
+                const targetId = e.target.value;
+                if(targetId) {
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 70, // Adjust for sticky header
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+            
+            // Desktop Smooth Scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 70, // Adjust for sticky header
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+
+            // Conflict Chart
+            const ctx = document.getElementById('conflictChart').getContext('2d');
+            const initialData = {
+                labels: ['多巴胺 (愉悦)', '内啡肽 (欣快)', '催产素 (放松)', '血清素 (满足)', '催乳素 (睡意)'],
+                datasets: [{
+                    label: '科学视角的“激素鸡尾酒”',
+                    data: [90, 85, 80, 75, 60],
+                    backgroundColor: 'rgba(163, 133, 96, 0.2)',
+                    borderColor: 'rgba(163, 133, 96, 1)',
+                    pointBackgroundColor: 'rgba(163, 133, 96, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(163, 133, 96, 1)'
+                }]
+            };
+            
+            const fatigueData = {
+                label: '我的真实感受“精力耗竭”',
+                data: [30, 25, 35, 20, 40],
+                backgroundColor: 'rgba(107, 114, 128, 0.2)',
+                borderColor: 'rgba(107, 114, 128, 1)',
+                pointBackgroundColor: 'rgba(107, 114, 128, 1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(107, 114, 128, 1)'
+            };
+
+            const chart = new Chart(ctx, {
+                type: 'radar',
+                data: initialData,
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                            pointLabels: { 
+                                font: { size: 12 },
+                                color: '#3a3a3a'
+                            },
+                            ticks: {
+                                backdropColor: '#FDFBF8',
+                                color: '#6b7280',
+                                stepSize: 20
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: '#3a3a3a'
+                            }
+                        }
+                    }
+                }
+            });
+
+            const toggleBtn = document.getElementById('toggleFatigueBtn');
+            let fatigueShown = false;
+            toggleBtn.addEventListener('click', () => {
+                if (!fatigueShown) {
+                    chart.data.datasets.push(fatigueData);
+                    chart.update();
+                    toggleBtn.textContent = '重置视图';
+                    fatigueShown = true;
+                } else {
+                    chart.data.datasets.pop();
+                    chart.update();
+                    toggleBtn.textContent = '点击揭示：我的真实感受';
+                    fatigueShown = false;
+                }
+            });
+
+
+            // Recovery Tabs
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    const tabId = button.dataset.tab;
+                    tabContents.forEach(content => {
+                        if (content.id === tabId) {
+                            content.classList.remove('hidden');
+                        } else {
+                            content.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
