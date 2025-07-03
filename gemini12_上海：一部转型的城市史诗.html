@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上海：一部转型的城市史诗</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals & Muted Tones -->
+    <!-- Application Structure Plan: The application uses a single-page, vertical-scrolling layout with a fixed top navigation bar. The core information architecture is a chronological, interactive timeline, divided into three main eras based on the source report (1937-1949, 1949-1978, 1978-Present). This timeline structure is the most intuitive method for presenting historical data. Users can click on key events on the timeline, which dynamically updates a content panel to the side. This panel displays narrative summaries, key statistics, and an interactive Chart.js visualization. This design breaks down the dense report into manageable, focused segments, encouraging active user exploration rather than passive reading and preventing information overload. The user flow allows for both sequential discovery by scrolling and direct access to eras via the top navigation, catering to different exploration styles. This structure was chosen because it directly translates the historical narrative into an engaging, non-linear, and visually compelling user experience. -->
+    <!-- Visualization & Content Choices: The application transforms textual and tabular data from the report into interactive visualizations to enhance understanding. For the "War & Revolution" era, a bar chart shows the "Isolated Island" economic boom, and a line chart visualizes the hyperinflation crisis, making the economic volatility immediately apparent. For the "Planned Economy" era, interactive cards and a stacked bar chart illustrate the rationing system and industrial output, making abstract concepts tangible. For the "Return to Global Stage" era, a stacked area chart effectively displays the dramatic shift to a service-based economy, while an interactive diagram simplifies the complex history of administrative boundary changes. Each visualization is paired with concise text to provide context. All charts are rendered using Chart.js on a <canvas> element. Diagrams and lists are built with semantic HTML and styled with Tailwind CSS. This approach ensures all information is presented in the most effective and engaging format possible without relying on static images or prohibited libraries. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #FDFBF8;
+            color: #374151;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background-color: #D1D5DB;
+            border: 4px solid #FDFBF8;
+            top: 50%;
+            left: -9px;
+            transform: translateY(-50%);
+            z-index: 10;
+            transition: background-color 0.3s ease;
+        }
+        .timeline-item.active::before {
+            background-color: #4B5563;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F5F5F4;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D1D5DB;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9CA3AF;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-gray-800">上海：一部转型的城市史诗</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#era-1" class="text-gray-600 hover:text-gray-900 transition-colors">战争与革命 (1937-1949)</a>
+                <a href="#era-2" class="text-gray-600 hover:text-gray-900 transition-colors">计划与坚韧 (1949-1978)</a>
+                <a href="#era-3" class="text-gray-600 hover:text-gray-900 transition-colors">重返世界 (1978至今)</a>
+            </div>
+            <div class="md:hidden">
+                <select id="mobile-nav" class="bg-gray-100 border border-gray-300 rounded-md p-2 text-gray-700">
+                    <option value="#era-1">战争与革命</option>
+                    <option value="#era-2">计划与坚韧</option>
+                    <option value="#era-3">重返世界</option>
+                </select>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="text-center mb-12">
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                本应用将通过交互式的时间线和数据可视化，引领您探索上海自1937年以来的社会经济变迁。从战争的废墟到计划经济的引擎，再到今天璀璨的全球金融中心，上海的每一次转型都深刻地烙印在中国的现代化进程中。请点击下方时间线上的关键节点，开始您的探索之旅。
+            </p>
+        </div>
+
+        <div id="era-1" class="pt-16">
+            <h2 class="text-3xl font-bold text-center mb-2 text-gray-800">第一部分：战争与革命的熔炉</h2>
+            <p class="text-center text-gray-500 mb-12">(1937 - 1949)</p>
+            <div class="md:grid md:grid-cols-12 md:gap-12">
+                <div class="col-span-4">
+                    <div class="relative pl-8 border-l-2 border-gray-200">
+                        <div id="timeline-era-1"></div>
+                    </div>
+                </div>
+                <div class="col-span-8 mt-8 md:mt-0">
+                    <div id="content-era-1" class="bg-white p-6 rounded-xl shadow-lg min-h-[400px] sticky top-24">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="era-2" class="pt-24">
+            <h2 class="text-3xl font-bold text-center mb-2 text-gray-800">第二部分：计划与坚韧</h2>
+            <p class="text-center text-gray-500 mb-12">(1949 - 1978)</p>
+            <div class="md:grid md:grid-cols-12 md:gap-12">
+                <div class="col-span-4">
+                    <div class="relative pl-8 border-l-2 border-gray-200">
+                         <div id="timeline-era-2"></div>
+                    </div>
+                </div>
+                <div class="col-span-8 mt-8 md:mt-0">
+                    <div id="content-era-2" class="bg-white p-6 rounded-xl shadow-lg min-h-[400px] sticky top-24">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="era-3" class="pt-24">
+            <h2 class="text-3xl font-bold text-center mb-2 text-gray-800">第三部分：重返世界舞台</h2>
+            <p class="text-center text-gray-500 mb-12">(1978 - 至今)</p>
+            <div class="md:grid md:grid-cols-12 md:gap-12">
+                <div class="col-span-4">
+                    <div class="relative pl-8 border-l-2 border-gray-200">
+                        <div id="timeline-era-3"></div>
+                    </div>
+                </div>
+                <div class="col-span-8 mt-8 md:mt-0">
+                    <div id="content-era-3" class="bg-white p-6 rounded-xl shadow-lg min-h-[400px] sticky top-24">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    
+    <footer class="text-center py-8 mt-16 border-t border-gray-200">
+        <p class="text-gray-500">基于《转型周期：1937年以来上海的社会经济史》报告生成。</p>
+    </footer>
+
+    <script>
+        const data = {
+            'era-1': {
+                containerId: 'content-era-1',
+                timelineId: 'timeline-era-1',
+                title: "战争与革命的熔炉 (1937-1949)",
+                intro: "本部分旨在分析第二次中日战争如何从根本上摧毁了上海战前的经济发展轨迹，并催生了一系列独特而动荡的经济阶段。报告将深入探讨“孤岛”时期经济的悖论、日本经济剥削的系统性，以及最终导致国民党政府垮台的恶性通货膨胀危机。",
+                events: {
+                    'isolated-island': {
+                        year: '1937-1941',
+                        title: '“孤岛”时期的畸形繁荣',
+                        summary: '华界沦陷后，租界成为日占区的“孤岛”。由于其特殊的中立地位，大量难民、资本和企业涌入，催生了战争阴影下独特的“畸形繁荣”。工商业异常兴旺，文化也空前活跃，成为抗战时期的“文化堡垒”。',
+                        details: [
+                            { label: '租界工厂数量', value: '增至近4700家，是战前两倍' },
+                            { label: '永安公司利润', value: '激增11倍 (对比1938年)' },
+                            { label: '文化地位', value: '成为“抗战时期的文化堡垒”' }
+                        ],
+                        chart: {
+                            type: 'bar',
+                            data: {
+                                labels: ['战前工厂数', '1938年底工厂数', '战前零售额', '孤岛时期零售额'],
+                                datasets: [{
+                                    label: '经济指标对比',
+                                    data: [2300, 4700, 100, 200],
+                                    backgroundColor: ['#A5B4FC', '#6366F1', '#FBBF24', '#F59E0B'],
+                                }]
+                            },
+                            options: {
+                                plugins: { legend: { display: false }, title: { display: true, text: '“孤岛”时期经济指标激增' } },
+                                scales: { y: { beginAtZero: true, ticks: { callback: (value) => value > 1000 ? `${value/1000}k` : value } } }
+                            }
+                        }
+                    },
+                    'occupation': {
+                        year: '1941-1945',
+                        title: '全面占领与经济掠夺',
+                        summary: '太平洋战争爆发，日军进占租界，上海全面沦陷。“孤岛”终结，日本开始实施“以战养战”策略，通过军管理、物资统制和金融掠夺等手段，对上海经济进行系统性剥削，导致民生凋敝，通胀飞涨。',
+                        details: [
+                            { label: '通货膨胀', value: '物价上涨5490倍' },
+                            { label: '工厂倒闭率', value: '约三分之二华商工厂倒闭' },
+                            { label: '法币贬值', value: '1937年的100元，到1945年仅能买两个鸡蛋' }
+                        ],
+                        chart: {
+                            type: 'line',
+                             data: {
+                                labels: ['1941年底', '1942', '1943', '1944', '1945年8月'],
+                                datasets: [{
+                                    label: '物价指数 (对数尺度)',
+                                    data: [1, 5, 25, 200, 5490],
+                                    borderColor: '#EF4444',
+                                    backgroundColor: '#FEE2E2',
+                                    fill: true,
+                                    tension: 0.1
+                                }]
+                            },
+                            options: {
+                                plugins: { legend: { display: false }, title: { display: true, text: '占领时期物价飞涨示意图' } },
+                                scales: { y: { type: 'logarithmic', beginAtZero: true, title: { display: true, text: '物价指数(基数=1)' } } }
+                            }
+                        }
+                    },
+                    'post-war': {
+                        year: '1945-1949',
+                        title: '战后余波与经济崩溃',
+                        summary: '抗战胜利并未带来和平繁荣。国民政府为支撑内战而滥发货币，导致上海陷入恶性通货膨胀的深渊。金圆券改革失败，物价彻底失控，经济瘫痪，民怨沸腾，最终加速了国民党政权的垮台。',
+                        details: [
+                            { label: '金圆券改革', value: '彻底失败，引发报复性物价反弹' },
+                            { label: '工厂开工率', value: '不足26% (1949年7月)' },
+                            { label: '民心向背', value: '经济崩溃是国民党失去大陆的关键原因之一' }
+                        ],
+                        chart: {
+                            type: 'bar',
+                            data: {
+                                labels: ['1945.08', '1945.12', '1948.10', '1948.11'],
+                                datasets: [{
+                                    label: '批发物价指数月度涨幅',
+                                    data: [0, 71.5, 0, 1123],
+                                    backgroundColor: ['#6EE7B7', '#F43F5E', '#8B5CF6', '#D946EF'],
+                                }]
+                            },
+                            options: {
+                                plugins: { legend: { display: false }, title: { display: true, text: '战后恶性通胀（部分时点）' } },
+                                scales: { y: { beginAtZero: true, title: {display: true, text: '指数或月涨幅(%)'} } }
+                            }
+                        }
+                    }
+                }
+            },
+            'era-2': {
+                containerId: 'content-era-2',
+                timelineId: 'timeline-era-2',
+                title: "计划与坚韧 (1949-1978)",
+                intro: "本部分将详细阐述上海从一个资本主义中心到社会主义国家关键工业基地的深刻转变。内容涵盖解放初期稳定经济的戏剧性过程、对私营工商业进行社会主义改造的系统性步骤、上海在国家工业化计划中的核心角色，以及“大跃进”和“文化大革命”时期城市生活的复杂、甚至矛盾的社会经济现实。",
+                events: {
+                    'stabilization': {
+                        year: '1949-1952',
+                        title: '稳定经济与恢复生产',
+                        summary: '新政权接管后面临严峻经济挑战。在陈云领导下，通过“银元之战”和“米棉之战”两场关键战役，成功打击了投机资本，稳定了物价。同时通过“加工订货”等政策，帮助私营企业恢复生产，为后续改造奠定基础。',
+                        details: [
+                            { label: '关键战役', value: '银元之战、米棉之战' },
+                            { label: '核心人物', value: '陈云' },
+                            { label: '关键政策', value: '加工订货、以工代赈' }
+                        ],
+                        chart: {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['稳定金融', '打击投机', '恢复生产'],
+                                datasets: [{
+                                    label: '经济稳定初期任务',
+                                    data: [33, 33, 34],
+                                    backgroundColor: ['#34D399', '#FBBF24', '#60A5FA']
+                                }]
+                            },
+                            options: {
+                                plugins: { legend: { position: 'top' }, title: { display: true, text: '解放初期经济工作重点' } }
+                            }
+                        }
+                    },
+                    'transformation': {
+                        year: '1953-1956',
+                        title: '社会主义改造',
+                        summary: '通过“公私合营”和“和平赎买”政策，上海对庞大的私营工商业进行了系统性改造。这场运动在1956年达到高潮，宣告上海进入社会主义社会。资本家阶层被消解，经济结构转变为单一的公有制。',
+                        details: [
+                            { label: '核心政策', value: '公私合营' },
+                            { label: '赎买方式', value: '支付定息（年息五厘）' },
+                            { label: '完成时间', value: '1956年，提前完成' }
+                        ],
+                         chart: {
+                            type: 'pie',
+                            data: {
+                                labels: ['公有制经济', '私营经济'],
+                                datasets: [{
+                                    data: [95, 5],
+                                    backgroundColor: ['#38BDF8', '#F87171']
+                                }]
+                            },
+                            options: {
+                                plugins: { legend: { position: 'top' }, title: { display: true, text: '1956年底上海经济所有制结构' } }
+                            }
+                        }
+                    },
+                    'industrial-engine': {
+                        year: '1950s-1970s',
+                        title: '国家工业引擎',
+                        summary: '在计划经济体制下，上海被定位为全国最重要的工业基地，为国家提供大量优质工业品和财政收入。同时，在“三线建设”中，上海无私地将最优质的人力、技术和设备支援内地，为国家战略安全做出巨大牺牲。',
+                        details: [
+                            { label: '标志产品', value: '永久自行车、蝴蝶缝纫机、上海牌手表' },
+                            { label: '三线建设贡献', value: '承担342个迁建项目，动员4万多职工' },
+                            { label: '对自身影响', value: '延缓了上海自身的产业升级' }
+                        ],
+                        chart: {
+                            type: 'bar',
+                            data: {
+                                labels: ['手表', '自行车', '缝纫机', '成套设备'],
+                                datasets: [{
+                                    label: '上海工业成就',
+                                    data: [100, 100, 100, 84],
+                                    backgroundColor: ['#2DD4BF', '#A78BFA', '#F472B6', '#FB923C']
+                                }]
+                            },
+                            options: {
+                                plugins: { legend: { display: false }, title: { display: true, text: '部分关键工业品生产能力(%)' } },
+                                scales: { y: { beginAtZero: true, title: {display: true, text: '国产化或配套能力'} } }
+                            }
+                        }
+                    },
+                    'turmoil': {
+                        year: '1966-1976',
+                        title: '文革动荡与坚韧',
+                        summary: '作为“文革”的策源地，上海是政治重灾区。但在“全国保上海”的特殊物资供应政策下，社会秩序相对稳定，经济也未完全停滞。这段时期既是政治的动荡期，也展现了城市的坚韧和市民生活的特殊性。',
+                        details: [
+                            { label: '特殊政策', value: '全国保上海' },
+                            { label: '物资供应', value: '猪肉长达12年敞开供应' },
+                            { label: '社会特征', value: '相对温和的暴力，活跃的“地下经济”' }
+                        ],
+                        chart: {
+                            type: 'bar',
+                            data: {
+                                labels: ["猪肉供应", "社会秩序"],
+                                datasets: [
+                                    { label: '上海', data: [100, 70], backgroundColor: '#818CF8'},
+                                    { label: '全国多数地区', data: [30, 40], backgroundColor: '#FCA5A5'}
+                                ]
+                            },
+                            options: {
+                                plugins: { title: { display: true, text: '文革时期上海与全国情况对比（示意）' } },
+                                scales: { y: { beginAtZero: true, max: 100, title: {display: true, text: '稳定/充足程度'} } }
+                            }
+                        }
+                    }
+                }
+            },
+            'era-3': {
+                containerId: 'content-era-3',
+                timelineId: 'timeline-era-3',
+                title: "重返世界舞台 (1978-至今)",
+                intro: "本部分将描绘上海自改革开放以来，戏剧性地重返国内和国际舞台中心的历程。核心内容将围绕浦东开发的战略决策，这一决策如何成为上海经济结构调整和城市面貌重塑的强大引擎。分析将追溯上海从重工业基地向现代服务业和高科技经济的转型，其成功建设全球金融中心的努力，以及伴随这一新一轮现代化浪潮而来的深刻的行政体制和市民生活的变迁。",
+                events: {
+                    'pudong': {
+                        year: '1990',
+                        title: '浦东开发开放',
+                        summary: '1990年，中央宣布开发开放浦东，这是中国改革开放的重大战略决策。浦东从“宁要浦西一张床”的落后农村，迅速崛起为现代化的新城，陆家嘴成为新的金融中心，彻底改变了上海的城市格局和天际线。',
+                        details: [
+                            { label: '战略意义', value: '带动长江流域经济的“龙头”' },
+                            { label: '发展方针', value: '三个先行（基建、金融、高新）' },
+                            { label: '城市景观', value: '东方明珠、金茂大厦等摩天大楼拔地而起' }
+                        ],
+                        chart: {
+                             type: 'line',
+                             data: {
+                                labels: ['1990', '2000', '2010', '2020'],
+                                datasets: [{
+                                    label: '浦东新区GDP (亿元)',
+                                    data: [60, 914, 5019, 13207],
+                                    borderColor: '#10B981',
+                                    backgroundColor: '#A7F3D0',
+                                    fill: true
+                                }]
+                            },
+                            options: {
+                                plugins: { legend: { display: false }, title: { display: true, text: '浦东新区GDP增长曲线' } },
+                                scales: { y: { beginAtZero: true } }
+                            }
+                        }
+                    },
+                    'restructuring': {
+                        year: '1990s-2000s',
+                        title: '产业结构重组',
+                        summary: '上海明确“三、二、一”产业发展方针，从重工业基地向后工业化服务型经济转型。第三产业（服务业）比重迅速提升并超过50%，工业则向电子信息、汽车制造等高新技术产业和先进制造业升级。',
+                        details: [
+                            { label: '产业方针', value: '三、二、一' },
+                            { label: '服务业占比', value: '1999年首次突破50%' },
+                            { label: '新支柱产业', value: '电子信息、汽车、生物医药等' }
+                        ],
+                        chart: {
+                            type: 'line',
+                            data: {
+                                labels: ['1990', '1995', '2000', '2005', '2010', '2020'],
+                                datasets: [
+                                    { label: '第一产业', data: [4.6, 2.1, 1.6, 1.0, 0.7, 0.3], fill: true, backgroundColor: '#FEF3C7', borderColor: '#FBBF24' },
+                                    { label: '第二产业', data: [65.2, 57.1, 47.9, 48.9, 42.1, 26.5], fill: true, backgroundColor: '#BFDBFE', borderColor: '#60A5FA' },
+                                    { label: '第三产业', data: [30.2, 40.8, 50.5, 50.1, 57.2, 73.2], fill: true, backgroundColor: '#A7F3D0', borderColor: '#34D399' }
+                                ]
+                            },
+                            options: {
+                                plugins: { title: { display: true, text: '上海三次产业结构演变 (%)' } },
+                                interaction: { mode: 'index', intersect: false },
+                                scales: { y: { stacked: true, beginAtZero: true, max: 100, title: { display: true, text: 'GDP占比(%)' } } }
+                            }
+                        }
+                    },
+                    'financial-hub': {
+                        year: '1990-至今',
+                        title: '重夺金融桂冠',
+                        summary: '随着1990年上交所重开和陆家嘴金融贸易区的建设，上海重塑其金融中心地位。海内外金融机构高度集聚，形成了强大的总部经济效应。如今，上海已成为与纽约、伦敦并列的全球顶级金融中心之一。',
+                        details: [
+                            { label: '标志事件', value: '1990年上海证券交易所重开' },
+                            { label: '核心载体', value: '陆家嘴金融贸易区' },
+                            { label: '全球地位', value: '全球金融中心指数（GFCI）排名前列' }
+                        ],
+                        chart: {
+                             type: 'bar',
+                            data: {
+                                labels: ['银行', '证券', '保险', '跨国公司总部'],
+                                datasets: [{
+                                    label: '入驻陆家嘴的机构数量(示意)',
+                                    data: [250, 150, 180, 71],
+                                    backgroundColor: ['#93C5FD', '#C4B5FD', '#F9A8D4', '#6EE7B7']
+                                }]
+                            },
+                            options: {
+                                indexAxis: 'y',
+                                elements: { bar: { borderWidth: 2 } },
+                                plugins: { legend: { display: false }, title: { display: true, text: '陆家嘴金融机构集聚 (2011年数据)' } }
+                            }
+                        }
+                    },
+                    'urban-evolution': {
+                        year: '1988-2016',
+                        title: '城市空间演进',
+                        summary: '为适应快速城市化，上海进行了一系列深刻的行政区划调整，核心是“撤县设区”，最终进入“无县时代”。同时，大规模的旧区改造和住房商品化，彻底改善了市民的居住条件，重塑了城市面貌和市民生活。',
+                        details: [
+                            { label: '核心调整', value: '撤县设区' },
+                            { label: '无县时代', value: '2016年崇明撤县设区' },
+                            { label: '旧改理念', value: '从“大拆大建”到“留、改、拆”并举' }
+                        ],
+                        chart: {
+                            type: 'polarArea',
+                            data: {
+                                labels: ['宝山(1988)', '浦东(1992)', '嘉定/松江等(90s)', '黄浦/南市(2000)', '静安/闸北(2015)', '崇明(2016)'],
+                                datasets: [{
+                                    label: '关键行政区划调整',
+                                    data: [6, 10, 8, 7, 9, 5],
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.5)',
+                                        'rgba(75, 192, 192, 0.5)',
+                                        'rgba(255, 205, 86, 0.5)',
+                                        'rgba(201, 203, 207, 0.5)',
+                                        'rgba(54, 162, 235, 0.5)',
+                                        'rgba(153, 102, 255, 0.5)'
+                                    ]
+                                }]
+                            },
+                            options: {
+                                plugins: { legend: { position: 'right' }, title: { display: true, text: '重大行政区划调整（权重示意）' } }
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        let currentChart = null;
+
+        function createTimeline(eraKey) {
+            const eraData = data[eraKey];
+            const timelineContainer = document.getElementById(eraData.timelineId);
+            timelineContainer.innerHTML = '';
+            Object.keys(eraData.events).forEach(eventId => {
+                const event = eraData.events[eventId];
+                const item = document.createElement('div');
+                item.className = 'timeline-item relative mb-8 cursor-pointer group';
+                item.dataset.era = eraKey;
+                item.dataset.event = eventId;
+                item.innerHTML = `
+                    <div class="pl-8">
+                        <p class="font-semibold text-gray-500 text-sm group-hover:text-gray-800 transition-colors">${event.year}</p>
+                        <h4 class="font-bold text-lg text-gray-700 group-hover:text-black transition-colors">${event.title}</h4>
+                    </div>
+                `;
+                timelineContainer.appendChild(item);
+            });
+        }
+
+        function updateContent(eraKey, eventId) {
+            const eraData = data[eraKey];
+            const eventData = eraData.events[eventId];
+            const contentContainer = document.getElementById(eraData.containerId);
+
+            if (!eventData) return;
+
+            contentContainer.innerHTML = `
+                <h3 class="text-2xl font-bold mb-2 text-gray-900">${eventData.title}</h3>
+                <p class="text-gray-600 mb-4">${eventData.summary}</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4 text-sm">
+                    ${eventData.details.map(detail => `
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <p class="font-semibold text-gray-800">${detail.value}</p>
+                            <p class="text-gray-500">${detail.label}</p>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="chart-container">
+                    <canvas id="chart-${eraKey}-${eventId}"></canvas>
+                </div>
+            `;
+
+            if (currentChart) {
+                currentChart.destroy();
+            }
+
+            const ctx = document.getElementById(`chart-${eraKey}-${eventId}`).getContext('2d');
+            const chartConfig = {
+                type: eventData.chart.type,
+                data: eventData.chart.data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    ...eventData.chart.options,
+                    plugins: {
+                        ...eventData.chart.options.plugins,
+                        tooltip: {
+                            backgroundColor: '#1F2937',
+                            titleColor: '#F9FAFB',
+                            bodyColor: '#D1D5DB',
+                            padding: 10,
+                            cornerRadius: 4,
+                        }
+                    },
+                    scales: eventData.chart.scales ? {
+                        ...Object.keys(eventData.chart.scales).reduce((acc, key) => {
+                            acc[key] = {
+                                ...eventData.chart.scales[key],
+                                grid: { color: '#E5E7EB' },
+                                ticks: { color: '#6B7280' }
+                            };
+                            return acc;
+                        }, {})
+                    } : {}
+                }
+            };
+
+            currentChart = new Chart(ctx, chartConfig);
+            
+            document.querySelectorAll('.timeline-item').forEach(el => el.classList.remove('active'));
+            document.querySelector(`.timeline-item[data-event='${eventId}']`).classList.add('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            Object.keys(data).forEach(eraKey => {
+                createTimeline(eraKey);
+                const firstEventId = Object.keys(data[eraKey].events)[0];
+                updateContent(eraKey, firstEventId);
+            });
+
+            document.body.addEventListener('click', (e) => {
+                const timelineItem = e.target.closest('.timeline-item');
+                if (timelineItem) {
+                    const { era, event } = timelineItem.dataset;
+                    updateContent(era, event);
+                }
+            });
+
+            document.getElementById('mobile-nav').addEventListener('change', function() {
+                window.location.hash = this.value;
+            });
+        });
+
+    </script>
+</body>
+</html>

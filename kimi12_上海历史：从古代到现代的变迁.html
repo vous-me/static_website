@@ -1,0 +1,1072 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>上海历史：从古代到现代的变迁</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.5.0/mermaid.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'serif': ['Playfair Display', 'serif'],
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'sage': '#9CAF88',
+                        'clay': '#D4A574',
+                        'stone': '#E8E2D4',
+                        'charcoal': '#2D2D2D',
+                        'mist': '#F7F5F3',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, #F7F5F3 0%, #E8E2D4 50%, #D4A574 100%);
+        }
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(247, 245, 243, 0.9);
+        }
+        .hover-reveal {
+            transition: all 0.3s ease;
+        }
+        .hover-reveal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .scroll-fade {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+        .scroll-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .timeline-line {
+            background: linear-gradient(to bottom, #9CAF88, #D4A574);
+        }
+        .citation-link {
+            color: #9CAF88;
+            text-decoration: none;
+            border-bottom: 1px dotted #9CAF88;
+            transition: all 0.2s ease;
+        }
+        .citation-link:hover {
+            color: #7A9070;
+            border-bottom-style: solid;
+        }
+        
+        .toc-link.active {
+            color: #9CAF88;
+            border-left: 3px solid #9CAF88;
+            padding-left: 0.75rem;
+        }
+
+        /* Mermaid 图表样式优化 */
+        .mermaid-container {
+            display: flex;
+            justify-content: center;
+            min-height: 300px;
+            max-height: 800px;
+            background: #ffffff;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mermaid-container .mermaid {
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            cursor: grab;
+            transition: transform 0.3s ease;
+            transform-origin: center center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            touch-action: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .mermaid-container .mermaid svg {
+            max-width: 100%;
+            height: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .mermaid-container .mermaid:active {
+            cursor: grabbing;
+        }
+
+        .mermaid-container.zoomed .mermaid {
+            height: 100%;
+            width: 100%;
+            cursor: grab;
+        }
+
+        .mermaid-controls {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .mermaid-control-btn {
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #374151;
+            font-size: 14px;
+            min-width: 36px;
+            height: 36px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mermaid-control-btn:hover {
+            background: #f8fafc;
+            border-color: #3b82f6;
+            color: #3b82f6;
+            transform: translateY(-1px);
+        }
+
+        .mermaid-control-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* Mermaid 主题颜色优化 - 确保对比度和统一性 */
+        .mermaid .section0, .mermaid .section1, .mermaid .section2, .mermaid .section3 {
+            fill: #F7F5F3 !important;
+            stroke: #9CAF88 !important;
+            stroke-width: 2px !important;
+        }
+        .mermaid .section0 {
+            fill: #F7F5F3 !important;
+        }
+        .mermaid .section1 {
+            fill: #E8E2D4 !important;
+        }
+        .section2 {
+            fill: #D4A574 !important;
+        }
+        .mermaid .section3 {
+            fill: #9CAF88 !important;
+        }
+        .mermaid .cScale0, .mermaid .cScale1, .mermaid .cScale2 {
+            fill: #9CAF88 !important;
+            stroke: #2D2D2D !important;
+            stroke-width: 1px !important;
+        }
+        .mermaid .taskText0, .mermaid .taskText1, .mermaid .taskText2, .mermaid .taskText3 {
+            fill: #2D2D2D !important;
+            font-family: 'Inter', sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 500 !important;
+        }
+        .mermaid .taskTextOutsideRight, .mermaid .taskTextOutsideLeft {
+            fill: #2D2D2D !important;
+            font-family: 'Inter', sans-serif !important;
+            font-size: 12px !important;
+            font-weight: 400 !important;
+        }
+        .mermaid text {
+            fill: #2D2D2D !important;
+            font-family: 'Inter', sans-serif !important;
+            font-weight: 500 !important;
+        }
+        .mermaid .timeline-title {
+            fill: #2D2D2D !important;
+            font-family: 'Playfair Display', serif !important;
+            font-size: 20px !important;
+            font-weight: 600 !important;
+        }
+        .mermaid .section-title {
+            fill: #2D2D2D !important;
+            font-family: 'Inter', sans-serif !important;
+            font-size: 16px !important;
+            font-weight: 600 !important;
+        }
+
+        @media (max-width: 1024px) {
+            .mermaid-control-btn:not(.reset-zoom) {
+                display: none;
+            }
+            .mermaid-controls {
+                top: auto;
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+    </style>
+  </head>
+
+  <body class="bg-mist font-sans text-charcoal leading-relaxed overflow-x-hidden">
+    <!-- Fixed Table of Contents -->
+    <nav id="toc-nav" class="fixed left-0 top-0 h-screen w-80 glass-effect border-r border-stone z-40 overflow-y-auto hidden lg:block">
+      <div class="p-6">
+        <h3 class="font-serif text-xl font-semibold mb-6 text-charcoal">目录</h3>
+        <ul class="space-y-3 text-sm">
+          <li>
+            <a href="#hero" class="toc-link block py-2 text-charcoal hover:text-sage transition-colors duration-200">概述</a>
+          </li>
+          <li>
+            <a href="#ancient" class="toc-link block py-2 text-charcoal hover:text-sage transition-colors duration-200">古代上海</a>
+          </li>
+          <li>
+            <a href="#modern" class="toc-link block py-2 text-charcoal hover:text-sage transition-colors duration-200">近代上海</a>
+          </li>
+          <li>
+            <a href="#contemporary" class="toc-link block py-2 text-charcoal hover:text-sage transition-colors duration-200">现代上海</a>
+          </li>
+          <li>
+            <a href="#themes" class="toc-link block py-2 text-charcoal hover:text-sage transition-colors duration-200">专题探讨</a>
+          </li>
+          <li>
+            <a href="#conclusion" class="toc-link block py-2 text-charcoal hover:text-sage transition-colors duration-200">结论</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="lg:ml-80">
+      <!-- Hero Section -->
+      <section id="hero" class="hero-gradient min-h-screen relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20">
+          <img src="https://kimi-web-img.moonshot.cn/img/pic.vjshi.com/e17445af976523e4a3d0a9ae6867e59c1deeee20.jpg" alt="上海外滩历史建筑群与浦东现代高楼的天际线对比" class="w-full h-full object-cover" data-size="wallpaper" data-aspect="wide" data-style="photo" data-query="上海外滩浦东天际线" referrerpolicy="no-referrer" data-modified="1" data-score="11590.00"/>
+        </div>
+
+        <div class="relative z-10 container mx-auto px-6 py-20">
+          <!-- Bento Grid Layout -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            <!-- Main Title Block -->
+            <div class="lg:col-span-2 bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg">
+              <h1 class="font-serif text-3xl sm:text-4xl lg:text-6xl font-semibold text-charcoal mb-6 leading-tight text-shadow break-words">
+                <em class="text-sage">上海历史</em>
+                <br/>
+                从古代到现代的变迁
+              </h1>
+              <p class="text-lg sm:text-xl text-charcoal/80 leading-relaxed break-words">
+                一部从远古文明走向现代国际大都市的壮丽史诗，见证中西文化碰撞融合的独特历程。
+              </p>
+            </div>
+
+            <!-- Key Highlights -->
+            <div class="space-y-4">
+              <div class="bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-md hover-reveal">
+                <div class="flex items-center mb-3">
+                  <i class="fas fa-landmark text-sage text-xl mr-3"></i>
+                  <h3 class="font-serif text-lg font-semibold">建城溯源</h3>
+                </div>
+                <p class="text-sm text-charcoal/70">1291年正式建县，开启七百年城市发展史</p>
+              </div>
+
+              <div class="bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-md hover-reveal">
+                <div class="flex items-center mb-3">
+                  <i class="fas fa-ship text-clay text-xl mr-3"></i>
+                  <h3 class="font-serif text-lg font-semibold">开埠通商</h3>
+                </div>
+                <p class="text-sm text-charcoal/70">1843年开埠，成为中国面向世界的重要窗口</p>
+              </div>
+
+              <div class="bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-md hover-reveal">
+                <div class="flex items-center mb-3">
+                  <i class="fas fa-rocket text-sage text-xl mr-3"></i>
+                  <h3 class="font-serif text-lg font-semibold">浦东开发</h3>
+                </div>
+                <p class="text-sm text-charcoal/70">1990年浦东开发开放，引领改革开放新时代</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scroll Indicator -->
+          <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i class="fas fa-chevron-down text-charcoal/60 text-2xl"></i>
+          </div>
+        </div>
+      </section>
+
+      <!-- Ancient Shanghai -->
+      <section id="ancient" class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6">
+          <div class="max-w-4xl mx-auto">
+            <div class="scroll-fade mb-16">
+              <h2 class="font-serif text-4xl font-semibold text-charcoal mb-6">古代上海：溯源与初步发展</h2>
+              <p class="text-lg text-charcoal/80 leading-relaxed mb-8">
+                上海的历史并非一蹴而就，而是经历了漫长的岁月积淀与演变。在远古时期，上海地区便已有人类活动的痕迹，考古发现表明，早在约<strong>6000年前</strong>的新石器时代，就有先民在此繁衍生息。
+              </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-16">
+              <div class="scroll-fade">
+                <img src="https://kimi-web-img.moonshot.cn/img/www.news.cn/cf711fb4bbdae3bf26589dc3f122d3c15d579e67.jpg" alt="松泽遗址出土的新石器时代陶器" class="w-full h-64 object-cover rounded-xl shadow-lg mb-4" referrerpolicy="no-referrer"/>
+                <h3 class="font-serif text-xl font-semibold mb-3">史前文明</h3>
+                <p class="text-charcoal/70 leading-relaxed">
+                  考古学家在青浦区的<strong>崧泽、福泉山</strong>等地发现了大量新石器时代的文化遗址，出土了丰富的石器、陶器、玉器等文物。其中，<strong>崧泽文化</strong>（约公元前3900年-公元前3300年）和<strong>良渚文化</strong>（约公元前3300年-公元前2200年）是上海地区最具代表性的史前文化。
+                  <a href="http://www.news.cn/politics/2022-07/21/c_1128851902.htm" class="citation-link" target="_blank">[271]</a>
+                </p>
+              </div>
+
+              <div class="scroll-fade">
+                <img src="https://kimi-web-img.moonshot.cn/img/m.thepaper.cn/5f47476183bdc6db6efc05f1bcf9d8c68b5e3e1f.jpg" alt="上海青龙镇考古发现的宋代瓷器文物" class="w-full h-64 object-cover rounded-xl shadow-lg mb-4" referrerpolicy="no-referrer"/>
+                <h3 class="font-serif text-xl font-semibold mb-3">港口雏形</h3>
+                <p class="text-charcoal/70 leading-relaxed">
+                  唐宋时期，位于吴淞江下游的<strong>青龙镇</strong>凭借其便利的水陆交通条件，迅速崛起为重要的对外贸易港口。据史料记载，青龙镇在北宋时期已相当繁荣，设有市舶务，管理海外贸易，来自日本、高丽等国的商船频繁往来于此。
+                  <a href="https://www.planning.org.cn/law/view_news?id=9855" class="citation-link" target="_blank">[50]</a>
+                </p>
+              </div>
+            </div>
+
+            <!-- Timeline Diagram -->
+            <div class="scroll-fade mb-16">
+              <h3 class="font-serif text-2xl font-semibold mb-8 text-center">古代上海发展时间轴</h3>
+              <div class="mermaid-container">
+                <div class="mermaid-controls">
+                  <button class="mermaid-control-btn zoom-in" title="放大">
+                    <i class="fas fa-search-plus"></i>
+                  </button>
+                  <button class="mermaid-control-btn zoom-out" title="缩小">
+                    <i class="fas fa-search-minus"></i>
+                  </button>
+                  <button class="mermaid-control-btn reset-zoom" title="重置">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                  </button>
+                  <button class="mermaid-control-btn fullscreen" title="全屏查看">
+                    <i class="fas fa-expand"></i>
+                  </button>
+                </div>
+                <div class="mermaid">
+                  timeline
+                  title &#34;古代上海发展历程&#34;
+
+                  &#34;新石器时代&#34; : &#34;崧泽文化&#34;
+                  : &#34;良渚文化&#34;
+                  : &#34;福泉山遗址&#34;
+
+                  &#34;唐宋时期&#34; : &#34;751年设立华亭县&#34;
+                  : &#34;青龙镇贸易繁荣&#34;
+                  : &#34;宋代上海务设立&#34;
+
+                  &#34;元代&#34; : &#34;1291年上海建县&#34;
+                  : &#34;棉纺织业兴起&#34;
+                  : &#34;海运贸易发展&#34;
+
+                  &#34;明清时期&#34; : &#34;1553年修筑城墙&#34;
+                  : &#34;松江布闻名遐迩&#34;
+                  : &#34;1685年设立江海关&#34;
+                </div>
+              </div>
+            </div>
+
+            <div class="scroll-fade bg-stone/30 p-8 rounded-2xl">
+              <h3 class="font-serif text-2xl font-semibold mb-6">明清时期的繁荣</h3>
+              <p class="text-charcoal/80 leading-relaxed mb-6">
+                明清两代是上海地区社会经济取得显著发展的时期。明代，上海地区的棉纺织业异军突起，成为全国重要的棉纺织业中心。由于土壤和气候适宜种植棉花，加之<strong>黄道婆</strong>从海南带回并推广了先进的棉纺织技术，上海地区的棉布产量和质量均居全国前列，&#34;<strong>松江布</strong>&#34;闻名遐迩，行销海内外。
+                <a href="http://lishisuo.cssn.cn/xsyj/lsdl/202001/t20200116_5079257.shtml" class="citation-link" target="_blank">[317]</a>
+              </p>
+
+              <div class="bg-white/60 p-6 rounded-xl">
+                <h4 class="font-serif text-lg font-semibold mb-4">历史数据对比</h4>
+                <div class="grid md:grid-cols-3 gap-4 text-sm">
+                  <div class="text-center">
+                    <div class="text-2xl font-bold text-sage">751年</div>
+                    <div class="text-charcoal/70">设立华亭县</div>
+                  </div>
+                  <div class="text-center">
+                    <div class="text-2xl font-bold text-clay">1291年</div>
+                    <div class="text-charcoal/70">上海正式建县</div>
+                  </div>
+                  <div class="text-center">
+                    <div class="text-2xl font-bold text-sage">1685年</div>
+                    <div class="text-charcoal/70">设立江海关</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Modern Shanghai -->
+      <section id="modern" class="py-20 bg-mist">
+        <div class="container mx-auto px-4 sm:px-6">
+          <div class="max-w-4xl mx-auto">
+            <div class="scroll-fade mb-16">
+              <h2 class="font-serif text-4xl font-semibold text-charcoal mb-6">近代上海：开埠与风云激荡</h2>
+              <p class="text-lg text-charcoal/80 leading-relaxed mb-8">
+                <strong>1843年</strong>，根据《南京条约》的规定，上海正式<strong>开埠通商</strong>，这成为上海城市发展史上的一个重要转折点。开埠之前，上海并非一个荒凉的渔村，而是中国的第12大城市。
+                <a href="https://www.jfdaily.com/news/detail?id=856285" class="citation-link" target="_blank">[3]</a>
+                <a href="https://finance.sina.com.cn/jjxw/2025-02-08/doc-ineitkpq6936075.shtml" class="citation-link" target="_blank">[4]</a>
+              </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-16">
+              <div class="scroll-fade">
+                <img src="https://kimi-web-img.moonshot.cn/img/resource.zhoudaosh.com/3de38c4bad895b2745585c9682ceda2bc4cc4e95.jpg!shoudaosh_img" alt="19世纪上海外滩历史建筑群" class="w-full h-64 object-cover rounded-xl shadow-lg mb-4" referrerpolicy="no-referrer"/>
+                <h3 class="font-serif text-xl font-semibold mb-3">租界设立</h3>
+                <p class="text-charcoal/70 leading-relaxed">
+                  <strong>1845年</strong>，英国在上海设立了第一块<strong>租界</strong>，此后，法国、美国等国也相继在上海设立租界。上海租界是中国开辟最早、面积最大、影响最广的租界，拥有相对独立的行政权、立法权、司法权。
+                  <a href="https://www.shanghai.gov.cn/shanghai/newshanghai/%E4%B8%8A%E6%B5%B7%E9%80%9A%E5%BF%97.pdf" class="citation-link" target="_blank">[27]</a>
+                </p>
+              </div>
+
+              <div class="scroll-fade">
+                <img src="https://kimi-web-img.moonshot.cn/img/mz.eastday.com/c6318ca5aa6c973475a91f29d5c0d539a7acda79.jpeg" alt="1920年代上海杨树浦工业区历史照片" class="w-full h-64 object-cover rounded-xl shadow-lg mb-4" referrerpolicy="no-referrer"/>
+                <h3 class="font-serif text-xl font-semibold mb-3">工业兴起</h3>
+                <p class="text-charcoal/70 leading-relaxed">
+                  到20世纪20、30年代，上海已经形成了<strong>杨树浦、闸北、沪南、沪西</strong>等四大工业区，工业门类较为齐全，工厂数量和产业工人数量均居全国首位，工业产值约占全国近代工业的<strong>50%左右</strong>。
+                  <a href="http://www.zcsvillages.com/upload/2023/0811/2a6ce2fa-1a2b-4b11-9564-0d7e017d9c0f.pdf" class="citation-link" target="_blank">[16]</a>
+                </p>
+              </div>
+            </div>
+
+            <div class="scroll-fade mb-16">
+              <h3 class="font-serif text-2xl font-semibold mb-8 text-center">近代上海发展关键节点</h3>
+              <div class="relative">
+                <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full timeline-line rounded-full"></div>
+
+                <div class="space-y-12">
+                  <div class="flex items-center">
+                    <div class="flex-1 text-right pr-8">
+                      <h4 class="font-serif text-lg font-semibold">1843年 - 开埠通商</h4>
+                      <p class="text-charcoal/70">根据《南京条约》正式开埠，成为中国对外贸易重要口岸</p>
+                    </div>
+                    <div class="w-4 h-4 bg-sage rounded-full border-4 border-white shadow-lg"></div>
+                    <div class="flex-1 pl-8"></div>
+                  </div>
+
+                  <div class="flex items-center">
+                    <div class="flex-1 pr-8"></div>
+                    <div class="w-4 h-4 bg-clay rounded-full border-4 border-white shadow-lg"></div>
+                    <div class="flex-1 text-left pl-8">
+                      <h4 class="font-serif text-lg font-semibold">1845年 - 租界设立</h4>
+                      <p class="text-charcoal/70">英国设立第一块租界，开启&#34;国中之国&#34;的特殊历史</p>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center">
+                    <div class="flex-1 text-right pr-8">
+                      <h4 class="font-serif text-lg font-semibold">1927年 - 特别市设立</h4>
+                      <p class="text-charcoal/70">南京国民政府将上海设为特别市，直属中央政府</p>
+                    </div>
+                    <div class="w-4 h-4 bg-sage rounded-full border-4 border-white shadow-lg"></div>
+                    <div class="flex-1 pl-8"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="scroll-fade bg-white/60 p-8 rounded-2xl">
+              <h3 class="font-serif text-2xl font-semibold mb-6">海派文化的孕育</h3>
+              <p class="text-charcoal/80 leading-relaxed mb-6">
+                近代上海是中西文化交汇的前沿阵地，多元文化的碰撞与融合孕育了独具特色的<strong>海派文化</strong>。海派文化以其<strong>开放性、包容性和创新性</strong>为主要特征，既吸收了西方文化的元素，又保留了江南文化的底蕴，同时还融合了来自全国各地的移民文化。
+                <a href="https://m.thepaper.cn/kuaibao_detail.jsp?contid=1802799&amp;from=kuaibao" class="citation-link" target="_blank">[97]</a>
+              </p>
+
+              <blockquote class="border-l-4 border-sage pl-6 italic text-lg text-charcoal/70 mb-6">
+                &#34;海派文化是以明清江南城市文化为底蕴，以移民人口为主体，在缺失传统士绅功能、融合近代西方文化元素、以追逐实利为目的的社会背景下，彰显个性、立足大众、灵活多变的上海城市文化。&#34;
+                <footer class="text-sm mt-2">—— 熊月之教授</footer>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contemporary Shanghai -->
+      <section id="contemporary" class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6">
+          <div class="max-w-4xl mx-auto">
+            <div class="scroll-fade mb-16">
+              <h2 class="font-serif text-4xl font-semibold text-charcoal mb-6">现代上海：新生与腾飞</h2>
+              <p class="text-lg text-charcoal/80 leading-relaxed mb-8">
+                <strong>1949年5月27日</strong>，上海解放，标志着上海的历史翻开了新的一页。新中国成立初期，上海面临严峻的经济和社会问题，通过社会主义改造和工业化建设，逐渐成为国家重要的工业基地。
+                <a href="https://www.sass.org.cn/2021/0531/c1210a106157/page.htm" class="citation-link" target="_blank">[1]</a>
+              </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-16">
+              <div class="scroll-fade">
+                <img src="https://kimi-web-img.moonshot.cn/img/m.thepaper.cn/c51a8fa24b23993e876895d8a7957cafbe4e2c9e.jpg" alt="1990年代浦东陆家嘴建设初期的景象" class="w-full h-64 object-cover rounded-xl shadow-lg mb-4" referrerpolicy="no-referrer"/>
+                <h3 class="font-serif text-xl font-semibold mb-3">浦东开发开放</h3>
+                <p class="text-charcoal/70 leading-relaxed">
+                  <strong>1990年4月18日</strong>，党中央、国务院正式宣布<strong>开发开放上海浦东</strong>，这是中国改革开放历程中具有里程碑意义的重大战略决策。浦东的经济总量从1990年的<strong>60亿元</strong>跃升到2018年的<strong>1万亿元</strong>。
+                  <a href="https://www.shanghai.gov.cn/nw43407/20200824/0001-43407_1339498.html" class="citation-link" target="_blank">[12]</a>
+                </p>
+              </div>
+
+              <div class="scroll-fade">
+                <img src="https://kimi-web-img.moonshot.cn/img/st4.depositphotos.com/8ed5344e4c8125fbb1dd4d8fc2919509b80585c0.jpg" alt="上海陆家嘴金融区现代摩天大楼群" class="w-full h-64 object-cover rounded-xl shadow-lg mb-4" referrerpolicy="no-referrer"/>
+                <h3 class="font-serif text-xl font-semibold mb-3">全球城市建设</h3>
+                <p class="text-charcoal/70 leading-relaxed">
+                  进入21世纪，上海致力于建设具有全球影响力的科技创新中心，第三产业增加值占全市生产总值的比重从2012年的60%提高到2021年的<strong>73%以上</strong>，现代产业体系初步形成。
+                  <a href="https://www.gov.cn/xinwen/2022-08/09/content_5704659.htm" class="citation-link" target="_blank">[390]</a>
+                </p>
+              </div>
+            </div>
+
+            <div class="scroll-fade mb-16">
+              <h3 class="font-serif text-2xl font-semibold mb-8 text-center">现代上海发展成就</h3>
+              <div class="grid md:grid-cols-4 gap-6">
+                <div class="bg-sage/10 p-6 rounded-xl text-center hover-reveal">
+                  <div class="text-3xl font-bold text-sage mb-2">2400万+</div>
+                  <div class="text-sm text-charcoal/70">常住人口</div>
+                </div>
+                <div class="bg-clay/10 p-6 rounded-xl text-center hover-reveal">
+                  <div class="text-3xl font-bold text-clay mb-2">73%+</div>
+                  <div class="text-sm text-charcoal/70">第三产业比重</div>
+                </div>
+                <div class="bg-sage/10 p-6 rounded-xl text-center hover-reveal">
+                  <div class="text-3xl font-bold text-sage mb-2">42.1%</div>
+                  <div class="text-sm text-charcoal/70">外来人口占比</div>
+                </div>
+                <div class="bg-clay/10 p-6 rounded-xl text-center hover-reveal">
+                  <div class="text-3xl font-bold text-clay mb-2">5个</div>
+                  <div class="text-sm text-charcoal/70">国际中心建设</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="scroll-fade bg-mist/60 p-8 rounded-2xl">
+              <h3 class="font-serif text-2xl font-semibold mb-6">城市治理现代化</h3>
+              <p class="text-charcoal/80 leading-relaxed mb-6">
+                上海积极探索符合超大城市特点和规律的社会治理新路子。政务服务&#34;<strong>一网通办</strong>&#34;和城市运行&#34;<strong>一网统管</strong>&#34;的建设，极大地提升了城市治理的效率和水平。通过分布在全区近<strong>4万个物联感知设备</strong>，实时监测城市运行的各项&#34;体征&#34;。
+                <a href="https://www.12371.cn/2022/06/25/ARTI1656120457658197.shtml" class="citation-link" target="_blank">[391]</a>
+              </p>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-xl">
+                  <h4 class="font-serif text-lg font-semibold mb-3 text-sage">文化传承</h4>
+                  <p class="text-charcoal/70 text-sm">
+                    <strong>红色文化、海派文化、江南文化</strong>是上海文化的三大瑰宝。上海纳入统计的营业性演出在2023年超过<strong>4.5万场</strong>，十年间实现翻番。
+                    <a href="http://www.news.cn/local/20240206/d00df8b27e44486891b0e64593c2ead1/c.html" class="citation-link" target="_blank">[179]</a>
+                  </p>
+                </div>
+                <div class="bg-white p-6 rounded-xl">
+                  <h4 class="font-serif text-lg font-semibold mb-3 text-clay">创新发展</h4>
+                  <p class="text-charcoal/70 text-sm">
+                    上海致力于建设具有全球影响力的科技创新中心，大力发展集成电路、生物医药、人工智能等战略性新兴产业，培育新的经济增长点。
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Themes Section -->
+      <section id="themes" class="py-20 bg-stone/20">
+        <div class="container mx-auto px-4 sm:px-6">
+          <div class="max-w-4xl mx-auto">
+            <div class="scroll-fade mb-16">
+              <h2 class="font-serif text-4xl font-semibold text-charcoal mb-6 text-center">专题探讨</h2>
+              <p class="text-lg text-charcoal/80 leading-relaxed text-center">
+                深入探讨上海历史发展中的关键主题和内在规律
+              </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-16">
+              <div class="scroll-fade bg-white p-8 rounded-2xl shadow-lg hover-reveal">
+                <h3 class="font-serif text-2xl font-semibold mb-4 text-sage">经济发展脉络</h3>
+                <p class="text-charcoal/70 leading-relaxed mb-4">
+                  从古代的商业港口到近代的工业中心，再到现代的全球城市，上海的经济发展脉络清晰地展现了从传统商业到现代服务业的转型升级过程。
+                </p>
+                <ul class="text-sm text-charcoal/60 space-y-2">
+                  <li>• 明清时期：棉纺织业中心和贸易大港</li>
+                  <li>• 近代：远东金融中心和工业重镇</li>
+                  <li>• 现代：以服务经济为主导的全球城市</li>
+                </ul>
+              </div>
+
+              <div class="scroll-fade bg-white p-8 rounded-2xl shadow-lg hover-reveal">
+                <h3 class="font-serif text-2xl font-semibold mb-4 text-clay">建筑风貌演变</h3>
+                <p class="text-charcoal/70 leading-relaxed mb-4">
+                  上海的建筑风貌是其历史变迁的直观体现，从古代县城到近代国际大都市，再到现代全球城市，展现了&#34;万国建筑博览会&#34;的独特魅力。
+                </p>
+                <ul class="text-sm text-charcoal/60 space-y-2">
+                  <li>• 传统中式建筑与早期街巷</li>
+                  <li>• 租界时期的西方建筑风格</li>
+                  <li>• 现代超高层建筑群</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="scroll-fade bg-white p-8 rounded-2xl shadow-lg mb-16">
+              <h3 class="font-serif text-2xl font-semibold mb-6 text-center">社会结构演变</h3>
+              <p class="text-charcoal/80 leading-relaxed mb-6 text-center">
+                上海的社会结构经历了从传统农业社会向现代工商业都市的深刻转型。大规模、高比例的移民现象使得上海社会呈现出高度的异质性和流动性。
+              </p>
+
+              <div class="grid md:grid-cols-3 gap-6 text-center">
+                <div class="p-4 bg-sage/10 rounded-xl">
+                  <div class="text-2xl font-bold text-sage mb-2">85%</div>
+                  <div class="text-sm text-charcoal/70">解放初期非上海籍人口占比</div>
+                </div>
+                <div class="p-4 bg-clay/10 rounded-xl">
+                  <div class="text-2xl font-bold text-clay mb-2">42.1%</div>
+                  <div class="text-sm text-charcoal/70">2020年外来人口占比</div>
+                </div>
+                <div class="p-4 bg-sage/10 rounded-xl">
+                  <div class="text-2xl font-bold text-sage mb-2">23.4%</div>
+                  <div class="text-sm text-charcoal/70">60岁以上人口占比</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="scroll-fade">
+              <img src="https://kimi-web-img.moonshot.cn/img/imgpai.thepaper.cn/2b9144af1d1fbcb7c431f966ad70af8f22d0982f.png" alt="上海石库门建筑群" class="w-full h-80 object-cover rounded-2xl shadow-lg mb-6" referrerpolicy="no-referrer"/>
+              <div class="bg-white p-8 rounded-2xl shadow-lg">
+                <h3 class="font-serif text-2xl font-semibold mb-4">海派文化的深层内涵</h3>
+                <p class="text-charcoal/80 leading-relaxed">
+                  海派文化是上海文化的核心与精髓，其形成与发展深刻烙印着上海独特的历史轨迹与时代特征。它并非一蹴而就，而是历经了漫长的孕育、演变与升华过程。海派文化的核心特质在于其&#34;<strong>海纳百川，有容乃大</strong>&#34;的开放胸怀与包容心态，以及锐意进取、勇于创新的精神内核。
+                  <a href="https://smuiec.shmtu.edu.cn/2025/0625/c6989a245004/page.htm" class="citation-link" target="_blank">[96]</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Conclusion -->
+      <section id="conclusion" class="py-20 bg-charcoal text-white">
+        <div class="container mx-auto px-4 sm:px-6">
+          <div class="max-w-4xl mx-auto">
+            <div class="scroll-fade mb-16">
+              <h2 class="font-serif text-4xl font-semibold mb-6 text-center">结论：历史的特点与启示</h2>
+              <p class="text-lg text-white/80 leading-relaxed text-center">
+                上海历史的发展不仅是中国近现代史的一个缩影，也对世界城市发展史提供了宝贵的经验和启示
+              </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-16">
+              <div class="scroll-fade">
+                <h3 class="font-serif text-2xl font-semibold mb-4 text-sage">主要发展特点</h3>
+                <ul class="space-y-3 text-white/80">
+                  <li class="flex items-start">
+                    <i class="fas fa-globe text-sage mt-1 mr-3"></i>
+                    <span><strong>持续的开放性与高度的融合性</strong>贯穿始终</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-chart-line text-clay mt-1 mr-3"></i>
+                    <span><strong>经济的先导性与结构的快速转型</strong>是其核心驱动力</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-users text-sage mt-1 mr-3"></i>
+                    <span><strong>移民社会的多元性与文化的创新性</strong>相互促进</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-flag text-clay mt-1 mr-3"></i>
+                    <span><strong>城市功能的不断跃升与国家战略的紧密联动</strong></span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="scroll-fade">
+                <h3 class="font-serif text-2xl font-semibold mb-4 text-clay">历史启示</h3>
+                <ul class="space-y-3 text-white/80">
+                  <li class="flex items-start">
+                    <i class="fas fa-door-open text-sage mt-1 mr-3"></i>
+                    <span><strong>对外开放是国家繁荣发展的必由之路</strong></span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-handshake text-clay mt-1 mr-3"></i>
+                    <span><strong>包容促进和谐，多元文化融合创造活力</strong></span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-lightbulb text-sage mt-1 mr-3"></i>
+                    <span><strong>创新引领未来，敢为人先才能走在前列</strong></span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-balance-scale text-clay mt-1 mr-3"></i>
+                    <span><strong>统筹发展与治理，实现可持续发展</strong></span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="scroll-fade text-center">
+              <blockquote class="text-2xl font-serif italic mb-6 text-white/90">
+                &#34;开放带来进步，包容促进和谐，创新引领未来，这是城市发展乃至国家繁荣的普遍规律。&#34;
+              </blockquote>
+              <p class="text-white/70">
+                上海的历史启示我们，只有坚持对外开放，包容多元文化，勇于改革创新，才能在城市发展和国家建设中取得更大的成就。上海作为中国改革开放的排头兵和创新发展的先行者，必将在新时代的征程中继续发挥重要作用，为构建人类命运共同体贡献更多中国智慧和中国方案。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Mermaid with custom configuration
+        document.addEventListener('DOMContentLoaded', function() {
+            mermaid.initialize({ 
+                startOnLoad: true,
+                theme: 'base',
+                themeVariables: {
+                    primaryColor: '#F7F5F3',
+                    primaryTextColor: '#2D2D2D',
+                    primaryBorderColor: '#9CAF88',
+                    lineColor: '#D4A574',
+                    sectionBkgColor: '#F7F5F3',
+                    altSectionBkgColor: '#E8E2D4',
+                    gridColor: '#9CAF88',
+                    secondaryColor: '#E8E2D4',
+                    tertiaryColor: '#D4A574',
+                    background: '#FFFFFF',
+                    mainBkg: '#F7F5F3',
+                    secondBkg: '#E8E2D4',
+                    tertiaryBkg: '#D4A574',
+                    // Enhanced contrast settings
+                    taskBkgColor: '#F7F5F3',
+                    taskTextColor: '#2D2D2D',
+                    taskTextLightColor: '#2D2D2D',
+                    taskTextOutsideColor: '#2D2D2D',
+                    taskTextClickableColor: '#2D2D2D',
+                    activeTaskBkgColor: '#9CAF88',
+                    activeTaskBorderColor: '#2D2D2D',
+                    gridColor: '#9CAF88',
+                    section0: '#F7F5F3',
+                    section1: '#E8E2D4',
+                    section2: '#D4A574',
+                    section3: '#9CAF88'
+                },
+                timeline: {
+                    padding: 20,
+                    useMaxWidth: true,
+                    rightAngles: false
+                },
+                fontFamily: 'Inter, sans-serif',
+                fontSize: 14
+            });
+
+            // Initialize Mermaid Controls for zoom and pan
+            initializeMermaidControls();
+        });
+
+        // Initialize Mermaid Controls for zoom and pan
+        function initializeMermaidControls() {
+            const containers = document.querySelectorAll('.mermaid-container');
+
+            containers.forEach(container => {
+            const mermaidElement = container.querySelector('.mermaid');
+            let scale = 1;
+            let isDragging = false;
+            let startX, startY, translateX = 0, translateY = 0;
+
+            // 触摸相关状态
+            let isTouch = false;
+            let touchStartTime = 0;
+            let initialDistance = 0;
+            let initialScale = 1;
+            let isPinching = false;
+
+            // Zoom controls
+            const zoomInBtn = container.querySelector('.zoom-in');
+            const zoomOutBtn = container.querySelector('.zoom-out');
+            const resetBtn = container.querySelector('.reset-zoom');
+            const fullscreenBtn = container.querySelector('.fullscreen');
+
+            function updateTransform() {
+                mermaidElement.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+
+                if (scale > 1) {
+                container.classList.add('zoomed');
+                } else {
+                container.classList.remove('zoomed');
+                }
+
+                mermaidElement.style.cursor = isDragging ? 'grabbing' : 'grab';
+            }
+
+            if (zoomInBtn) {
+                zoomInBtn.addEventListener('click', () => {
+                scale = Math.min(scale * 1.25, 4);
+                updateTransform();
+                });
+            }
+
+            if (zoomOutBtn) {
+                zoomOutBtn.addEventListener('click', () => {
+                scale = Math.max(scale / 1.25, 0.3);
+                if (scale <= 1) {
+                    translateX = 0;
+                    translateY = 0;
+                }
+                updateTransform();
+                });
+            }
+
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                scale = 1;
+                translateX = 0;
+                translateY = 0;
+                updateTransform();
+                });
+            }
+
+            if (fullscreenBtn) {
+                fullscreenBtn.addEventListener('click', () => {
+                if (container.requestFullscreen) {
+                    container.requestFullscreen();
+                } else if (container.webkitRequestFullscreen) {
+                    container.webkitRequestFullscreen();
+                } else if (container.msRequestFullscreen) {
+                    container.msRequestFullscreen();
+                }
+                });
+            }
+
+            // Mouse Events
+            mermaidElement.addEventListener('mousedown', (e) => {
+                if (isTouch) return; // 如果是触摸设备，忽略鼠标事件
+
+                isDragging = true;
+                startX = e.clientX - translateX;
+                startY = e.clientY - translateY;
+                mermaidElement.style.cursor = 'grabbing';
+                updateTransform();
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging && !isTouch) {
+                translateX = e.clientX - startX;
+                translateY = e.clientY - startY;
+                updateTransform();
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDragging && !isTouch) {
+                isDragging = false;
+                mermaidElement.style.cursor = 'grab';
+                updateTransform();
+                }
+            });
+
+            document.addEventListener('mouseleave', () => {
+                if (isDragging && !isTouch) {
+                isDragging = false;
+                mermaidElement.style.cursor = 'grab';
+                updateTransform();
+                }
+            });
+
+            // 获取两点之间的距离
+            function getTouchDistance(touch1, touch2) {
+                return Math.hypot(
+                touch2.clientX - touch1.clientX,
+                touch2.clientY - touch1.clientY
+                );
+            }
+
+            // Touch Events - 触摸事件处理
+            mermaidElement.addEventListener('touchstart', (e) => {
+                isTouch = true;
+                touchStartTime = Date.now();
+
+                if (e.touches.length === 1) {
+                // 单指拖动
+                isPinching = false;
+                isDragging = true;
+
+                const touch = e.touches[0];
+                startX = touch.clientX - translateX;
+                startY = touch.clientY - translateY;
+
+                } else if (e.touches.length === 2) {
+                // 双指缩放
+                isPinching = true;
+                isDragging = false;
+
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                initialDistance = getTouchDistance(touch1, touch2);
+                initialScale = scale;
+                }
+
+                e.preventDefault();
+            }, { passive: false });
+
+            mermaidElement.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 1 && isDragging && !isPinching) {
+                // 单指拖动
+                const touch = e.touches[0];
+                translateX = touch.clientX - startX;
+                translateY = touch.clientY - startY;
+                updateTransform();
+
+                } else if (e.touches.length === 2 && isPinching) {
+                // 双指缩放
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                const currentDistance = getTouchDistance(touch1, touch2);
+
+                if (initialDistance > 0) {
+                    const newScale = Math.min(Math.max(
+                    initialScale * (currentDistance / initialDistance),
+                    0.3
+                    ), 4);
+                    scale = newScale;
+                    updateTransform();
+                }
+                }
+
+                e.preventDefault();
+            }, { passive: false });
+
+            mermaidElement.addEventListener('touchend', (e) => {
+                // 重置状态
+                if (e.touches.length === 0) {
+                isDragging = false;
+                isPinching = false;
+                initialDistance = 0;
+
+                // 延迟重置isTouch，避免鼠标事件立即触发
+                setTimeout(() => {
+                    isTouch = false;
+                }, 100);
+                } else if (e.touches.length === 1 && isPinching) {
+                // 从双指变为单指，切换为拖动模式
+                isPinching = false;
+                isDragging = true;
+
+                const touch = e.touches[0];
+                startX = touch.clientX - translateX;
+                startY = touch.clientY - translateY;
+                }
+
+                updateTransform();
+            });
+
+            mermaidElement.addEventListener('touchcancel', (e) => {
+                isDragging = false;
+                isPinching = false;
+                initialDistance = 0;
+
+                setTimeout(() => {
+                isTouch = false;
+                }, 100);
+
+                updateTransform();
+            });
+
+            // Enhanced wheel zoom with better center point handling
+            container.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const rect = container.getBoundingClientRect();
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const delta = e.deltaY > 0 ? 0.9 : 1.1;
+                const newScale = Math.min(Math.max(scale * delta, 0.3), 4);
+
+                // Adjust translation to zoom towards center
+                if (newScale !== scale) {
+                const scaleDiff = newScale / scale;
+                translateX = translateX * scaleDiff;
+                translateY = translateY * scaleDiff;
+                scale = newScale;
+
+                if (scale <= 1) {
+                    translateX = 0;
+                    translateY = 0;
+                }
+
+                updateTransform();
+                }
+            });
+
+            // Initialize display
+            updateTransform();
+            });
+        }
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-fade').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Active navigation highlighting
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.toc-link');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.offsetHeight;
+                if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+  
+
+</body></html>
