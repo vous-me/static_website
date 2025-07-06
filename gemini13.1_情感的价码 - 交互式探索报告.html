@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>情感的价码 - 交互式探索报告</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: 本应用采用了一种非线性的、以主题为导向的仪表板式结构，而非简单复刻报告的章节。顶部导航栏（探索框架、情感计算器、全球对比、伦理反思）使用户可以根据兴趣自由跳转。这种设计旨在将密集的信息分解为可管理的、互动的模块，从而提升用户的参与度和理解力。“探索框架”部分为概念奠定基础；“情感计算器”将抽象数据转化为可互动的体验；“全球对比”通过可视化清晰地展示了各国差异；“伦理反思”则提供了深入的思考空间。此结构优先考虑用户探索的便捷性和信息的易消化性。 -->
+    <!-- Visualization & Content Choices: 1. **框架** (Goal: Organize) -> HTML/CSS卡片 + Unicode图标(⚖️,💹,🤝), 点击交互 -> 清晰地组织三大核心概念，无需复杂图表。 2. **情感计算器** (Goal: Inform/Compare) -> JS动态文本 + Chart.js甜甜圈图 -> 将关键ROI数据（如心理健康投资回报）进行可视化，直观展示比例关系。 3. **全球对比** (Goal: Compare) -> Chart.js互动条形图 -> 动态展示不同法律情境下的赔偿金额，将报告中的表格数据转化为强有力的视觉对比。 4. **伦理反思** (Goal: Inform) -> 结构化HTML文本 -> 简洁有效地呈现哲学论点和建议。所有图表均使用Chart.js(Canvas)实现，确保了互动性和响应性。 -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #FAF9F6;
+            color: #333;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #D27B66;
+            border-bottom-color: #D27B66;
+        }
+        .card {
+            background-color: #FFFFFF;
+            border: 1px solid #EAEAEA;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .btn-primary {
+            background-color: #6A7E9C;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #556682;
+        }
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #555;
+            transition: background-color 0.3s;
+        }
+        .btn-secondary.active {
+            background-color: #D27B66;
+            color: white;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; 
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-[#6A7E9C]">情感的价码</h1>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#frameworks" class="nav-link text-gray-600 font-medium pb-1">探索框架</a>
+                <a href="#calculator" class="nav-link text-gray-600 font-medium pb-1">情感计算器</a>
+                <a href="#comparison" class="nav-link text-gray-600 font-medium pb-1">全球对比</a>
+                <a href="#ethics" class="nav-link text-gray-600 font-medium pb-1">伦理反思</a>
+            </div>
+            <div class="md:hidden">
+                 <button id="menu-btn" class="text-gray-600 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#frameworks" class="block py-2 text-gray-600">探索框架</a>
+            <a href="#calculator" class="block py-2 text-gray-600">情感计算器</a>
+            <a href="#comparison" class="block py-2 text-gray-600">全球对比</a>
+            <a href="#ethics" class="block py-2 text-gray-600">伦理反思</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <section class="text-center mb-20">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">人类情感值多少钱？</h2>
+            <p class="max-w-3xl mx-auto text-lg text-gray-600">一份关于情感货币化估值的全球分析报告。本应用将带您穿越法律、经济和社会的交叉路口，探索无形情感的有形价值。</p>
+        </section>
+
+        <section id="frameworks" class="mb-24 scroll-mt-20">
+            <h3 class="text-3xl font-bold text-center mb-4">探索三大核心框架</h3>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">情感的价值并非凭空而来，而是通过三大严谨的社会科学框架进行量化和解读。点击下方卡片，了解每个框架如何为情感“定价”。</p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="card p-8 rounded-lg text-center">
+                    <div class="text-5xl mb-4">⚖️</div>
+                    <h4 class="text-xl font-bold mb-2">法律框架</h4>
+                    <p class="text-gray-600">当情感受到伤害时，法律系统会介入，为“精神痛苦”裁定一个金钱赔偿额。这是最直接、最明确的情感货币化实践。</p>
+                </div>
+                <div class="card p-8 rounded-lg text-center">
+                    <div class="text-5xl mb-4">💹</div>
+                    <h4 class="text-xl font-bold mb-2">经济学框架</h4>
+                    <p class="text-gray-600">情感是驱动经济价值的“资本”。从员工幸福感对生产力的影响，到品牌与消费者的情感联结，情感无时无刻不在创造或毁灭经济价值。</p>
+                </div>
+                <div class="card p-8 rounded-lg text-center">
+                    <div class="text-5xl mb-4">🤝</div>
+                    <h4 class="text-xl font-bold mb-2">社会学框架</h4>
+                    <p class="text-gray-600">集体情感，尤其是“社会信任”，作为一种“社会资本”，是降低交易成本、促进经济繁荣的隐形润滑剂。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="calculator" class="mb-24 scroll-mt-20">
+            <h3 class="text-3xl font-bold text-center mb-4">情感价值计算器</h3>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">选择一个情感类别，观察其在全球经济、社会或个人层面产生的具体货币化影响。这并非精确的个人计算，而是基于宏观数据的价值展示。</p>
+            <div class="text-center mb-8">
+                <button data-emotion="unhappiness" class="emotion-btn btn-secondary active py-2 px-4 rounded-full mr-2 mb-2">员工不快乐的代价</button>
+                <button data-emotion="betrayal" class="emotion-btn btn-secondary py-2 px-4 rounded-full mr-2 mb-2">婚姻背叛的赔偿</button>
+                <button data-emotion="compassion" class="emotion-btn btn-secondary py-2 px-4 rounded-full mb-2">社会同情的投资回报</button>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-8 flex flex-col md:flex-row items-center gap-8">
+                <div class="md:w-1/2 text-center md:text-left">
+                    <h4 id="emotion-title" class="text-2xl font-bold text-[#6A7E9C] mb-4"></h4>
+                    <p id="emotion-value" class="text-4xl lg:text-5xl font-bold text-[#D27B66] mb-4"></p>
+                    <p id="emotion-description" class="text-gray-600 leading-relaxed"></p>
+                </div>
+                <div class="md:w-1/2 flex justify-center items-center h-64 md:h-auto">
+                     <div class="chart-container" style="height: 250px; max-height: 250px;">
+                        <canvas id="emotionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="comparison" class="mb-24 scroll-mt-20">
+            <h3 class="text-3xl font-bold text-center mb-4">精神损害赔偿全球对比</h3>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">不同国家的法律体系对相同的情感伤害给出了截然不同的“价格”。选择一个情景，比较中美日三国在法律实践中的差异。</p>
+            <div class="text-center mb-8">
+                 <button data-scenario="infidelity" class="scenario-btn btn-secondary active py-2 px-4 rounded-full mr-2 mb-2">因不忠离婚</button>
+                 <button data-scenario="death" class="scenario-btn btn-secondary py-2 px-4 rounded-full mb-2">过失致配偶死亡</button>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <div class="chart-container">
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+                <div id="comparison-details" class="mt-8 grid md:grid-cols-3 gap-6 text-sm">
+                </div>
+            </div>
+        </section>
+
+        <section id="ethics" class="scroll-mt-20">
+            <h3 class="text-3xl font-bold text-center mb-4">伦理罗盘：市场的边界</h3>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">为情感定价提供了强大的分析工具，但也触及了深刻的伦理问题。我们是否应该为所有东西标价？</p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <h4 class="text-xl font-bold mb-3 text-[#6A7E9C]">腐蚀性论点</h4>
+                    <p class="text-gray-600">哈佛哲学家迈克尔·桑德尔认为，市场交易并非中性。将某些事物（如爱、友谊、公民责任）商品化，会改变它们的性质，腐蚀或贬低其内在价值。例如，付钱让孩子读书，可能会将阅读的乐趣变为一种乏味的“工作”。</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <h4 class="text-xl font-bold mb-3 text-[#6A7E9C]">不平等论点</h4>
+                    <p class="text-gray-600">当社会中越来越多的东西都可以用钱买到时，财富的差异就演变为生活体验和公民地位的根本性隔离。这会不断侵蚀维系民主社会所必需的公共空间和共享体验，加剧社会不平等。</p>
+                </div>
+            </div>
+             <div class="mt-12 bg-gray-100 p-8 rounded-lg">
+                <h4 class="text-2xl font-bold text-center mb-6">结论与未来方向</h4>
+                <div class="grid md:grid-cols-3 gap-6 text-left">
+                    <div>
+                        <h5 class="font-bold mb-2">✔️ 对政策制定者</h5>
+                        <p class="text-gray-700 text-sm">应将国民福祉、心理健康等指标与GDP并重，在决策中量化政策对这些“软”指标的潜在影响。</p>
+                    </div>
+                     <div>
+                        <h5 class="font-bold mb-2">✔️ 对企业领导者</h5>
+                        <p class="text-gray-700 text-sm">将员工福祉视为高回报率的关键资本投资，并建立合乎伦理的营销策略，致力于创造长期价值而非操纵情绪。</p>
+                    </div>
+                     <div>
+                        <h5 class="font-bold mb-2">✔️ 对法律系统</h5>
+                        <p class="text-gray-700 text-sm">继续完善精神损害的赔偿计算方法，在自由裁量与标准化之间寻求更优平衡，以增强司法裁决的公平性。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-gray-800 text-white mt-20">
+        <div class="container mx-auto px-6 py-4 text-center text-sm">
+            <p>这是一个基于《情感的价码：人类情绪货币化估值的全球分析报告》创建的交互式应用。</p>
+            <p>&copy; 2025 情感价值探索项目。仅供演示与学习目的。</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const emotionData = {
+                unhappiness: {
+                    title: '员工不快乐的代价',
+                    value: '¥62.3万亿',
+                    description: '根据盖洛普报告，员工对工作缺乏投入感（一种负面情绪状态）给全球经济造成的生产力损失高达8.9万亿美元（约合62.3万亿人民币），相当于全球GDP的9%。这体现了“幸福感缺失”的巨大经济成本。',
+                    chartData: {
+                        labels: ['生产力损失', '全球其他GDP'],
+                        values: [9, 91],
+                        backgroundColor: ['#D27B66', '#EAEAEA'],
+                        chartType: 'doughnut'
+                    }
+                },
+                betrayal: {
+                    title: '婚姻背叛的赔偿（日本）',
+                    value: '¥100万 - ¥300万',
+                    description: '在日本，因通奸导致的离婚，其精神损害赔偿（慰谢料）有一个社会广泛认可的“市场价”，通常在100万至300万日元之间。这是一个将“背叛”这种情感伤害高度标准化的法律实践范例。',
+                    chartData: {
+                        labels: ['最低赔偿', '最高赔偿', '参照：日本人均年收入'],
+                        values: [100, 300, 450],
+                        backgroundColor: ['#FADBD8', '#D27B66', '#6A7E9C'],
+                        chartType: 'bar'
+                    }
+                },
+                compassion: {
+                    title: '社会同情的投资回报',
+                    value: '5 : 1 收益成本比',
+                    description: '世界卫生组织研究发现，社会每投入1美元用于帮助精神困扰者（一种社会同情的体现），就能在生产力恢复、医疗支出减少等方面获得5美元的回报。这体现了“同情心”具体、可观的经济价值。',
+                    chartData: {
+                        labels: ['投资', '回报'],
+                        values: [1, 5],
+                        backgroundColor: ['#6A7E9C', '#A3D2A1'],
+                        chartType: 'doughnut'
+                    }
+                }
+            };
+
+            const comparisonData = {
+                infidelity: {
+                    labels: ['中国', '日本', '美国'],
+                    datasets: [{
+                        label: '因不忠离婚赔偿范围 (美元)',
+                        data: [4200, 13500, 100000],
+                        backgroundColor: ['#E74C3C', '#F39C12', '#3498DB'],
+                        borderColor: 'rgba(255, 255, 255, 0)',
+                        borderWidth: 1
+                    }],
+                    details: [
+                        { country: '中国', principle: '社会经济协调', range: '约 ¥1万-¥5万 ($1,400 - $7,000)', explanation: '与地方法院平均生活水平挂钩，法官有自由裁量权，但判决相对审慎。' },
+                        { country: '日本', principle: '标准化“市场价”', range: '约 ¥100万-¥300万 ($7,000 - $20,000)', explanation: '有社会公认的“慰谢料”行情，追求可预测性和效率。' },
+                        { country: '美国', principle: '个体化正义', range: '差异巨大，可达数十万美元', explanation: '高度依赖陪审团自由裁量，赔偿额不确定性高，可能极高也可能很低。' }
+                    ]
+                },
+                death: {
+                    labels: ['中国', '日本', '美国'],
+                    datasets: [{
+                        label: '过失致配偶死亡赔偿 (美元)',
+                        data: [100000, 160000, 1000000], 
+                        backgroundColor: ['#E74C3C', '#F39C12', '#3498DB'],
+                        borderColor: 'rgba(255, 255, 255, 0)',
+                        borderWidth: 1
+                    }],
+                     details: [
+                        { country: '中国', principle: '社会经济协调', range: '与当地经济水平强相关', explanation: '赔偿额综合考虑侵权人能力和受害方所在地生活水平等因素。' },
+                        { country: '日本', principle: '标准化“市场价”', range: '约 ¥2,500万 ($160,000)', explanation: '对遗属的慰谢料有相对固定的基准，可预测性高。' },
+                        { country: '美国', principle: '个体化正义', range: '可达数百万美元', explanation: '由陪审团基于案件具体情况裁定，可能产生巨额赔偿。' }
+                    ]
+                }
+            };
+            
+            let emotionChart, comparisonChart;
+
+            const emotionChartCanvas = document.getElementById('emotionChart').getContext('2d');
+            const comparisonChartCanvas = document.getElementById('comparisonChart').getContext('2d');
+
+            function createEmotionChart(data) {
+                if (emotionChart) {
+                    emotionChart.destroy();
+                }
+                const options = {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                       label += context.parsed;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                };
+                if(data.chartType === 'bar'){
+                     options.scales = { y: { beginAtZero: true, ticks: { callback: (value) => value + '万' } } };
+                }
+                emotionChart = new Chart(emotionChartCanvas, {
+                    type: data.chartType,
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            data: data.values,
+                            backgroundColor: data.backgroundColor
+                        }]
+                    },
+                    options: options
+                });
+            }
+            
+            function createComparisonChart(data) {
+                if (comparisonChart) {
+                    comparisonChart.destroy();
+                }
+                comparisonChart = new Chart(comparisonChartCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: data.labels,
+                        datasets: data.datasets
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value, index, values) {
+                                        return '$' + value.toLocaleString();
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return '典型案例赔偿约: $' + context.raw.toLocaleString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function updateEmotionSection(emotionKey) {
+                const data = emotionData[emotionKey];
+                document.getElementById('emotion-title').textContent = data.title;
+                document.getElementById('emotion-value').textContent = data.value;
+                document.getElementById('emotion-description').textContent = data.description;
+                createEmotionChart(data.chartData);
+
+                document.querySelectorAll('.emotion-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.emotion === emotionKey) {
+                        btn.classList.add('active');
+                    }
+                });
+            }
+
+            function updateComparisonSection(scenarioKey) {
+                const data = comparisonData[scenarioKey];
+                createComparisonChart(data);
+
+                const detailsContainer = document.getElementById('comparison-details');
+                detailsContainer.innerHTML = '';
+                data.details.forEach(item => {
+                    const detailEl = document.createElement('div');
+                    detailEl.innerHTML = `
+                        <h5 class="font-bold text-gray-800">${item.country} - ${item.principle}</h5>
+                        <p class="font-semibold text-[#D27B66]">${item.range}</p>
+                        <p class="text-gray-600">${item.explanation}</p>
+                    `;
+                    detailsContainer.appendChild(detailEl);
+                });
+
+                document.querySelectorAll('.scenario-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.scenario === scenarioKey) {
+                        btn.classList.add('active');
+                    }
+                });
+            }
+
+            document.querySelectorAll('.emotion-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    updateEmotionSection(e.target.dataset.emotion);
+                });
+            });
+
+            document.querySelectorAll('.scenario-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    updateComparisonSection(e.target.dataset.scenario);
+                });
+            });
+
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    if(mobileMenu.classList.contains('hidden') === false){
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 100) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+
+            updateEmotionSection('unhappiness');
+            updateComparisonSection('infidelity');
+        });
+    </script>
+</body>
+</html>

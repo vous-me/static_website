@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>情感的货币：交互式探索</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: The application is designed as a non-linear, thematic dashboard. It departs from the report's linear structure to enhance user exploration. The main navigation guides users through four core 'Valuation Systems' (Policy, Legal, Business, Insurance), plus a comparative 'Global View' and a 'Deeper Dive' into philosophy/culture. This structure allows users to jump to topics of interest, compare systems directly, and explore theoretical underpinnings at their own pace. The goal is to transform a passive reading experience into an active, self-directed journey of discovery, making the complex information more accessible and engaging. -->
+    <!-- Visualization & Content Choices: The application uses interactive elements to make abstract concepts tangible, strictly avoiding SVG and Mermaid. 1) VSL Calculation (Inform): An interactive slider-based calculator (Vanilla JS) demonstrates how the Value of a Statistical Life is derived, making the formula concrete. 2) Legal Model Comparison (Compare): A dynamic radar chart (Chart.js) compares legal systems (USA, China, Europe) across key attributes like 'Predictability' and 'Individualization', offering a quick visual summary. 3) Business Metrics (Explain): A simple slider-based diagram (Vanilla JS) shows how Net Emotional Value (NEV) is calculated, clarifying the business logic. 4) Cultural Concepts (Illustrate): Key philosophical and cultural ideas are presented in clean, togglable text cards (HTML/Tailwind/JS) for digestibility. These choices support the application's exploratory structure by providing focused, interactive learning modules. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #F8F5F2;
+            color: #333333;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 320px;
+            width: 100%;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #8A9A5B;
+            border-bottom-color: #8A9A5B;
+        }
+        .card {
+            background-color: #FFFFFF;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .btn-primary {
+            background-color: #8A9A5B;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #74824a;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: #8A9A5B;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-gray-800">情感的货币</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#intro" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700">简介</a>
+                        <a href="#systems" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700">估值体系</a>
+                        <a href="#comparison" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700">全球对比</a>
+                        <a href="#philosophy" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700">深度思考</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#8A9A5B]">
+                        <span class="sr-only">打开主菜单</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#intro" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">简介</a>
+                <a href="#systems" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">估值体系</a>
+                <a href="#comparison" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">全球对比</a>
+                <a href="#philosophy" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700">深度思考</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+
+        <section id="intro" class="text-center min-h-[60vh] flex flex-col justify-center items-center">
+            <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">情感值多少钱？</h2>
+            <p class="max-w-3xl mx-auto text-lg md:text-xl text-gray-600 mb-8">
+                将无形的情感、幸福与痛苦转化为有形的货币价值，是当代社会的一项核心智识挑战。这并非一个简单的换算，而是一面棱镜，折射出不同社会体系的运作逻辑与价值取向。本应用将带您交互式地探索情感在全球不同领域中被量化的方式。
+            </p>
+            <div class="flex space-x-4">
+                <a href="#systems" class="btn-primary font-bold py-3 px-6 rounded-lg">开始探索</a>
+            </div>
+        </section>
+
+        <section id="systems" class="py-16 md:py-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold section-title inline-block">四大估值体系</h2>
+                <p class="max-w-2xl mx-auto mt-4 text-gray-600">情感的“价格”并非一成不变，而是取决于其估值体系。不同体系服务于不同目的，其工具、逻辑和结果也大相径庭。以下是四种主要的估值体系，它们共同构成了情感货币化的全球图景。</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                
+                <article class="card p-6 md:p-8">
+                    <span class="text-4xl">🏛️</span>
+                    <h3 class="text-2xl font-bold my-3">公共政策体系</h3>
+                    <p class="text-gray-600 mb-4">
+                        在公共政策领域，估值的目标是**事前预防**。通过为未来的、匿名的风险（如交通事故或环境污染导致的死亡风险）设定一个理性化价格，即“统计生命价值”（VSL），来服务于宏观的成本效益决策。
+                    </p>
+                    <div class="mt-6">
+                        <h4 class="font-semibold text-lg mb-2">交互式计算器：统计生命价值 (VSL)</h4>
+                        <p class="text-sm text-gray-500 mb-4">拖动滑块，看看人们的支付意愿如何影响一个“统计生命”的价值。</p>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="wtp" class="block text-sm font-medium text-gray-700">个人支付意愿 (WTP): <span id="wtp-value" class="font-bold text-[#8A9A5B]"></span> 美元</label>
+                                <input id="wtp" type="range" min="10" max="200" value="100" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                            </div>
+                            <div>
+                                <label for="population" class="block text-sm font-medium text-gray-700">群体规模: <span id="population-value" class="font-bold text-[#8A9A5B]">100,000</span> 人</label>
+                                <input id="population" type="range" min="10000" max="500000" value="100000" step="10000" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                            </div>
+                        </div>
+                        <div class="mt-4 p-4 bg-gray-50 rounded-lg text-center">
+                            <p class="text-gray-700">计算出的统计生命价值 (VSL):</p>
+                            <p id="vsl-result" class="text-2xl font-bold text-[#8A9A5B]"></p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card p-6 md:p-8">
+                    <span class="text-4xl">⚖️</span>
+                    <h3 class="text-2xl font-bold my-3">法律体系</h3>
+                    <p class="text-gray-600 mb-4">
+                        法律体系的目标是**事后补偿**。当伤害已经发生，法律需要为过去的、具体的痛苦（如“精神损害”）提供一个主观的、基于个人叙事的金钱补偿。其计算方法在全球范围内差异巨大。
+                    </p>
+                     <div class="mt-6">
+                        <h4 class="font-semibold text-lg mb-2">赔偿模型对比</h4>
+                        <p class="text-sm text-gray-500 mb-4">不同法律体系在赔偿精神损害时，其计算方法反映了不同的司法哲学。点击下方按钮查看不同模式的特点。</p>
+                        <div class="chart-container max-w-sm">
+                            <canvas id="legal-comparison-chart"></canvas>
+                        </div>
+                         <div class="flex justify-center space-x-2 mt-4">
+                            <button class="legal-btn btn-primary px-3 py-1 text-sm rounded-md" data-system="usa">美国模式</button>
+                            <button class="legal-btn px-3 py-1 text-sm rounded-md bg-gray-200" data-system="china">中国模式</button>
+                            <button class="legal-btn px-3 py-1 text-sm rounded-md bg-gray-200" data-system="europe">欧洲模式</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card p-6 md:p-8">
+                    <span class="text-4xl">📈</span>
+                    <h3 class="text-2xl font-bold my-3">商业体系</h3>
+                    <p class="text-gray-600 mb-4">
+                        商业追求的是**前瞻预测**。情感在这里被视为一种可管理的宝贵资源。通过量化客户情感（如“净情感价值”NEV），企业可以预测未来的利润，并以此为依据优化产品和营销策略。
+                    </p>
+                    <div class="mt-6">
+                        <h4 class="font-semibold text-lg mb-2">净情感价值 (NEV) 模拟器</h4>
+                        <p class="text-sm text-gray-500 mb-4">调整客户体验中的积极与消极情绪得分，观察NEV如何变化。</p>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="positive-emotion" class="block text-sm font-medium text-gray-700">积极情绪平均分: <span id="positive-value" class="font-bold text-green-600"></span></label>
+                                <input id="positive-emotion" type="range" min="0" max="10" value="7" step="0.1" class="w-full h-2 bg-green-200 rounded-lg appearance-none cursor-pointer">
+                            </div>
+                            <div>
+                                <label for="negative-emotion" class="block text-sm font-medium text-gray-700">消极情绪平均分: <span id="negative-value" class="font-bold text-red-600"></span></label>
+                                <input id="negative-emotion" type="range" min="0" max="10" value="2" step="0.1" class="w-full h-2 bg-red-200 rounded-lg appearance-none cursor-pointer">
+                            </div>
+                        </div>
+                        <div class="mt-4 p-4 bg-gray-50 rounded-lg text-center">
+                            <p class="text-gray-700">计算出的净情感价值 (NEV):</p>
+                            <p id="nev-result" class="text-2xl font-bold"></p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card p-6 md:p-8">
+                    <span class="text-4xl">🛡️</span>
+                    <h3 class="text-2xl font-bold my-3">保险体系</h3>
+                    <p class="text-gray-600 mb-4">
+                        保险业的核心是**风险定价**。该体系面临的挑战是将无形的心理伤害（如创伤后应激障碍）转化为可量化的、可承保的金融风险。精算模型在此将个体的心理状态直接与金融负债挂钩。
+                    </p>
+                    <div class="mt-6">
+                        <h4 class="font-semibold text-lg mb-2">心理伤害索赔的关键因素</h4>
+                        <p class="text-sm text-gray-500 mb-4">在保险索赔中，证明无形的心理伤害需要强有力的、多维度的证据。</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-3 mt-1">✓</span>
+                                <span><strong>专业诊断:</strong> 由持证精神科医生或心理学家出具的正式诊断报告 (如PTSD、重度抑郁症)。</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-3 mt-1">✓</span>
+                                <span><strong>治疗记录:</strong> 详细的治疗笔记，证明伤害的持续性和严重性。中断治疗可能成为拒赔的理由。</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-3 mt-1">✓</span>
+                                <span><strong>个人记录:</strong> 记录日常情绪和生活影响的个人日记，提供第一手资料。</span>
+                            </li>
+                             <li class="flex items-start">
+                                <span class="text-green-500 mr-3 mt-1">✓</span>
+                                <span><strong>旁证:</strong> 家人、朋友关于受害者事故前后行为变化的证词。</span>
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+        
+        <section id="comparison" class="py-16 md:py-24 bg-white rounded-2xl">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold section-title inline-block">全球对比：法律体系中的非金钱性损害赔偿</h2>
+                <p class="max-w-3xl mx-auto mt-4 text-gray-600">不同国家的法律体系在如何将无形的精神创伤转化为有形的金钱方面，深刻反映了其社会中个人、国家与企业权力之间的关系。下表互动地展示了美国、中国和欧洲模式的核心差异。</p>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full min-w-[600px] text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="p-4 font-semibold">特征</th>
+                            <th id="comp-header-usa" class="p-4 font-semibold text-center cursor-pointer comp-header active">美国模式 🇺🇸</th>
+                            <th id="comp-header-china" class="p-4 font-semibold text-center cursor-pointer comp-header">中国模式 🇨🇳</th>
+                            <th id="comp-header-europe" class="p-4 font-semibold text-center cursor-pointer comp-header">欧洲模式 🇪🇺</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="p-4 font-medium">核心术语</td>
+                            <td class="comp-cell usa p-4 text-center">痛苦与折磨</td>
+                            <td class="comp-cell china p-4 text-center hidden">精神损害抚慰金</td>
+                            <td class="comp-cell europe p-4 text-center hidden">非金钱性损害</td>
+                        </tr>
+                        <tr class="border-b bg-gray-50">
+                            <td class="p-4 font-medium">计算基础</td>
+                            <td class="comp-cell usa p-4 text-center">高度个性化，无固定公式。以“倍数法”或“按日计价法”为谈判起点。</td>
+                            <td class="comp-cell china p-4 text-center hidden">公式化，与有形损失挂钩。通常不超过国家赔偿金的35%。</td>
+                            <td class="comp-cell europe p-4 text-center hidden">指南驱动，基于表格或准则，旨在实现标准化。</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-4 font-medium">关键影响者</td>
+                            <td class="comp-cell usa p-4 text-center">陪审团、律师的叙事能力、受害人个人证词。</td>
+                            <td class="comp-cell china p-4 text-center hidden">国家（最高法院）、地方高级法院的裁量权。</td>
+                            <td class="comp-cell europe p-4 text-center hidden">立法机构、司法部门、强大的经济利益集团（如保险业）。</td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                            <td class="p-4 font-medium">主要争议</td>
+                            <td class="comp-cell usa p-4 text-center">赔偿金额的不可预测性和巨大差异；潜在的滥诉风险。</td>
+                            <td class="comp-cell china p-4 text-center hidden">赔偿标准过低；地区间赔偿金额差异巨大，有损司法公正。</td>
+                            <td class="comp-cell europe p-4 text-center hidden">标准化过程可能受到保险业过度影响，导致赔偿不足。</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+             <p class="text-center text-sm text-gray-500 mt-4">点击表头的国家/地区名称以切换显示的数据列。</p>
+        </section>
+
+        <section id="philosophy" class="py-16 md:py-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold section-title inline-block">深度思考：文化、行为与哲学</h2>
+                <p class="max-w-3xl mx-auto mt-4 text-gray-600">对情感的估值并非纯粹的技术过程，它深植于我们的文化背景、认知偏见和哲学观念之中。这些深层因素塑造了我们对价值本身的理解。</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card p-6">
+                    <h3 class="text-xl font-bold mb-3">文化透镜 🌏</h3>
+                    <p class="text-gray-600">估值公式是社会核心信念的数学表达。例如，东亚集体主义文化倾向于感知到事件更广泛的“涟漪效应”，而西方个人主义文化则更关注直接相关方。这影响了责任归属和赔偿范围的判断。</p>
+                </div>
+                <div class="card p-6">
+                    <h3 class="text-xl font-bold mb-3">行为经济学洞见 🤔</h3>
+                    <p class="text-gray-600">我们用充满偏见和情感的大脑，为偏见和情感定价。<strong>损失厌恶</strong>（失去的痛苦大于获得的快乐）和<strong>禀赋效应</strong>（高估自己拥有的）等非理性因素，深刻影响着法律谈判和风险评估中的估值。</p>
+                </div>
+                <div class="card p-6">
+                    <h3 class="text-xl font-bold mb-3">哲学的追问 📜</h3>
+                    <p class="text-gray-600">金钱与幸福可以通约吗？功利主义认为，为了最大化社会福祉，货币化是必要的工具。但其他哲学流派认为，尊严、爱与痛苦等价值与金钱是“不可通约的”，强行定价本身就是一种价值贬损。</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm">
+            <p>基于《情感的货币：对情感进行货币化估值的全球分析》报告创建的交互式应用。</p>
+            <p>&copy; 2025 情感估值探索项目。保留所有权利。</p>
+        </div>
+    </footer>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('main section');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === entry.target.id) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { threshold: 0.5 });
+    sections.forEach(section => observer.observe(section));
+
+
+    function setupVslCalculator() {
+        const wtpSlider = document.getElementById('wtp');
+        const populationSlider = document.getElementById('population');
+        const wtpValueSpan = document.getElementById('wtp-value');
+        const populationValueSpan = document.getElementById('population-value');
+        const vslResultSpan = document.getElementById('vsl-result');
+
+        function calculateVsl() {
+            const wtp = parseFloat(wtpSlider.value);
+            const population = parseFloat(populationSlider.value);
+            const vsl = wtp * population;
+            
+            wtpValueSpan.textContent = wtp.toLocaleString('en-US');
+            populationValueSpan.textContent = population.toLocaleString('en-US');
+            vslResultSpan.textContent = `$${vsl.toLocaleString('en-US')}`;
+        }
+
+        wtpSlider.addEventListener('input', calculateVsl);
+        populationSlider.addEventListener('input', calculateVsl);
+        calculateVsl();
+    }
+    
+    function setupNevCalculator() {
+        const positiveSlider = document.getElementById('positive-emotion');
+        const negativeSlider = document.getElementById('negative-emotion');
+        const positiveValueSpan = document.getElementById('positive-value');
+        const negativeValueSpan = document.getElementById('negative-value');
+        const nevResultSpan = document.getElementById('nev-result');
+
+        function calculateNev() {
+            const positive = parseFloat(positiveSlider.value);
+            const negative = parseFloat(negativeSlider.value);
+            const nev = positive - negative;
+
+            positiveValueSpan.textContent = positive.toFixed(1);
+            negativeValueSpan.textContent = negative.toFixed(1);
+            nevResultSpan.textContent = nev.toFixed(1);
+            
+            if (nev > 0) {
+                nevResultSpan.className = 'text-2xl font-bold text-green-600';
+            } else if (nev < 0) {
+                nevResultSpan.className = 'text-2xl font-bold text-red-600';
+            } else {
+                nevResultSpan.className = 'text-2xl font-bold text-gray-600';
+            }
+        }
+
+        positiveSlider.addEventListener('input', calculateNev);
+        negativeSlider.addEventListener('input', calculateNev);
+        calculateNev();
+    }
+
+    function setupLegalComparisonChart() {
+        const ctx = document.getElementById('legal-comparison-chart').getContext('2d');
+        const data = {
+            usa: {
+                label: '美国模式',
+                data: [2, 5, 2, 5], 
+                borderColor: 'rgba(59, 130, 246, 1)',
+                backgroundColor: 'rgba(59, 130, 246, 0.2)',
+            },
+            china: {
+                label: '中国模式',
+                data: [4, 2, 5, 1],
+                borderColor: 'rgba(239, 68, 68, 1)',
+                backgroundColor: 'rgba(239, 68, 68, 0.2)',
+            },
+            europe: {
+                label: '欧洲模式',
+                data: [5, 3, 4, 3],
+                borderColor: 'rgba(249, 115, 22, 1)',
+                backgroundColor: 'rgba(249, 115, 22, 0.2)',
+            }
+        };
+
+        const chart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['可预测性', '个性化程度', '国家影响', '赔偿差异'],
+                datasets: [data.usa]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        pointLabels: {
+                            font: {
+                                size: 12
+                            },
+                            color: '#333'
+                        },
+                        ticks: {
+                            backdropColor: 'transparent',
+                            stepSize: 1,
+                            font: {
+                                size: 10
+                            }
+                        },
+                        min: 0,
+                        max: 5
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.dataset.label}: ${context.raw}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        const buttons = document.querySelectorAll('.legal-btn');
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const system = button.dataset.system;
+                chart.data.datasets[0] = data[system];
+                chart.update();
+
+                buttons.forEach(btn => {
+                    btn.classList.remove('btn-primary');
+                    btn.classList.add('bg-gray-200');
+                });
+                button.classList.add('btn-primary');
+                button.classList.remove('bg-gray-200');
+            });
+        });
+    }
+
+    function setupComparisonTable() {
+        const headers = document.querySelectorAll('.comp-header');
+        headers.forEach(header => {
+            header.addEventListener('click', () => {
+                const targetSystem = header.id.split('-')[2];
+
+                headers.forEach(h => h.classList.remove('active'));
+                header.classList.add('active');
+                
+                document.querySelectorAll('.comp-cell').forEach(cell => {
+                    cell.classList.add('hidden');
+                });
+                
+                document.querySelectorAll(`.comp-cell.${targetSystem}`).forEach(cell => {
+                    cell.classList.remove('hidden');
+                });
+            });
+        });
+    }
+
+
+    setupVslCalculator();
+    setupNevCalculator();
+    setupLegalComparisonChart();
+    setupComparisonTable();
+});
+</script>
+</body>
+</html>

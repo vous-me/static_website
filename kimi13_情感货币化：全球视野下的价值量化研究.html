@@ -1,0 +1,1593 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>情感货币化：全球视野下的价值量化研究</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2d3748;
+            --accent: #e53e3e;
+            --neutral: #f7fafc;
+            --text: #2d3748;
+            --text-light: #718096;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+        }
+        
+        .serif {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .toc-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 2rem 1.5rem;
+        }
+        
+        .content-wrapper {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+        
+        .toc-link {
+            display: block;
+            padding: 0.5rem 0;
+            color: var(--text-light);
+            text-decoration: none;
+            border-left: 2px solid transparent;
+            padding-left: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .toc-link:hover, .toc-link.active {
+            color: var(--primary);
+            border-left-color: var(--accent);
+            background: #f8fafc;
+        }
+        
+        .toc-link.sub {
+            font-size: 0.9rem;
+            padding-left: 2rem;
+            color: #718096;
+        }
+        
+        .section-padding {
+            padding: 4rem 0;
+        }
+        
+        .citation {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .citation:hover {
+            text-decoration: underline;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #fef7f0 0%, #fed7d7 100%);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .bento-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .bento-item {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .bento-large {
+            grid-row: span 2;
+            position: relative;
+        }
+        
+        .hero-text-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            padding: 3rem 2rem 2rem;
+        }
+        
+        /* Mermaid chart styling */
+        .mermaid-container {
+            display: flex;
+            justify-content: center;
+            min-height: 300px;
+            max-height: 800px;
+            background: #ffffff;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mermaid-container .mermaid {
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            cursor: grab;
+            transition: transform 0.3s ease;
+            transform-origin: center center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            touch-action: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .mermaid-container .mermaid svg {
+            max-width: 100%;
+            height: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .mermaid-container .mermaid:active {
+            cursor: grabbing;
+        }
+
+        .mermaid-container.zoomed .mermaid {
+            height: 100%;
+            width: 100%;
+            cursor: grab;
+        }
+
+        .mermaid-controls {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .mermaid-control-btn {
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #374151;
+            font-size: 14px;
+            min-width: 36px;
+            height: 36px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mermaid-control-btn:hover {
+            background: #f8fafc;
+            border-color: #3b82f6;
+            color: #3b82f6;
+            transform: translateY(-1px);
+        }
+
+        .mermaid-control-btn:active {
+            transform: scale(0.95);
+        }
+        
+        @media (max-width: 1024px) {
+            .toc-fixed {
+                display: none;
+            }
+            .content-wrapper {
+                margin-left: 0;
+            }
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+            .mermaid-control-btn:not(.reset-zoom) {
+                display: none;
+            }
+            .mermaid-controls {
+                top: auto;
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+
+        /* Small screen adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .hero-gradient h1 {
+                font-size: 1.75rem;
+                line-height: 1.2;
+            }
+
+            .hero-gradient p {
+                font-size: 1rem;
+            }
+
+            .hero-text-overlay {
+                padding: 1.5rem 1rem 1rem;
+            }
+
+            .hero-gradient {
+                min-height: 400px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero-gradient h1 {
+                font-size: 1.5rem;
+            }
+            .hero-gradient p {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+  </head>
+
+  <body class="bg-gray-50">
+    <!-- Table of Contents -->
+    <nav class="toc-fixed">
+      <div class="mb-8">
+        <h3 class="serif text-xl font-bold text-gray-800 mb-4">目录导航</h3>
+        <div class="w-12 h-0.5 bg-red-500 mb-6"></div>
+      </div>
+
+      <a href="#hero" class="toc-link">概述</a>
+      <a href="#section1" class="toc-link">1. 情感在经济决策中的全球差异</a>
+      <a href="#section1-1" class="toc-link sub">1.1 跨国情绪与经济行为研究</a>
+      <a href="#section1-2" class="toc-link sub">1.2 积极情绪与耐心的国别差异</a>
+      <a href="#section1-3" class="toc-link sub">1.3 文化背景的调节作用</a>
+
+      <a href="#section2" class="toc-link">2. 个人及社会情感的货币价值</a>
+      <a href="#section2-1" class="toc-link sub">2.1 商业广告中的情感影响力</a>
+      <a href="#section2-2" class="toc-link sub">2.2 心理咨询服务定价机制</a>
+      <a href="#section2-3" class="toc-link sub">2.3 社交媒体情感变现能力</a>
+
+      <a href="#section3" class="toc-link">3. 两性关系在相亲市场的货币量化</a>
+      <a href="#section3-1" class="toc-link sub">3.1 相亲市场情感需求商品化</a>
+      <a href="#section3-2" class="toc-link sub">3.2 不同文化背景下的表现形式</a>
+
+      <a href="#insights" class="toc-link">核心洞察</a>
+      <a href="#conclusion" class="toc-link">结论与展望</a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+      <!-- Hero Section -->
+      <section id="hero" class="hero-gradient min-h-screen flex items-center justify-center relative overflow-hidden">
+        <div class="container mx-auto px-8 py-16">
+          <div class="bento-grid h-full">
+            <!-- Main Hero Content -->
+            <div class="bento-item bento-large relative">
+              <img src="https://kimi-web-img.moonshot.cn/img/placeholder-0620/图片10.png" alt="情感与金融融合的抽象背景图" class="w-full h-full object-cover" size="wallpaper" aspect="wide" query="情感金融抽象背景" referrerpolicy="no-referrer"/>
+              <div class="hero-text-overlay">
+                <h1 class="serif text-5xl font-bold mb-4 leading-tight">
+                  <em>情感货币化</em>
+                </h1>
+                <p class="text-xl opacity-90 mb-6">全球视野下的价值量化研究</p>
+                <div class="flex items-center space-x-4 text-sm opacity-80">
+                  <span><i class="fas fa-globe mr-2"></i>跨国比较研究</span>
+                  <span><i class="fas fa-chart-line mr-2"></i>数据驱动洞察</span>
+                  <span><i class="fas fa-heart mr-2"></i>情感经济分析</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Key Insights -->
+            <div class="bento-item bg-white p-6">
+              <h3 class="serif text-xl font-bold mb-4 text-gray-800">核心发现</h3>
+              <div class="space-y-4">
+                <div class="flex items-start space-x-3">
+                  <div class="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <p class="text-sm text-gray-600">情感在经济决策中的作用呈现全球差异，文化背景是关键调节因素</p>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <div class="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <p class="text-sm text-gray-600">心理咨询服务市场预计2029年达158亿美元，复合增长率35.1%</p>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <div class="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <p class="text-sm text-gray-600">社交媒体情感内容变现模式因平台与地区而异</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Research Scope -->
+            <div class="bento-item bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
+              <h3 class="serif text-lg font-bold mb-4 text-gray-800">研究范围</h3>
+              <div class="grid grid-cols-2 gap-3 text-sm">
+                <div class="text-center">
+                  <div class="text-2xl font-bold text-blue-600">74</div>
+                  <div class="text-gray-600">国家研究</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-2xl font-bold text-blue-600">77K+</div>
+                  <div class="text-gray-600">样本数据</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-2xl font-bold text-blue-600">4</div>
+                  <div class="text-gray-600">主要领域</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-2xl font-bold text-blue-600">∞</div>
+                  <div class="text-gray-600">情感价值</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 1: Global Differences -->
+      <section id="section1" class="section-padding bg-white">
+        <div class="container mx-auto px-8">
+          <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+              <h2 class="serif text-4xl font-bold mb-6">情感在经济决策中的全球差异</h2>
+              <div class="w-24 h-1 bg-red-500 mx-auto mb-6"></div>
+              <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                跨国研究揭示了情感与经济行为关系的复杂性和多样性，挑战了以往研究中可能存在的以少数西方发达国家样本推断全球情况的局限性
+              </p>
+            </div>
+
+            <!-- Subsection 1.1 -->
+            <div id="section1-1" class="mb-16">
+              <h3 class="serif text-2xl font-bold mb-8">跨国研究揭示情绪与经济行为的复杂关系</h3>
+
+              <div class="prose prose-lg max-w-none mb-8">
+                <p>在全球化的背景下，情感与经济行为之间的相互作用日益受到关注。<strong>跨国研究揭示了这种关系的复杂性和多样性，挑战了以往研究中可能存在的以少数西方发达国家样本推断全球情况的局限性</strong>
+                  <a href="https://phys.org/news/2024-09-relationship-emotions-economic-decision-differ.html" class="citation">[859]</a>。
+                </p>
+
+                <p>例如，一项针对奥地利和哥伦比亚两国年轻成年人的研究，通过分析他们对旅游目的地广告的情绪反应，发现两国参与者在整体积极和消极情绪（即情感效价）方面存在差异 <a href="https://link.springer.com/chapter/10.1007/978-3-031-58839-6_5" class="citation">[229]</a>。具体而言，在广告播放的第65至73秒，哥伦比亚参与者对特定场景的&#34;惊讶&#34;情绪反应更为强烈，而奥地利参与者的&#34;惊讶&#34;程度则相对较低。</p>
+              </div>
+
+              <div class="highlight-box">
+                <h4 class="font-bold text-lg mb-3"><i class="fas fa-lightbulb text-yellow-500 mr-2"></i>研究发现</h4>
+                <p>在&#34;惊讶&#34;情绪表达强烈的群体中，哥伦比亚参与者占绝大多数（14/17），而奥地利参与者则更多地分布在情绪反应较为平缓的群体中。这表明，即使是面对相同的外部刺激，不同文化背景下的个体其情绪反应模式也可能存在显著差异。</p>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-8 mt-8">
+                <div class="stat-card">
+                  <h4 class="font-bold text-lg mb-3">文化差异影响</h4>
+                  <p class="text-gray-600 mb-4">欧洲裔美国人比亚洲个体更倾向于认为积极情绪具有更高的效用和更低的危害性，因此他们更偏好积极情绪 <a href="https://link.springer.com/article/10.1007/s12144-024-06226-8" class="citation">[250]</a>。</p>
+                  <div class="flex items-center text-sm text-gray-500">
+                    <i class="fas fa-globe-americas mr-2"></i>
+                    跨文化情绪认知差异
+                  </div>
+                </div>
+
+                <div class="stat-card">
+                  <h4 class="font-bold text-lg mb-3">表达方式差异</h4>
+                  <p class="text-gray-600 mb-4">中国参与者在隐性层面对情绪表达的评价更为负面，并且明确表示比欧洲裔美国人更不重视情绪表达。</p>
+                  <div class="flex items-center text-sm text-gray-500">
+                    <i class="fas fa-comments mr-2"></i>
+                    情绪表达文化差异
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subsection 1.2 -->
+            <div id="section1-2" class="mb-16">
+              <h3 class="serif text-2xl font-bold mb-8">积极情绪与耐心关系的国别差异</h3>
+
+              <div class="prose prose-lg max-w-none mb-8">
+                <p>关于积极情绪与耐心（例如，选择较小的即时奖励还是较大的未来奖励）之间的关系，<strong>跨国研究表明其并非普适性的，而是存在显著且系统的国别差异</strong>
+                  <a href="https://phys.org/news/2024-09-relationship-emotions-economic-decision-differ.html" class="citation">[859]</a>。
+                </p>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                  <div class="flex items-center mb-4">
+                    <i class="fas fa-chart-line text-green-600 text-2xl mr-3"></i>
+                    <h4 class="font-bold text-lg">传统预期符合国家</h4>
+                  </div>
+                  <div class="text-3xl font-bold text-green-600 mb-2">53</div>
+                  <p class="text-gray-600">个国家的数据显示积极情绪与更大的耐心相关</p>
+                </div>
+
+                <div class="bg-red-50 border border-red-200 rounded-lg p-6">
+                  <div class="flex items-center mb-4">
+                    <i class="fas fa-exclamation-triangle text-red-600 text-2xl mr-3"></i>
+                    <h4 class="font-bold text-lg">反向关系国家</h4>
+                  </div>
+                  <div class="text-3xl font-bold text-red-600 mb-2">21</div>
+                  <p class="text-gray-600">个国家中积极情绪与更小的耐心相关</p>
+                </div>
+              </div>
+
+              <div class="bg-gray-50 rounded-lg p-6">
+                <h4 class="font-bold text-lg mb-4"><i class="fas fa-quote-left text-gray-400 mr-2"></i>研究启示</h4>
+                <p class="text-gray-700">这一发现不仅揭示了情绪与经济决策关系的复杂性，也提示了不同文化背景下，积极情绪可能对个体决策产生截然不同的影响。因此，在制定与消费者行为、金融投资或公共政策相关的策略时，不能简单地将基于特定文化背景的研究结论推广到全球范围。</p>
+              </div>
+            </div>
+
+            <!-- Subsection 1.3 -->
+            <div id="section1-3" class="mb-16">
+              <h3 class="serif text-2xl font-bold mb-8">文化背景在情感与经济决策间的调节作用</h3>
+
+              <div class="prose prose-lg max-w-none mb-8">
+                <p><strong>文化背景在情感与经济决策之间扮演着至关重要的调节角色</strong>。不同文化对于情绪的认知、表达和评价存在显著差异，这些差异直接或间接地影响着个体的经济行为和决策过程。</p>
+
+                <p>一项针对多个国家的研究发现，尽管各国在整体情绪表达认可度上存在一定的普遍性规范，但国家间的差异仍然存在，大约能解释数据方差的5% <a href="https://repositorium.sdum.uminho.pt/bitstream/1822/29563/4/mapping_emotions_world_RC.pdf" class="citation">[246]</a>。</p>
+              </div>
+
+              <!-- Mermaid Chart -->
+              <div class="mermaid-container">
+                <div class="mermaid-controls">
+                  <button class="mermaid-control-btn zoom-in" title="放大">
+                    <i class="fas fa-search-plus"></i>
+                  </button>
+                  <button class="mermaid-control-btn zoom-out" title="缩小">
+                    <i class="fas fa-search-minus"></i>
+                  </button>
+                  <button class="mermaid-control-btn reset-zoom" title="重置">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                  </button>
+                  <button class="mermaid-control-btn fullscreen" title="全屏查看">
+                    <i class="fas fa-expand"></i>
+                  </button>
+                </div>
+                <div class="mermaid" id="cultural-influence-chart">
+                  graph TB
+                  A[&#34;文化背景&#34;] --&gt; B[&#34;情绪认知差异&#34;]
+                  A --&gt; C[&#34;情绪表达规范&#34;]
+                  A --&gt; D[&#34;情绪评价标准&#34;]
+
+                  B --&gt; E[&#34;经济行为模式&#34;]
+                  C --&gt; E
+                  D --&gt; E
+
+                  E --&gt; F[&#34;商业谈判风格&#34;]
+                  E --&gt; G[&#34;消费者决策&#34;]
+                  E --&gt; H[&#34;投资偏好&#34;]
+
+                  style A fill:#1a365d,stroke:#2d3748,stroke-width:4px,color:#fff
+                  style E fill:#e53e3e,stroke:#c53030,stroke-width:3px,color:#fff
+                  style B fill:#4299e1,stroke:#2b6cb0,stroke-width:2px,color:#fff
+                  style C fill:#4299e1,stroke:#2b6cb0,stroke-width:2px,color:#fff
+                  style D fill:#4299e1,stroke:#2b6cb0,stroke-width:2px,color:#fff
+                  style F fill:#9ae6b4,stroke:#68d391,stroke-width:2px,color:#1a202c
+                  style G fill:#9ae6b4,stroke:#68d391,stroke-width:2px,color:#1a202c
+                  style H fill:#9ae6b4,stroke:#68d391,stroke-width:2px,color:#1a202c
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-3 gap-6">
+                <div class="stat-card text-center">
+                  <i class="fas fa-angry text-red-500 text-3xl mb-4"></i>
+                  <h4 class="font-bold mb-2">蔑视与厌恶</h4>
+                  <p class="text-gray-600 text-sm">无论在群体内部还是外部互动中，都是最少被认可的情绪</p>
+                </div>
+
+                <div class="stat-card text-center">
+                  <i class="fas fa-sad-tear text-blue-500 text-3xl mb-4"></i>
+                  <h4 class="font-bold mb-2">悲伤</h4>
+                  <p class="text-gray-600 text-sm">在群体内部得到相对较高的认可，可能传达痛苦和脆弱性</p>
+                </div>
+
+                <div class="stat-card text-center">
+                  <i class="fas fa-smile text-yellow-500 text-3xl mb-4"></i>
+                  <h4 class="font-bold mb-2">积极情绪</h4>
+                  <p class="text-gray-600 text-sm">西方文化比东方文化更重视积极情绪的表达</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Monetary Value -->
+      <section id="section2" class="section-padding bg-gray-50">
+        <div class="container mx-auto px-8">
+          <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+              <h2 class="serif text-4xl font-bold mb-6">个人及社会情感的货币价值分析</h2>
+              <div class="w-24 h-1 bg-red-500 mx-auto mb-6"></div>
+              <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                情感在经济决策中的作用呈现全球差异，文化背景是关键的调节因素。商业广告、心理咨询、社交媒体及相亲市场均有显著体现。
+              </p>
+            </div>
+
+            <!-- Subsection 2.1 -->
+            <div id="section2-1" class="mb-16 bg-white rounded-lg p-8 shadow-sm">
+              <h3 class="serif text-2xl font-bold mb-8">商业广告中情感影响力的货币价值</h3>
+
+              <h4 class="serif text-xl font-semibold mb-6">情感诉求在广告中的普遍应用与效果</h4>
+
+              <div class="prose prose-lg max-w-none mb-8">
+                <p><strong>情感诉求在商业广告中的应用极为普遍，并且被证明是提升品牌影响力和驱动消费者行为的关键策略</strong>。品牌通过触动消费者的情感，如喜悦、信任、怀旧、同情甚至&#34;小确丧&#34;，来建立更深层次的连接。</p>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div class="bg-gradient-to-br from-red-50 to-pink-100 rounded-lg p-6">
+                  <img src="https://kimi-web-img.moonshot.cn/img/placeholder-0620/图片4.png" alt="可口可乐世界杯广告活动" class="w-full h-32 object-cover rounded-lg mb-4" referrerpolicy="no-referrer"/>
+                  <h5 class="font-bold text-lg mb-3">可口可乐&#34;One World, One Game&#34;</h5>
+                  <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                      <span>触及人数</span>
+                      <span class="font-bold">2亿+</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>YouTube观看量</span>
+                      <span class="font-bold">2100万+</span>
+                    </div>
+                  </div>
+                  <p class="text-gray-600 text-sm mt-3">通过讲述普通人通过足球克服挑战的真实故事，激发全球观众情感共鸣 <a href="https://fastercapital.com/content/Emotional-intelligence-case-studies--Emotional-Intelligence-in-Marketing--Real-Life-Case-Studies.html" class="citation">[217]</a>。</p>
+                </div>
+
+                <div class="bg-gradient-to-br from-blue-50 to-cyan-100 rounded-lg p-6">
+                  <img src="https://kimi-web-img.moonshot.cn/img/placeholder-0620/图片17.png" alt="多芬真美运动广告" class="w-full h-32 object-cover rounded-lg mb-4" referrerpolicy="no-referrer"/>
+                  <h5 class="font-bold text-lg mb-3">多芬&#34;Real Beauty&#34;</h5>
+                  <p class="text-gray-600 text-sm mb-3">挑战不切实际的美丽标准，鼓励女性自信，引发广泛社会讨论和情感共鸣 <a href="https://fastercapital.com/content/Emotional-intelligence-case-studies--Emotional-Intelligence-in-Marketing--Real-Life-Case-Studies.html" class="citation">[217]</a>。</p>
+                  <div class="bg-white rounded p-3">
+                    <div class="text-xs text-gray-500 mb-1">活动效果</div>
+                    <div class="font-bold text-blue-600">病毒式传播 + 品牌认同</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="highlight-box">
+                <h4 class="font-bold text-lg mb-3"><i class="fas fa-trophy text-yellow-500 mr-2"></i>成功案例：&#34;Share a Coke&#34;</h4>
+                <p>可口可乐通过在瓶身上印制消费者名字，将产品转化为个性化情感表达工具。该活动在全球70多个国家推广，售出超过1.5亿瓶个性化包装产品，并在美国市场带来2%的销售额增长 <a href="https://www.linkedin.com/pulse/coca-colas-share-coke-campaign-sell-emotion-just-product-kashyap-jhljc" class="citation">[692]</a>。</p>
+              </div>
+
+              <h4 class="serif text-xl font-semibold mb-6 mt-12">不同文化背景下情感广告的接受度与转化率差异</h4>
+
+              <div class="prose prose-lg max-w-none mb-8">
+                <p><strong>不同文化背景下的消费者对情感广告的接受度和转化率存在显著差异</strong>，这主要源于文化价值观、社会规范以及情绪表达和感知习惯的不同。</p>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-8">
+                <div class="border border-orange-200 rounded-lg p-6">
+                  <h5 class="font-bold text-lg mb-4 text-orange-600">哥伦比亚（集体主义文化）</h5>
+                  <ul class="space-y-2 text-sm text-gray-600">
+                    <li class="flex items-start"><i class="fas fa-check text-green-500 mr-2 mt-1"></i>对直接激发情感和同理心的内容表现出更积极的整体情感反应</li>
+                    <li class="flex items-start"><i class="fas fa-check text-green-500 mr-2 mt-1"></i>情感外露、强调人际互动和情感连接的广告更容易被接受</li>
+                    <li class="flex items-start"><i class="fas fa-check text-green-500 mr-2 mt-1"></i>可能产生更高的情感共鸣和转化率</li>
+                  </ul>
+                </div>
+
+                <div class="border border-blue-200 rounded-lg p-6">
+                  <h5 class="font-bold text-lg mb-4 text-blue-600">奥地利（个人主义文化）</h5>
+                  <ul class="space-y-2 text-sm text-gray-600">
+                    <li class="flex items-start"><i class="fas fa-check text-green-500 mr-2 mt-1"></i>更偏好直接、基于事实的沟通方式</li>
+                    <li class="flex items-start"><i class="fas fa-times text-red-500 mr-2 mt-1"></i>过于戏剧化或情感泛滥的广告可能显得不真诚</li>
+                    <li class="flex items-start"><i class="fas fa-times text-red-500 mr-2 mt-1"></i>理性诉求可能比情感诉求更有效</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="bg-gray-50 rounded-lg p-6 mt-6">
+                <h5 class="font-bold text-lg mb-4"><i class="fas fa-chart-bar text-purple-500 mr-2"></i>跨文化情感广告效果对比</h5>
+                <p class="text-gray-700 mb-4">研究显示，欧洲裔美国人比日本个体更倾向于认为积极情绪具有更高的效用和更低的危害性，因此他们更偏好积极情绪 <a href="https://link.springer.com/article/10.1007/s12144-024-06226-8" class="citation">[250]</a>。</p>
+                <p class="text-gray-700">耐克和可口可乐在奥运会广告中的不同表现也反映了这一点：可口可乐充满希望与团结的广告获得了更高的情感依附度，而耐克强调&#34;获胜至上&#34;的广告则在亲和力方面得分较低 <a href="https://www.marketingdive.com/news/olympic-advertising-brands-emotion-coke-nike-kantar/723403/" class="citation">[701]</a>。</p>
+              </div>
+            </div>
+
+            <!-- Subsection 2.2 -->
+            <div id="section2-2" class="mb-16 bg-white rounded-lg p-8 shadow-sm">
+              <h3 class="serif text-2xl font-bold mb-8">心理咨询服务中情感的定价机制</h3>
+
+              <h4 class="serif text-xl font-semibold mb-6">情感困扰作为心理咨询服务的主要标的</h4>
+
+              <div class="prose prose-lg max-w-none mb-8">
+                <p><strong>情感困扰，包括各种负面情绪如焦虑、抑郁、悲伤、愤怒、恐惧等，以及由此引发的人际关系问题、社会适应困难等，是心理咨询服务的主要标的和核心处理对象</strong>
+                  <a href="https://www.thebusinessresearchcompany.com/report/emotional-counseling-service-global-market-report" class="citation">[224]</a>。
+                </p>
+              </div>
+
+              <div class="bg-gradient-to-r from-green-50 to-emerald-100 rounded-lg p-8 mb-8">
+                <h5 class="serif text-xl font-bold mb-6 text-center">全球情感咨询服务市场增长预测</h5>
+                <div class="grid md:grid-cols-4 gap-6 text-center">
+                  <div>
+                    <div class="text-3xl font-bold text-green-600 mb-2">$35亿</div>
+                    <div class="text-sm text-gray-600">2024年市场规模</div>
+                  </div>
+                  <div>
+                    <div class="text-3xl font-bold text-green-600 mb-2">$47.3亿</div>
+                    <div class="text-sm text-gray-600">2025年预测</div>
+                  </div>
+                  <div>
+                    <div class="text-3xl font-bold text-green-600 mb-2">35.1%</div>
+                    <div class="text-sm text-gray-600">复合年增长率</div>
+                  </div>
+                  <div>
+                    <div class="text-3xl font-bold text-green-600 mb-2">$158亿</div>
+                    <div class="text-sm text-gray-600">2029年预计</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div class="stat-card">
+                  <h5 class="font-bold text-lg mb-4">服务类型覆盖</h5>
+                  <ul class="space-y-2 text-sm text-gray-600">
+                    <li class="flex items-center"><i class="fas fa-users text-blue-500 mr-2"></i>社交互动问题</li>
+                    <li class="flex items-center"><i class="fas fa-heart text-red-500 mr-2"></i>生理情绪问题</li>
+                    <li class="flex items-center"><i class="fas fa-brain text-purple-500 mr-2"></i>情绪管理</li>
+                    <li class="flex items-center"><i class="fas fa-child text-green-500 mr-2"></i>儿童与成人群体</li>
+                  </ul>
+                </div>
+
+                <div class="stat-card">
+                  <h5 class="font-bold text-lg mb-4">中国市场定价</h5>
+                  <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                      <span class="text-sm">主流客单价</span>
+                      <span class="font-bold text-blue-600">300-800元</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                      <span class="text-sm">高净值定制服务</span>
+                      <span class="font-bold text-green-600">1500元+</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                      <span class="text-sm">标准化课程</span>
+                      <span class="font-bold text-purple-600">99元/21天</span>
+                    </div>
+                  </div>
+                  <p class="text-xs text-gray-500 mt-3">数据来源：小红书平台情感咨询服务 <a href="https://www.hanspub.org/journal/paperinformation?paperid=116057" class="citation">[113]</a>
+                  </p>
+                </div>
+              </div>
+
+              <h4 class="serif text-xl font-semibold mb-6 mt-12">心理咨询服务定价的国别与文化影响因素</h4>
+
+              <div class="prose prose-lg max-w-none mb-8">
+                <p><strong>心理咨询服务的定价受到多种因素的影响，其中国别和文化因素是至关重要的维度</strong>。不同国家和地区的经济发展水平、医疗保健体系、对心理健康的重视程度以及文化观念等，都会深刻影响心理咨询服务的市场定价。</p>
+              </div>
+
+              <div class="bg-amber-50 border border-amber-200 rounded-lg p-6">
+                <h5 class="font-bold text-lg mb-4"><i class="fas fa-quote-left text-amber-500 mr-2"></i>文化因素影响</h5>
+                <p class="text-gray-700 mb-4">英国作家罗斯·哈克曼在《情绪价值》中指出，<strong>提供情绪价值的劳动在社会中普遍存在且具有经济价值，但常被忽视</strong>
+                  <a href="https://finance.sina.cn/2024-05-07/detail-inaukqqi1829145.d.html?from=wap" class="citation">[138]</a>。
+                </p>
+                <p class="text-gray-700">这种对情绪劳动价值的认知差异，可能影响心理咨询师的专业地位和薪酬水平，进而影响服务定价。</p>
+              </div>
+
+              <div class="grid md:grid-cols-3 gap-6 mt-6">
+                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                  <i class="fas fa-dollar-sign text-green-500 text-3xl mb-3"></i>
+                  <h6 class="font-bold mb-2">经济发展水平</h6>
+                  <p class="text-sm text-gray-600">影响服务价格和支付能力</p>
+                </div>
+                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                  <i class="fas fa-shield-alt text-blue-500 text-3xl mb-3"></i>
+                  <h6 class="font-bold mb-2">医疗保障体系</h6>
+                  <p class="text-sm text-gray-600">保险覆盖范围和报销比例</p>
+                </div>
+                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                  <i class="fas fa-brain text-purple-500 text-3xl mb-3"></i>
+                  <h6 class="font-bold mb-2">文化观念</h6>
+                  <p class="text-sm text-gray-600">对心理健康的认知和污名化程度</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subsection 2.3 -->
+            <div id="section2-3" class="mb-16 bg-white rounded-lg p-8 shadow-sm">
+              <h3 class="serif text-2xl font-bold mb-8">社交媒体上情感关注度的变现能力</h3>
+
+              <h4 class="serif text-xl font-semibold mb-6">情感共鸣作为社交媒体内容传播的核心驱动力</h4>
+
+              <div class="prose prose-lg max-w-none mb-8">
+                <p><strong>情感共鸣是社交媒体内容传播的核心驱动力之一，能够有效地吸引用户关注、激发互动并促进内容的病毒式扩散</strong>。当社交媒体上的内容能够触动用户的某种情感时，用户更倾向于点赞、评论、分享，从而扩大内容的传播范围。</p>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div class="bg-gradient-to-br from-orange-50 to-red-100 rounded-lg p-6">
+                  <h5 class="font-bold text-lg mb-4">快手&#34;老铁经济&#34;</h5>
+                  <img src="https://kimi-web-img.moonshot.cn/img/placeholder-0620/图片18.png" alt="快手老铁经济直播带货场景" class="w-full h-32 object-cover rounded-lg mb-4" referrerpolicy="no-referrer"/>
+                  <div class="space-y-2 text-sm">
+                    <div class="flex items-center">
+                      <i class="fas fa-percentage text-orange-500 mr-2"></i>
+                      <span>达人内容90%聚焦生活</span>
+                    </div>
+                    <div class="flex items-center">
+                      <i class="fas fa-heart text-red-500 mr-2"></i>
+                      <span>基于地域和圈层认同</span>
+                    </div>
+                    <div class="flex items-center">
+                      <i class="fas fa-chart-line text-green-500 mr-2"></i>
+                      <span>直播带货转化率高于抖音</span>
+                    </div>
+                  </div>
+                  <p class="text-gray-600 text-sm mt-3">&#34;老铁经济&#34;被认为是情感货币化的体现 <a href="https://user.guancha.cn/main/content?id=1396296&amp;s=fwtjgzwz" class="citation">[351]</a>。</p>
+                </div>
+
+                <div class="bg-gradient-to-br from-pink-50 to-rose-100 rounded-lg p-6">
+                  <h5 class="font-bold text-lg mb-4">小红书信任闭环</h5>
+                  <img src="https://kimi-web-img.moonshot.cn/img/placeholder-0620/图片1.png" alt="小红书用户真实生活分享内容" class="w-full h-32 object-cover rounded-lg mb-4" referrerpolicy="no-referrer"/>
+                  <div class="space-y-2 text-sm">
+                    <div class="flex items-center">
+                      <i class="fas fa-share-alt text-pink-500 mr-2"></i>
+                      <span>真实生活分享构建信任</span>
+                    </div>
+                    <div class="flex items-center">
+                      <i class="fas fa-comments text-blue-500 mr-2"></i>
+                      <span>内容接近日常生活</span>
+                    </div>
+                    <div class="flex items-center">
+                      <i class="fas fa-arrow-up text-green-500 mr-2"></i>
+                      <span>带动用户互动积极性</span>
+                    </div>
+                  </div>
+                  <p class="text-gray-600 text-sm mt-3">情感博主通过精准戳中用户痛点吸引粉丝 <a href="https://m.thepaper.cn/kuaibao_detail.jsp?contid=30328792&amp;from=kuaibao" class="citation">[40]</a>。</p>
+                </div>
+              </div>
+
+              <div class="highlight-box">
+                <h4 class="font-bold text-lg mb-3"><i class="fas fa-star text-yellow-500 mr-2"></i>变现案例：&#34;牛奶奶&#34;情感账号</h4>
+                <p>一个名为&#34;牛奶奶&#34;的情感账号，在抖音上通过半年的直播收获了超过1万名付费学员，其变现能力可见一斑。情感博主通过精准戳中用户的情感痛点，如发布情感语录、分析情感问题等，吸引大量粉丝关注 <a href="https://www.thepaper.cn/newsDetail_forward_14470431" class="citation">[188]</a>。</p>
+              </div>
+
+              <h4 class="serif text-xl font-semibold mb-6 mt-12">情感化内容在不同平台及地区的变现模式差异</h4>
+
+              <div class="prose prose-lg max-w-none mb-8">
+                <p><strong>情感化内容在不同社交媒体平台及地区的变现模式存在显著差异</strong>，这主要受到平台特性、用户群体、文化背景以及商业化成熟度等多种因素的影响。</p>
+              </div>
+
+              <!-- Platform Comparison Table -->
+              <div class="overflow-x-auto mb-8 border border-gray-200 rounded-lg">
+                <table class="min-w-full bg-white">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">平台</th>
+                      <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">用户/内容特性</th>
+                      <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">主要变现模式</th>
+                      <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">情感货币化特点</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-200">
+                    <tr class="hover:bg-gray-50">
+                      <td class="py-3 px-4 font-medium text-blue-600">抖音</td>
+                      <td class="py-3 px-4 text-sm text-gray-600">流量大，用户即时消费冲动强</td>
+                      <td class="py-3 px-4 text-sm text-gray-600">直播打赏、付费咨询、直播带货、广告植入、线上课程</td>
+                      <td class="py-3 px-4 text-sm text-gray-600">变现途径多元化，利用流量优势和即时消费冲动</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                      <td class="py-3 px-4 font-medium text-red-600">小红书</td>
+                      <td class="py-3 px-4 text-sm text-gray-600">用户主动搜索占比高，信任度高，长尾效应显著</td>
+                      <td class="py-3 px-4 text-sm text-gray-600">品牌广告、内容电商导流、付费咨询、定制化情感套餐</td>
+                      <td class="py-3 px-4 text-sm text-gray-600">注重专业资质和用户评价，决策链路长，社群转化率高</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                      <td class="py-3 px-4 font-medium text-orange-600">快手</td>
+                      <td class="py-3 px-4 text-sm text-gray-600">&#34;老铁经济&#34;，地域和圈层认同感强，用户黏性高</td>
+                      <td class="py-3 px-4 text-sm text-gray-600">直播带货（高转化率）、电商销售分成、佣金</td>
+                      <td class="py-3 px-4 text-sm text-gray-600">基于信任和情感连接，用户忠诚度高，能支撑产品溢价</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                      <td class="py-3 px-4 font-medium text-pink-600">B站</td>
+                      <td class="py-3 px-4 text-sm text-gray-600">用户对商业化容忍度较低，二次创作和知识类内容破圈势能大</td>
+                      <td class="py-3 px-4 text-sm text-gray-600">用户打赏（&#34;为爱发电&#34;）、充电、部分品牌合作</td>
+                      <td class="py-3 px-4 text-sm text-gray-600">情感货币化依赖优质内容输出和粉丝深度认同</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                      <td class="py-3 px-4 font-medium text-green-600">视频号</td>
+                      <td class="py-3 px-4 text-sm text-gray-600">依托微信社交链，中老年用户消费力被低估</td>
+                      <td class="py-3 px-4 text-sm text-gray-600">保健品、文旅等品类转化率高，信任背书和社交推荐</td>
+                      <td class="py-3 px-4 text-sm text-gray-600">侧重于信任和社交推荐，特定品类转化超预期</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="bg-gray-50 rounded-lg p-6">
+                <h5 class="font-bold text-lg mb-4"><i class="fas fa-globe text-blue-500 mr-2"></i>全球变现模式差异</h5>
+                <p class="text-gray-700 mb-4">从全球范围来看，不同国家和地区由于文化背景、消费习惯以及互联网发展水平的差异，社交媒体上情感化内容的变现模式也呈现出多样性。</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                  <div class="bg-white p-4 rounded-lg">
+                    <h6 class="font-bold text-blue-600 mb-2">西方国家</h6>
+                    <p class="text-sm text-gray-600">Instagram和YouTube等平台的网红主要通过品牌赞助、广告植入以及自有品牌产品销售实现货币化</p>
+                  </div>
+                  <div class="bg-white p-4 rounded-lg">
+                    <h6 class="font-bold text-orange-600 mb-2">发展中国家</h6>
+                    <p class="text-sm text-gray-600">由于数字支付和电商基础设施尚不完善，情感化内容的直接货币化可能更多地依赖于传统的广告模式</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Dating Market -->
+      <section id="section3" class="section-padding bg-white">
+        <div class="container mx-auto px-8">
+          <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+              <h2 class="serif text-4xl font-bold mb-6">两性关系在相亲市场的货币量化度</h2>
+              <div class="w-24 h-1 bg-red-500 mx-auto mb-6"></div>
+              <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                相亲市场将情感需求与经济条件一同量化，服务定价与情感附加值紧密相关，并在不同文化背景下有不同表现形式。
+              </p>
+            </div>
+
+            <!-- Subsection 3.1 -->
+            <div id="section3-1" class="mb-16">
+              <h3 class="serif text-2xl font-bold mb-8">相亲市场中情感需求的商品化现象</h3>
+
+              <h4 class="serif text-xl font-semibold mb-6">择偶标准中的情感需求与经济条件的量化</h4>
+
+              <div class="prose prose-lg max-w-none mb-8">
+                <p><strong>在现代相亲市场中，个体的情感需求与经济条件常常被并行考量，并在一定程度上被量化和商品化</strong>。这种现象在全球范围内均有体现，尤其是在市场化运作较为成熟的婚恋平台和相亲服务中。</p>
+
+                <p>法国社会学家伊娃·易洛思在《冷亲密》中提出的&#34;情感资本主义&#34;理论，深刻揭示了情感关系与经济关系相互塑造的过程 <a href="http://ny.slzhongdu.com/h5/article/detail?artId=217288" class="citation">[168]</a>
+                  <a href="https://zhuanlan.zhihu.com/p/682486299" class="citation">[13]</a>。她指出，在情感资本主义文化中，<strong>情感已经成为一种可被评估、检查、讨论、协商、量化和交易的实体</strong>。
+                </p>
+              </div>
+
+              <!-- Mermaid Chart -->
+              <div class="mermaid-container mb-8">
+                <div class="mermaid-controls">
+                  <button class="mermaid-control-btn zoom-in" title="放大">
+                    <i class="fas fa-search-plus"></i>
+                  </button>
+                  <button class="mermaid-control-btn zoom-out" title="缩小">
+                    <i class="fas fa-search-minus"></i>
+                  </button>
+                  <button class="mermaid-control-btn reset-zoom" title="重置">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                  </button>
+                  <button class="mermaid-control-btn fullscreen" title="全屏查看">
+                    <i class="fas fa-expand"></i>
+                  </button>
+                </div>
+                <div class="mermaid" id="dating-market-chart">
+                  graph LR
+                  A[&#34;择偶标准&#34;] --&gt; B[&#34;经济条件量化&#34;]
+                  A --&gt; C[&#34;情感需求标签化&#34;]
+
+                  B --&gt; D[&#34;身高体重年龄&#34;]
+                  B --&gt; E[&#34;学历收入房产&#34;]
+                  B --&gt; F[&#34;车辆资产&#34;]
+
+                  C --&gt; G[&#34;温柔体贴&#34;]
+                  C --&gt; H[&#34;有责任心&#34;]
+                  C --&gt; I[&#34;幽默风趣&#34;]
+
+                  D --&gt; J[&#34;市场匹配&#34;]
+                  E --&gt; J
+                  F --&gt; J
+                  G --&gt; J
+                  H --&gt; J
+                  I --&gt; J
+
+                  style A fill:#1a365d,stroke:#2d3748,stroke-width:4px,color:#fff
+                  style J fill:#e53e3e,stroke:#c53030,stroke-width:3px,color:#fff
+                  style B fill:#4299e1,stroke:#2b6cb0,stroke-width:2px,color:#fff
+                  style C fill:#4299e1,stroke:#2b6cb0,stroke-width:2px,color:#fff
+                  style D fill:#9ae6b4,stroke:#68d391,stroke-width:2px,color:#1a202c
+                  style E fill:#9ae6b4,stroke:#68d391,stroke-width:2px,color:#1a202c
+                  style F fill:#9ae6b4,stroke:#68d391,stroke-width:2px,color:#1a202c
+                  style G fill:#faf089,stroke:#ecc94b,stroke-width:2px,color:#1a202c
+                  style H fill:#faf089,stroke:#ecc94b,stroke-width:2px,color:#1a202c
+                  style I fill:#faf089,stroke:#ecc94b,stroke-width:2px,color:#1a202c
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                  <h5 class="font-bold text-lg mb-4 text-blue-600">中国市场表现</h5>
+                  <img src="https://kimi-web-img.moonshot.cn/img/placeholder-0620/图片21.png" alt="上海人民公园相亲角" class="w-full h-32 object-cover rounded-lg mb-4" referrerpolicy="no-referrer"/>
+                  <p class="text-gray-700 text-sm mb-4">孙沛东对上海相亲角的研究指出，<strong>择偶标准的市场化和相亲活动的市场化已成为趋势</strong>
+                    <a href="http://ias.fudan.edu.cn/ArticleUpload/20191016112542176.pdf" class="citation">[118]</a>。
+                  </p>
+                  <ul class="space-y-1 text-sm text-gray-600">
+                    <li>• 8分钟约会、万人相亲大会</li>
+                    <li>• 情侣产品、写情书公司</li>
+                    <li>• 道歉公司等恋爱经济化表现</li>
+                  </ul>
+                </div>
+
+                <div class="bg-purple-50 border border-purple-200 rounded-lg p-6">
+                  <h5 class="font-bold text-lg mb-4 text-purple-600">全球平台模式</h5>
+                  <div class="space-y-4">
+                    <div class="bg-white p-4 rounded-lg">
+                      <h6 class="font-bold text-sm mb-2">Tinder等交友平台</h6>
+                      <p class="text-xs text-gray-600">运营模式带有强烈的经济交易属性，用户需要为更高级的功能付费 <a href="http://ny.slzhongdu.com/h5/article/detail?artId=217288" class="citation">[338]</a>。</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg">
+                      <h6 class="font-bold text-sm mb-2">匹配成功率</h6>
+                      <p class="text-xs text-gray-600">超过80%的交友互动都以失败告终，反映了量化匹配方式的局限性。</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="highlight-box">
+                <h4 class="font-bold text-lg mb-3"><i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>情感资本主义现象</h4>
+                <p>相亲对象往往被定制成旨在提升个人价值的理想伴侣，理想伴侣似乎成了一种条件化、标准化、可量化的商品。人们在择偶过程中，能够熟练地运用市场化的语言进行婚姻市场上的交易行为。</p>
+              </div>
+
+              <h4 class="serif text-xl font-semibold mb-6 mt-12">相亲服务定价与情感附加值</h4>
+
+              <div class="prose prose-lg max-w-none mb-8">
+                <p><strong>相亲服务的定价往往与其提供的服务内容、匹配效率以及情感附加值密切相关</strong>。随着相亲市场的不断发展和细分，各类相亲服务机构都试图通过提供差异化的服务来吸引用户并实现盈利。</p>
+              </div>
+
+              <div class="grid md:grid-cols-3 gap-6 mb-8">
+                <div class="stat-card text-center">
+                  <i class="fas fa-gem text-pink-500 text-3xl mb-4"></i>
+                  <h5 class="font-bold text-lg mb-2">基础功能</h5>
+                  <div class="text-2xl font-bold text-green-600 mb-2">免费</div>
+                  <p class="text-sm text-gray-600">基本的浏览和匹配功能</p>
+                </div>
+
+                <div class="stat-card text-center">
+                  <i class="fas fa-crown text-yellow-500 text-3xl mb-4"></i>
+                  <h5 class="font-bold text-lg mb-2">高级服务</h5>
+                  <div class="text-2xl font-bold text-blue-600 mb-2">付费</div>
+                  <p class="text-sm text-gray-600">查看谁喜欢自己、无限滑动、超级喜欢等</p>
+                </div>
+
+                <div class="stat-card text-center">
+                  <i class="fas fa-graduation-cap text-purple-500 text-3xl mb-4"></i>
+                  <h5 class="font-bold text-lg mb-2">情感培训</h5>
+                  <div class="text-2xl font-bold text-red-600 mb-2">9600-18900元</div>
+                  <p class="text-sm text-gray-600">三个月&#34;真爱狙击&#34;服务 <a href="https://www.thepaper.cn/newsDetail_forward_14470431" class="citation">[188]</a>
+                  </p>
+                </div>
+              </div>
+
+              <div class="bg-gray-50 rounded-lg p-6">
+                <h5 class="font-bold text-lg mb-4"><i class="fas fa-lightbulb text-yellow-500 mr-2"></i>情感资本理论</h5>
+                <p class="text-gray-700 mb-4">易洛思在《冷亲密》中提到，<strong>情感能力（很多时候被转化为人们所熟知的情商）可以被视为一种情感资本</strong>，与文化资本一样，它既是一种社会能力，也可以转化为实质的货币资本形式 <a href="https://zhuanlan.zhihu.com/p/682486299" class="citation">[13]</a>。</p>
+                <p class="text-gray-700">这种逻辑同样适用于相亲市场，服务机构通过提供一系列服务来&#34;提升&#34;客户的情感竞争力，并据此收取相应的费用。</p>
+              </div>
+            </div>
+
+            <!-- Subsection 3.2 -->
+            <div id="section3-2" class="mb-16">
+              <h3 class="serif text-2xl font-bold mb-8">不同文化背景下两性情感货币化的表现形式</h3>
+
+              <h4 class="serif text-xl font-semibold mb-6">彩礼、嫁妆等传统习俗中的情感与经济考量</h4>
+
+              <div class="prose prose-lg max-w-none mb-8">
+                <p><strong>彩礼和嫁妆作为许多文化中婚姻缔结过程中的重要习俗，鲜明地体现了情感与经济考量的交织</strong>。这些习俗在不同文化中的具体形式和内涵各不相同，但通常都涉及到一定数量的金钱或财物在双方家庭之间的转移。</p>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div class="bg-gradient-to-br from-red-50 to-pink-100 rounded-lg p-6">
+                  <h5 class="font-bold text-lg mb-4 text-red-600">彩礼（Bride Price）</h5>
+                  <img src="https://kimi-web-img.moonshot.cn/img/placeholder-0620/图片21.png" alt="传统婚礼彩礼场景" class="w-full h-32 object-cover rounded-lg mb-4" referrerpolicy="no-referrer"/>
+                  <div class="space-y-3">
+                    <div class="flex items-start">
+                      <i class="fas fa-heart text-red-500 mr-3 mt-1"></i>
+                      <div>
+                        <h6 class="font-semibold text-sm">情感象征</h6>
+                        <p class="text-xs text-gray-600">男方对女方的重视和承诺</p>
+                      </div>
+                    </div>
+                    <div class="flex items-start">
+                      <i class="fas fa-coins text-yellow-500 mr-3 mt-1"></i>
+                      <div>
+                        <h6 class="font-semibold text-sm">经济考量</h6>
+                        <p class="text-xs text-gray-600">衡量双方家庭经济实力和社会地位</p>
+                      </div>
+                    </div>
+                    <div class="flex items-start">
+                      <i class="fas fa-balance-scale text-blue-500 mr-3 mt-1"></i>
+                      <div>
+                        <h6 class="font-semibold text-sm">补偿功能</h6>
+                        <p class="text-xs text-gray-600">女方家庭弥补&#34;失去&#34;女儿的经济补偿</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-green-50 to-emerald-100 rounded-lg p-6">
+                  <h5 class="font-bold text-lg mb-4 text-green-600">嫁妆（Dowry）</h5>
+                  <img src="https://kimi-web-img.moonshot.cn/img/placeholder-0620/图片14.png" alt="传统嫁妆展示" class="w-full h-32 object-cover rounded-lg mb-4" referrerpolicy="no-referrer"/>
+                  <div class="space-y-3">
+                    <div class="flex items-start">
+                      <i class="fas fa-gift text-green-500 mr-3 mt-1"></i>
+                      <div>
+                        <h6 class="font-semibold text-sm">情感象征</h6>
+                        <p class="text-xs text-gray-600">女方家庭对女儿婚姻的祝福</p>
+                      </div>
+                    </div>
+                    <div class="flex items-start">
+                      <i class="fas fa-chart-line text-blue-500 mr-3 mt-1"></i>
+                      <div>
+                        <h6 class="font-semibold text-sm">实力展示</h6>
+                        <p class="text-xs text-gray-600">女方家庭实力的展示</p>
+                      </div>
+                    </div>
+                    <div class="flex items-start">
+                      <i class="fas fa-shield-alt text-purple-500 mr-3 mt-1"></i>
+                      <div>
+                        <h6 class="font-semibold text-sm">保障功能</h6>
+                        <p class="text-xs text-gray-600">对女儿未来生活的保障</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-amber-50 border border-amber-200 rounded-lg p-6 mb-8">
+                <h5 class="font-bold text-lg mb-4"><i class="fas fa-exclamation-circle text-amber-500 mr-2"></i>传统与现代的冲突</h5>
+                <p class="text-gray-700">尽管随着社会的发展，一些地区对彩礼和嫁妆的观念正在发生变化，但其作为情感货币化的一种传统表现形式，依然在许多文化中具有深远影响。这种将情感承诺与经济付出紧密挂钩的做法，使得两性情感在婚姻的初始阶段就带有了浓厚的货币化色彩。</p>
+              </div>
+
+              <h4 class="serif text-xl font-semibold mb-6 mt-12">现代相亲产业中情感价值的市场评估</h4>
+
+              <div class="prose prose-lg max-w-none mb-8">
+                <p><strong>在现代相亲产业中，情感价值的市场评估呈现出多元化和精细化的趋势</strong>。相亲平台和服务机构通过引入各种评估工具和匹配算法，试图对个体的情感特质、价值观、婚恋需求等进行量化和匹配。</p>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div class="stat-card">
+                  <h5 class="font-bold text-lg mb-4">科学化评估工具</h5>
+                  <ul class="space-y-2 text-sm text-gray-600">
+                    <li class="flex items-center">
+                      <i class="fas fa-brain text-purple-500 mr-2"></i>
+                      心理测试与问卷调查
+                    </li>
+                    <li class="flex items-center">
+                      <i class="fas fa-user-friends text-blue-500 mr-2"></i>
+                      性格类型分析
+                    </li>
+                    <li class="flex items-center">
+                      <i class="fas fa-heart text-red-500 mr-2"></i>
+                      情感模式识别
+                    </li>
+                    <li class="flex items-center">
+                      <i class="fas fa-link text-green-500 mr-2"></i>
+                      依恋风格评估
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="stat-card">
+                  <h5 class="font-bold text-lg mb-4">情感竞争力提升</h5>
+                  <ul class="space-y-2 text-sm text-gray-600">
+                    <li class="flex items-center">
+                      <i class="fas fa-palette text-pink-500 mr-2"></i>
+                      形象咨询与改造
+                    </li>
+                    <li class="flex items-center">
+                      <i class="fas fa-comments text-blue-500 mr-2"></i>
+                      沟通技巧培训
+                    </li>
+                    <li class="flex items-center">
+                      <i class="fas fa-hand-holding-heart text-red-500 mr-2"></i>
+                      共情能力培养
+                    </li>
+                    <li class="flex items-center">
+                      <i class="fas fa-chart-line text-green-500 mr-2"></i>
+                      情感成熟度提升
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="bg-gradient-to-r from-blue-50 to-indigo-100 rounded-lg p-8">
+                <h5 class="serif text-xl font-bold mb-6 text-center">情感价值的市场评估体系</h5>
+                <div class="grid md:grid-cols-4 gap-6">
+                  <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <i class="fas fa-dollar-sign text-white text-xl"></i>
+                    </div>
+                    <h6 class="font-bold mb-2">经济条件</h6>
+                    <p class="text-sm text-gray-600">收入、房产、车辆等硬件</p>
+                  </div>
+                  <div class="text-center">
+                    <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <i class="fas fa-eye text-white text-xl"></i>
+                    </div>
+                    <h6 class="font-bold mb-2">外貌形象</h6>
+                    <p class="text-sm text-gray-600">身高、体重、颜值等外在</p>
+                  </div>
+                  <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <i class="fas fa-brain text-white text-xl"></i>
+                    </div>
+                    <h6 class="font-bold mb-2">情感成熟度</h6>
+                    <p class="text-sm text-gray-600">情绪管理与认知能力</p>
+                  </div>
+                  <div class="text-center">
+                    <div class="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <i class="fas fa-comments text-white text-xl"></i>
+                    </div>
+                    <h6 class="font-bold mb-2">沟通能力</h6>
+                    <p class="text-sm text-gray-600">表达、倾听与共情技巧</p>
+                  </div>
+                </div>
+                <div class="text-center mt-6">
+                  <p class="text-gray-700"><strong>用户在相亲市场上的&#34;行情&#34;，不仅取决于其经济条件、外貌等硬件，也越来越多地受到其情感成熟度、沟通能力、共情能力等软实力的影响。</strong></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Key Insights -->
+      <section id="insights" class="section-padding bg-gradient-to-br from-gray-900 to-gray-800 text-white">
+        <div class="container mx-auto px-8">
+          <div class="max-w-4xl mx-auto text-center">
+            <h2 class="serif text-4xl font-bold mb-8">核心洞察</h2>
+            <div class="w-24 h-1 bg-red-500 mx-auto mb-12"></div>
+
+            <div class="grid md:grid-cols-2 gap-12">
+              <div class="text-left">
+                <div class="flex items-center mb-6">
+                  <div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center mr-4">
+                    <i class="fas fa-globe text-white text-xl"></i>
+                  </div>
+                  <h3 class="serif text-2xl font-bold">文化差异是关键变量</h3>
+                </div>
+                <p class="text-gray-300 leading-relaxed">
+                  情感在经济决策中的作用呈现显著的文化差异。西方文化可能比东方文化更重视积极情绪以及通过表达进行情感沟通，这直接影响着情感广告、心理咨询和相亲服务的接受度和转化率。
+                </p>
+              </div>
+
+              <div class="text-left">
+                <div class="flex items-center mb-6">
+                  <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mr-4">
+                    <i class="fas fa-chart-line text-white text-xl"></i>
+                  </div>
+                  <h3 class="serif text-2xl font-bold">情感货币化趋势明显</h3>
+                </div>
+                <p class="text-gray-300 leading-relaxed">
+                  从心理咨询服务市场的快速增长（预计2029年达158亿美元），到社交媒体情感内容的多元化变现，再到相亲市场的情感附加值定价，情感正在各个领域被系统地货币化。
+                </p>
+              </div>
+
+              <div class="text-left">
+                <div class="flex items-center mb-6">
+                  <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mr-4">
+                    <i class="fas fa-cogs text-white text-xl"></i>
+                  </div>
+                  <h3 class="serif text-2xl font-bold">市场化程度不断深化</h3>
+                </div>
+                <p class="text-gray-300 leading-relaxed">
+                  情感已经成为一种可被评估、检查、讨论、协商、量化和交易的实体。在现代相亲市场中，个体的情感需求与经济条件被并行考量，并在一定程度上被量化和商品化。
+                </p>
+              </div>
+
+              <div class="text-left">
+                <div class="flex items-center mb-6">
+                  <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center mr-4">
+                    <i class="fas fa-network-wired text-white text-xl"></i>
+                  </div>
+                  <h3 class="serif text-2xl font-bold">平台特性影响变现模式</h3>
+                </div>
+                <p class="text-gray-300 leading-relaxed">
+                  不同社交媒体平台因其用户特性、内容形式和商业生态的差异，发展出各自独特的情感内容变现模式。从快手的&#34;老铁经济&#34;到小红书的信任闭环，平台特性决定了情感货币化的路径。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Conclusion -->
+      <section id="conclusion" class="section-padding bg-white">
+        <div class="container mx-auto px-8">
+          <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+              <h2 class="serif text-4xl font-bold mb-6">结论与展望</h2>
+              <div class="w-24 h-1 bg-red-500 mx-auto mb-6"></div>
+            </div>
+
+            <div class="prose prose-lg max-w-none mb-12">
+              <p class="text-xl leading-relaxed text-gray-700 mb-8">
+                本研究通过对全球范围内情感货币化现象的深入分析，揭示了情感在经济决策中的重要作用及其文化差异性。研究发现，<strong>情感货币化已成为全球性的趋势</strong>，但其表现形式和程度因文化背景、市场环境和社会规范而异。
+              </p>
+
+              <div class="bg-gray-50 rounded-lg p-8 mb-8">
+                <h3 class="serif text-2xl font-bold mb-6">主要发现总结</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                  <div>
+                    <h4 class="font-bold text-lg mb-3 text-blue-600">文化调节效应</h4>
+                    <ul class="space-y-2 text-gray-700">
+                      <li>• 积极情绪与耐心的关系在53个国家符合传统预期，但在21个国家呈现反向关系</li>
+                      <li>• 西方文化更重视积极情绪的表达和追求</li>
+                      <li>• 集体主义文化对情感广告的接受度更高</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-lg mb-3 text-green-600">市场增长驱动</h4>
+                    <ul class="space-y-2 text-gray-700">
+                      <li>• 心理咨询服务市场复合年增长率达35.1%</li>
+                      <li>• 社交媒体情感内容变现模式多元化</li>
+                      <li>• 相亲市场情感附加值定价精细化</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <p class="text-lg leading-relaxed text-gray-700 mb-6">
+                情感货币化的深入发展，一方面反映了现代社会对情感价值的认知和重视程度的提升，另一方面也体现了市场经济对情感领域的渗透和重塑。这种趋势既带来了新的商业机会和服务模式，也引发了关于情感真实性、人际关系商品化等伦理问题的思考。
+              </p>
+
+              <p class="text-lg leading-relaxed text-gray-700">
+                未来的研究应该进一步探索情感货币化的长期社会影响，以及如何在促进情感服务市场健康发展的同时，保护情感关系的真实性和人际连接的深度。此外，跨文化的情感货币化比较研究也将为全球化的情感服务市场提供更深入的洞察和指导。
+              </p>
+            </div>
+
+            <div class="border-t border-gray-200 pt-8">
+              <div class="text-center">
+                <p class="text-gray-500 mb-4">本研究基于全球74个国家、77,242名个体的调查研究数据</p>
+                <div class="flex justify-center space-x-6 text-sm text-gray-400">
+                  <span><i class="fas fa-calendar mr-1"></i>研究时间：2024-2025</span>
+                  <span><i class="fas fa-database mr-1"></i>数据来源：多国跨文化研究</span>
+                  <span><i class="fas fa-chart-bar mr-1"></i>分析方法：定量与定性结合</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+        // Initialize Mermaid with custom configuration
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#1a365d',
+                primaryTextColor: '#ffffff',
+                primaryBorderColor: '#2d3748',
+                lineColor: '#4a5568',
+                secondaryColor: '#e53e3e',
+                tertiaryColor: '#f7fafc',
+                background: '#ffffff',
+                mainBkg: '#ffffff',
+                secondaryBkg: '#f7fafc',
+                tertiaryBkg: '#edf2f7',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '14px'
+            },
+            flowchart: {
+                useMaxWidth: false,
+                htmlLabels: true,
+                curve: 'basis',
+                padding: 20
+            },
+            fontFamily: 'Inter, sans-serif'
+        });
+
+        // Initialize Mermaid Controls for zoom and pan
+        function initializeMermaidControls() {
+            const containers = document.querySelectorAll('.mermaid-container');
+
+            containers.forEach(container => {
+            const mermaidElement = container.querySelector('.mermaid');
+            let scale = 1;
+            let isDragging = false;
+            let startX, startY, translateX = 0, translateY = 0;
+
+            // 触摸相关状态
+            let isTouch = false;
+            let touchStartTime = 0;
+            let initialDistance = 0;
+            let initialScale = 1;
+            let isPinching = false;
+
+            // Zoom controls
+            const zoomInBtn = container.querySelector('.zoom-in');
+            const zoomOutBtn = container.querySelector('.zoom-out');
+            const resetBtn = container.querySelector('.reset-zoom');
+            const fullscreenBtn = container.querySelector('.fullscreen');
+
+            function updateTransform() {
+                mermaidElement.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+
+                if (scale > 1) {
+                container.classList.add('zoomed');
+                } else {
+                container.classList.remove('zoomed');
+                }
+
+                mermaidElement.style.cursor = isDragging ? 'grabbing' : 'grab';
+            }
+
+            if (zoomInBtn) {
+                zoomInBtn.addEventListener('click', () => {
+                scale = Math.min(scale * 1.25, 4);
+                updateTransform();
+                });
+            }
+
+            if (zoomOutBtn) {
+                zoomOutBtn.addEventListener('click', () => {
+                scale = Math.max(scale / 1.25, 0.3);
+                if (scale <= 1) {
+                    translateX = 0;
+                    translateY = 0;
+                }
+                updateTransform();
+                });
+            }
+
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                scale = 1;
+                translateX = 0;
+                translateY = 0;
+                updateTransform();
+                });
+            }
+
+            if (fullscreenBtn) {
+                fullscreenBtn.addEventListener('click', () => {
+                if (container.requestFullscreen) {
+                    container.requestFullscreen();
+                } else if (container.webkitRequestFullscreen) {
+                    container.webkitRequestFullscreen();
+                } else if (container.msRequestFullscreen) {
+                    container.msRequestFullscreen();
+                }
+                });
+            }
+
+            // Mouse Events
+            mermaidElement.addEventListener('mousedown', (e) => {
+                if (isTouch) return; // 如果是触摸设备，忽略鼠标事件
+
+                isDragging = true;
+                startX = e.clientX - translateX;
+                startY = e.clientY - translateY;
+                mermaidElement.style.cursor = 'grabbing';
+                updateTransform();
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging && !isTouch) {
+                translateX = e.clientX - startX;
+                translateY = e.clientY - startY;
+                updateTransform();
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDragging && !isTouch) {
+                isDragging = false;
+                mermaidElement.style.cursor = 'grab';
+                updateTransform();
+                }
+            });
+
+            document.addEventListener('mouseleave', () => {
+                if (isDragging && !isTouch) {
+                isDragging = false;
+                mermaidElement.style.cursor = 'grab';
+                updateTransform();
+                }
+            });
+
+            // 获取两点之间的距离
+            function getTouchDistance(touch1, touch2) {
+                return Math.hypot(
+                touch2.clientX - touch1.clientX,
+                touch2.clientY - touch1.clientY
+                );
+            }
+
+            // Touch Events - 触摸事件处理
+            mermaidElement.addEventListener('touchstart', (e) => {
+                isTouch = true;
+                touchStartTime = Date.now();
+
+                if (e.touches.length === 1) {
+                // 单指拖动
+                isPinching = false;
+                isDragging = true;
+
+                const touch = e.touches[0];
+                startX = touch.clientX - translateX;
+                startY = touch.clientY - translateY;
+
+                } else if (e.touches.length === 2) {
+                // 双指缩放
+                isPinching = true;
+                isDragging = false;
+
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                initialDistance = getTouchDistance(touch1, touch2);
+                initialScale = scale;
+                }
+
+                e.preventDefault();
+            }, { passive: false });
+
+            mermaidElement.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 1 && isDragging && !isPinching) {
+                // 单指拖动
+                const touch = e.touches[0];
+                translateX = touch.clientX - startX;
+                translateY = touch.clientY - startY;
+                updateTransform();
+
+                } else if (e.touches.length === 2 && isPinching) {
+                // 双指缩放
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                const currentDistance = getTouchDistance(touch1, touch2);
+
+                if (initialDistance > 0) {
+                    const newScale = Math.min(Math.max(
+                    initialScale * (currentDistance / initialDistance),
+                    0.3
+                    ), 4);
+                    scale = newScale;
+                    updateTransform();
+                }
+                }
+
+                e.preventDefault();
+            }, { passive: false });
+
+            mermaidElement.addEventListener('touchend', (e) => {
+                // 重置状态
+                if (e.touches.length === 0) {
+                isDragging = false;
+                isPinching = false;
+                initialDistance = 0;
+
+                // 延迟重置isTouch，避免鼠标事件立即触发
+                setTimeout(() => {
+                    isTouch = false;
+                }, 100);
+                } else if (e.touches.length === 1 && isPinching) {
+                // 从双指变为单指，切换为拖动模式
+                isPinching = false;
+                isDragging = true;
+
+                const touch = e.touches[0];
+                startX = touch.clientX - translateX;
+                startY = touch.clientY - translateY;
+                }
+
+                updateTransform();
+            });
+
+            mermaidElement.addEventListener('touchcancel', (e) => {
+                isDragging = false;
+                isPinching = false;
+                initialDistance = 0;
+
+                setTimeout(() => {
+                isTouch = false;
+                }, 100);
+
+                updateTransform();
+            });
+
+            // Enhanced wheel zoom with better center point handling
+            container.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const rect = container.getBoundingClientRect();
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const delta = e.deltaY > 0 ? 0.9 : 1.1;
+                const newScale = Math.min(Math.max(scale * delta, 0.3), 4);
+
+                // Adjust translation to zoom towards center
+                if (newScale !== scale) {
+                const scaleDiff = newScale / scale;
+                translateX = translateX * scaleDiff;
+                translateY = translateY * scaleDiff;
+                scale = newScale;
+
+                if (scale <= 1) {
+                    translateX = 0;
+                    translateY = 0;
+                }
+
+                updateTransform();
+                }
+            });
+
+            // Initialize display
+            updateTransform();
+            });
+        }
+
+        // Initialize controls after mermaid renders
+        setTimeout(initializeMermaidControls, 1000);
+
+        // Smooth scrolling for TOC links
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Update active TOC link on scroll
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section[id]');
+            const tocLinks = document.querySelectorAll('.toc-link');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+  
+
+</body></html>

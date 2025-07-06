@@ -1,0 +1,1706 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>邓英淘：心系家国的实干家与思想者</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --primary: #2c5530;
+            --secondary: #8b4513;
+            --accent: #d4af37;
+            --neutral: #f5f5f0;
+            --base-100: #fefefe;
+            --info: #3b82f6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--neutral) 0%, #f8f6f0 100%);
+            overflow-x: hidden;
+        }
+        
+        .serif {
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .toc-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: rgba(44, 85, 48, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 2rem 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary) 0%, #1a3a1e 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-overlay {
+            background: rgba(0, 0, 0, 0.3);
+            position: absolute;
+            inset: 0;
+        }
+        
+        .bento-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .citation {
+            color: var(--info);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px dotted var(--info);
+        }
+        
+        .citation:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-bottom: 1px solid var(--info);
+        }
+        
+        .section-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .section-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .quote-box {
+            border-left: 4px solid var(--accent);
+            background: linear-gradient(135deg, #fff9e6 0%, #fff5d7 100%);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 1.5rem;
+            width: 2px;
+            height: calc(100% + 1rem);
+            background: #e5e7eb;
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(44, 85, 48, 0.05) 0%, rgba(139, 69, 19, 0.05) 100%);
+            border: 1px solid rgba(44, 85, 48, 0.2);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .image-caption {
+            font-size: 0.875rem;
+            color: #6b7280;
+            font-style: italic;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+        
+        /* Mermaid chart styles */
+        .mermaid-container {
+            display: flex;
+            justify-content: center;
+            min-height: 300px;
+            max-height: 800px;
+            background: #ffffff;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mermaid-container .mermaid {
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            cursor: grab;
+            transition: transform 0.3s ease;
+            transform-origin: center center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            touch-action: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        .mermaid-container .mermaid svg {
+            max-width: 100%;
+            height: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .mermaid-container .mermaid:active {
+            cursor: grabbing;
+        }
+        
+        .mermaid-container.zoomed .mermaid {
+            height: 100%;
+            width: 100%;
+            cursor: grab;
+        }
+        
+        .mermaid-controls {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mermaid-control-btn {
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #374151;
+            font-size: 14px;
+            min-width: 36px;
+            height: 36px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .mermaid-control-btn:hover {
+            background: #f8fafc;
+            border-color: #3b82f6;
+            color: #3b82f6;
+            transform: translateY(-1px);
+        }
+        
+        .mermaid-control-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* Enhanced mermaid theme for better contrast */
+        .mermaid .section0 {
+            fill: #e8f5e8 !important;
+            stroke: #2c5530 !important;
+            stroke-width: 2px !important;
+        }
+        
+        .mermaid .section1 {
+            fill: #f0f8ff !important;
+            stroke: #3b82f6 !important;
+            stroke-width: 2px !important;
+        }
+        
+        .mermaid .section2 {
+            fill: #fff3e0 !important;
+            stroke: #f59e0b !important;
+            stroke-width: 2px !important;
+        }
+        
+        .mermaid .section3 {
+            fill: #f3e5f5 !important;
+            stroke: #8b5cf6 !important;
+            stroke-width: 2px !important;
+        }
+        
+        .mermaid .cScale0 {
+            fill: #2c5530 !important;
+            color: #ffffff !important;
+        }
+        
+        .mermaid .cScale1 {
+            fill: #3b82f6 !important;
+            color: #ffffff !important;
+        }
+        
+        .mermaid .cScale2 {
+            fill: #f59e0b !important;
+            color: #ffffff !important;
+        }
+        
+        .mermaid .cScale3 {
+            fill: #8b5cf6 !important;
+            color: #ffffff !important;
+        }
+        
+        .mermaid text {
+            fill: #1f2937 !important;
+            font-family: 'Inter', sans-serif !important;
+            font-weight: 500 !important;
+            font-size: 14px !important;
+        }
+        
+        .mermaid .timeline-title {
+            fill: #2c5530 !important;
+            font-weight: 700 !important;
+            font-size: 18px !important;
+        }
+        
+        .mermaid .section-title {
+            fill: #ffffff !important;
+            font-weight: 600 !important;
+        }
+        
+        .mermaid .task-text {
+            fill: #1f2937 !important;
+            font-size: 13px !important;
+        }
+        
+        .mermaid .task-text .title {
+            font-weight: 600 !important;
+        }
+        
+        .mermaid .task-text .period {
+            font-style: italic !important;
+            font-size: 12px !important;
+            fill: #6b7280 !important;
+        }
+
+    @media (max-width: 1024px) {
+        .toc-fixed {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .toc-fixed.open {
+            transform: translateX(0);
+        }
+        
+        .main-content {
+            margin-left: 0;
+        }
+        
+        .bento-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .mermaid-control-btn:not(.reset-zoom) {
+            display: none;
+        }
+        .mermaid-controls {
+            top: auto;
+            bottom: 15px;
+            right: 15px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero-section .serif {
+            font-size: 2.5rem;
+        }
+        .hero-section p {
+            font-size: 1rem;
+        }
+        .bento-grid img {
+            height: 60vh;
+        }
+    }
+    </style>
+  </head>
+
+  <body>
+    <!-- Table of Contents -->
+    <nav class="toc-fixed" id="toc">
+      <div class="text-white">
+        <h3 class="text-xl font-bold mb-6 text-yellow-300">目录导航</h3>
+        <ul class="space-y-3 text-sm">
+          <li>
+            <a href="#hero" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 transition-colors">封面概览</a>
+          </li>
+          <li>
+            <a href="#biography" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 transition-colors">生平概览与学术背景</a>
+          </li>
+          <li>
+            <a href="#core-ideas" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 transition-colors">核心学术思想</a>
+          </li>
+          <li>
+            <a href="#practical-exploration" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 transition-colors">实干家的足迹</a>
+          </li>
+          <li>
+            <a href="#personal-qualities" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 transition-colors">个人品质与精神风范</a>
+          </li>
+          <li>
+            <a href="#contemporary-value" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 transition-colors">深远影响与当代价值</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Mobile TOC Toggle -->
+    <button class="lg:hidden fixed top-4 left-4 z-50 bg-primary text-white p-3 rounded-full shadow-lg" onclick="toggleToc()">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Hero Section -->
+      <section id="hero" class="hero-section min-h-screen flex items-center relative">
+        <div class="hero-overlay"></div>
+        <div class="container mx-auto px-6 relative z-10">
+          <div class="bento-grid">
+            <div class="space-y-8">
+              <div class="space-y-4">
+                <h1 class="serif text-6xl font-bold leading-tight">
+                  邓英淘
+                  <span class="block text-4xl text-yellow-300 mt-2">心系家国的实干家与思想者</span>
+                </h1>
+                <p class="text-xl text-gray-200 max-w-2xl leading-relaxed">
+                  一位杰出的经济学家和实干家，毕生致力于探索符合中国国情的现代化道路，提出&#34;为了多数人的现代化&#34;和&#34;新发展方式&#34;等核心理念
+                </p>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-6 border border-white border-opacity-20">
+                  <div class="text-yellow-300 text-3xl mb-3">
+                    <i class="fas fa-lightbulb"></i>
+                  </div>
+                  <h3 class="font-semibold text-white mb-2">核心理念</h3>
+                  <p class="text-gray-200 text-sm">为了多数人的现代化，可持续发展方式</p>
+                </div>
+
+                <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-6 border border-white border-opacity-20">
+                  <div class="text-yellow-300 text-3xl mb-3">
+                    <i class="fas fa-hands-helping"></i>
+                  </div>
+                  <h3 class="font-semibold text-white mb-2">实干精神</h3>
+                  <p class="text-gray-200 text-sm">深入基层调研，足迹遍布全国</p>
+                </div>
+
+                <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-6 border border-white border-opacity-20">
+                  <div class="text-yellow-300 text-3xl mb-3">
+                    <i class="fas fa-seedling"></i>
+                  </div>
+                  <h3 class="font-semibold text-white mb-2">深远影响</h3>
+                  <p class="text-gray-200 text-sm">理论思想与当代中国发展战略高度契合</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="relative">
+              <img src="https://kimi-web-img.moonshot.cn/img/placeholder-0620/图片21.png" alt="沉思中的中国经济学者" class="w-full h-96 object-cover rounded-lg shadow-2xl" referrerpolicy="no-referrer"/>
+              <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent rounded-lg"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Biography Section -->
+      <section id="biography" class="py-20 bg-gradient-to-b from-neutral to-base-100">
+        <div class="container mx-auto px-6">
+          <div class="section-card p-8 mb-12">
+            <h2 class="serif text-4xl font-bold text-primary mb-8">生平概览与学术背景</h2>
+
+            <div class="grid lg:grid-cols-2 gap-12">
+              <div>
+                <h3 class="serif text-2xl font-semibold mb-6 text-secondary">早年经历与教育</h3>
+                <div class="timeline-item">
+                  <h4 class="font-semibold text-lg mb-2">1952年9月5日</h4>
+                  <p class="text-gray-700">出生于湖南桂东，其父为原中共中央书记处书记邓力群<a href="#ref-147" class="citation">[^147^]</a>
+                    <a href="#ref-920" class="citation">[^920^]</a>
+                  </p>
+                </div>
+
+                <div class="timeline-item">
+                  <h4 class="font-semibold text-lg mb-2">1967-1977年</h4>
+                  <p class="text-gray-700">在山西、河南等地插队十年，这段经历使他对中国农村的实际情况有了深刻的了解<a href="#ref-133" class="citation">[^133^]</a>
+                    <a href="#ref-984" class="citation">[^984^]</a>
+                  </p>
+                </div>
+
+                <div class="timeline-item">
+                  <h4 class="font-semibold text-lg mb-2">1977年</h4>
+                  <p class="text-gray-700">考入北京大学经济系，成为恢复高考后的首批大学生<a href="#ref-133" class="citation">[^133^]</a>
+                    <a href="#ref-211" class="citation">[^211^]</a>
+                  </p>
+                </div>
+
+                <div class="timeline-item">
+                  <h4 class="font-semibold text-lg mb-2">1982年</h4>
+                  <p class="text-gray-700">从北京大学经济系毕业后，进入中国社会科学院农村发展研究所工作<a href="#ref-147" class="citation">[^147^]</a>
+                    <a href="#ref-525" class="citation">[^525^]</a>
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <h3 class="serif text-2xl font-semibold mb-6 text-secondary">职业生涯与成就</h3>
+                <div class="space-y-6">
+                  <div class="highlight-box">
+                    <h4 class="font-semibold text-lg mb-3">主要职务</h4>
+                    <ul class="space-y-2 text-gray-700">
+                      <li>• 国务院农村发展研究中心研究员（1985-1988）<a href="#ref-147" class="citation">[^147^]</a>
+                      </li>
+                      <li>• 中国社会科学院农村发展研究所副所长</li>
+                      <li>• 中国社会科学院经济文化研究中心主任（1997年）<a href="#ref-147" class="citation">[^147^]</a>
+                      </li>
+                      <li>• 中国生态经济学会常务理事<a href="#ref-525" class="citation">[^525^]</a>
+                      </li>
+                      <li>• 中国农村金融研究会理事<a href="#ref-656" class="citation">[^656^]</a>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="highlight-box">
+                    <h4 class="font-semibold text-lg mb-3">主要荣誉</h4>
+                    <ul class="space-y-2 text-gray-700">
+                      <li>• 1990年：《中国农村经济发展与改革面临的问题与对策思路》荣获孙冶方经济学奖<a href="#ref-147" class="citation">[^147^]</a>
+                      </li>
+                      <li>• 1992年：被评为国家级有突出贡献的中青年专家<a href="#ref-292" class="citation">[^292^]</a>
+                        <a href="#ref-352" class="citation">[^352^]</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-12">
+              <h3 class="serif text-2xl font-semibold mb-6 text-secondary">主要学术成果</h3>
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-gray-50 p-6 rounded-lg">
+                  <h4 class="font-semibold text-lg mb-3">代表性著作</h4>
+                  <ul class="space-y-2 text-sm text-gray-700">
+                    <li>• 《走向现代化的抉择》<a href="#ref-147" class="citation">[^147^]</a>
+                    </li>
+                    <li>• 《邓英淘文集》</li>
+                    <li>• 《中国预算外资金分析》（合著）</li>
+                    <li>• 《新发展方式与中国的未来》（合著）</li>
+                    <li>• 《再造中国》</li>
+                    <li>• 《西部大开发方略》</li>
+                    <li>• 《新能源革命与发展方式跃迁》<a href="#ref-292" class="citation">[^292^]</a>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-lg">
+                  <h4 class="font-semibold text-lg mb-3">译校著作</h4>
+                  <ul class="space-y-2 text-sm text-gray-700">
+                    <li>• 《社会科学中的数学模型》等5部著作<a href="#ref-147" class="citation">[^147^]</a>
+                    </li>
+                    <li>• 完成各类成果总量约138万字<a href="#ref-292" class="citation">[^292^]</a>
+                    </li>
+                    <li>• 撰写了大量论文和内部报告</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Core Ideas Section -->
+      <section id="core-ideas" class="py-20 bg-gradient-to-b from-base-100 to-neutral">
+        <div class="container mx-auto px-6">
+          <div class="section-card p-8 mb-12">
+            <h2 class="serif text-4xl font-bold text-primary mb-8">核心学术思想与理论贡献</h2>
+
+            <div class="space-y-12">
+              <!-- 为了多数人的现代化 -->
+              <div>
+                <h3 class="serif text-3xl font-semibold mb-6 text-secondary">&#34;为了多数人的现代化&#34;理念</h3>
+
+                <div class="quote-box mb-8">
+                  <p class="serif text-lg italic mb-4">&#34;如果中国盲目效仿西方现代化模式，不仅会面临资源环境的巨大瓶颈，更可能导致国内发展的严重失衡，使得现代化成果难以惠及大多数人民群众。&#34;</p>
+                  <cite class="text-sm text-gray-600">— 邓英淘</cite>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-8">
+                  <div>
+                    <h4 class="font-semibold text-xl mb-4 text-primary">核心理念</h4>
+                    <p class="text-gray-700 mb-4">
+                      邓英淘提出的&#34;为了多数人的现代化&#34;理念，是他学术思想的核心与灵魂，也是他毕生奋斗的目标<a href="#ref-81" class="citation">[^81^]</a>
+                      <a href="#ref-166" class="citation">[^166^]</a>。这一理念深刻揭示了中国作为人口大国，在追求现代化道路上所面临的独特挑战与必须坚持的根本方向。
+                    </p>
+
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                      <h5 class="font-semibold mb-2">西方模式的局限性</h5>
+                      <p class="text-gray-700 text-sm">
+                        邓英淘敏锐地洞察到，西方发达国家的现代化道路本质上是建立在对全球有限资源的过度消耗基础上的，这种模式注定了其只能实现&#34;少数人的现代化&#34;<a href="#ref-81" class="citation">[^81^]</a>
+                        <a href="#ref-159" class="citation">[^159^]</a>。
+                      </p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <img src="https://kimi-web-img.moonshot.cn/img/placeholder-0620/图片9.png" alt="中国现代化发展成就" class="w-full h-64 object-cover rounded-lg mb-4" referrerpolicy="no-referrer"/>
+                    <p class="image-caption">中国现代化发展必须惠及大多数人民群众</p>
+                  </div>
+                </div>
+
+                <div class="mt-8">
+                  <h4 class="font-semibold text-xl mb-4 text-primary">理论内涵</h4>
+                  <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-green-50 p-6 rounded-lg">
+                      <div class="text-green-600 text-2xl mb-3">
+                        <i class="fas fa-users"></i>
+                      </div>
+                      <h5 class="font-semibold mb-2">发展目标</h5>
+                      <p class="text-sm text-gray-700">始终坚持以人民为中心，满足人民群众日益增长的美好生活需要</p>
+                    </div>
+
+                    <div class="bg-blue-50 p-6 rounded-lg">
+                      <div class="text-blue-600 text-2xl mb-3">
+                        <i class="fas fa-leaf"></i>
+                      </div>
+                      <h5 class="font-semibold mb-2">发展方式</h5>
+                      <p class="text-sm text-gray-700">强调资源节约、环境友好，推动发展方式向集约型、可持续型转变</p>
+                    </div>
+
+                    <div class="bg-purple-50 p-6 rounded-lg">
+                      <div class="text-purple-600 text-2xl mb-3">
+                        <i class="fas fa-balance-scale"></i>
+                      </div>
+                      <h5 class="font-semibold mb-2">社会建设</h5>
+                      <p class="text-sm text-gray-700">注重公平正义，缩小城乡、区域和贫富差距，促进社会和谐稳定</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 新发展方式 -->
+              <div>
+                <h3 class="serif text-3xl font-semibold mb-6 text-secondary">&#34;新发展方式&#34;理论</h3>
+
+                <p class="text-gray-700 mb-6">
+                  与&#34;为了多数人的现代化&#34;理念紧密相连，邓英淘系统地提出了&#34;新发展方式&#34;理论。这一理论是他对中国如何实现可持续的、惠及多数人的现代化道路的深刻思考和具体构想<a href="#ref-81" class="citation">[^81^]</a>
+                  <a href="#ref-166" class="citation">[^166^]</a>。
+                </p>
+
+                <div class="highlight-box mb-8">
+                  <h4 class="font-semibold text-lg mb-4">核心内涵</h4>
+                  <p class="text-gray-700 mb-4">
+                    新发展方式的核心在于从加强生物圈质能循环中获利，以分布式可再生能源为基础，实现人与自然的和谐共生，而不是靠不断破坏自然循环过程来发展人类自身<a href="#ref-166" class="citation">[^166^]</a>
+                    <a href="#ref-684" class="citation">[^684^]</a>。
+                  </p>
+
+                  <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <h5 class="font-semibold mb-3">发展理念转变</h5>
+                      <ul class="space-y-2 text-sm text-gray-700">
+                        <li>• 以人与自然的和谐共生为基本前提</li>
+                        <li>• 以资源永续利用和生态环境保护为支撑</li>
+                        <li>• 发展可再生能源（太阳能、风能、生物质能）<a href="#ref-81" class="citation">[^81^]</a>
+                        </li>
+                        <li>• 倡导循环经济，提高资源利用效率</li>
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h5 class="font-semibold mb-3">技术路径选择</h5>
+                      <ul class="space-y-2 text-sm text-gray-700">
+                        <li>• 推广&#34;流量技术&#34;促进资源节约<a href="#ref-46" class="citation">[^46^]</a>
+                          <a href="#ref-639" class="citation">[^639^]</a>
+                        </li>
+                        <li>• 辅之以节约型的&#34;存量技术&#34;</li>
+                        <li>• 树立合理的生活方式</li>
+                        <li>• 反对奢侈浪费，倡导节约型消费<a href="#ref-46" class="citation">[^46^]</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 跳蚤与大象比喻 -->
+              <div>
+                <h3 class="serif text-3xl font-semibold mb-6 text-secondary">其他重要理论观点</h3>
+
+                <div class="bg-yellow-50 p-8 rounded-lg mb-8">
+                  <h4 class="font-semibold text-xl mb-4 text-secondary">&#34;跳蚤与大象&#34;的比喻</h4>
+                  <p class="text-gray-700 mb-4">
+                    邓英淘通过&#34;跳蚤与大象&#34;的比喻，生动形象地揭示了中国在现代化道路上所面临的独特国情和挑战<a href="#ref-81" class="citation">[^81^]</a>
+                    <a href="#ref-166" class="citation">[^166^]</a>。
+                  </p>
+
+                  <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white p-4 rounded">
+                      <h5 class="font-semibold mb-2 text-green-600">&#34;跳蚤&#34;（小型经济体）</h5>
+                      <p class="text-sm text-gray-700">可以轻松跳到自身身高两百倍的高度，通过&#34;大进大出&#34;的国际大循环战略实现现代化</p>
+                    </div>
+
+                    <div class="bg-white p-4 rounded">
+                      <h5 class="font-semibold mb-2 text-blue-600">&#34;大象&#34;（中国）</h5>
+                      <p class="text-sm text-gray-700">即使拥有相似的肌肉构造原理，也绝不可能跳到自身身高的一半，不能简单复制小型经济体模式</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="highlight-box">
+                  <h4 class="font-semibold text-lg mb-4">&#34;三体问题&#34;</h4>
+                  <p class="text-gray-700">
+                    邓英淘还提出了&#34;三体问题&#34;，即中国的外部环境、内部构造以及其目标和演进轨道的综合解，直接决定了中国现代化的方式与成败<a href="#ref-326" class="citation">[^326^]</a>
+                    <a href="#ref-415" class="citation">[^415^]</a>。
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Practical Exploration Section -->
+      <section id="practical-exploration" class="py-20 bg-gradient-to-b from-neutral to-base-100">
+        <div class="container mx-auto px-6">
+          <div class="section-card p-8 mb-12">
+            <h2 class="serif text-4xl font-bold text-primary mb-8">实干家的足迹：深入调研与实践探索</h2>
+
+            <div class="space-y-12">
+              <!-- 水资源调配研究 -->
+              <div>
+                <h3 class="serif text-3xl font-semibold mb-6 text-secondary">水资源调配与&#34;大西线&#34;调水工程研究</h3>
+
+                <div class="grid lg:grid-cols-3 gap-8 mb-8">
+                  <div class="lg:col-span-2">
+                    <p class="text-gray-700 mb-6">
+                      邓英淘不仅是思想者，更是实干家。他将大量精力投入到关系国计民生的重大现实问题研究中，其中水资源调配，特别是&#34;大西线&#34;调水工程的研究，是他倾注心血最多的领域之一<a href="#ref-2" class="citation">[^2^]</a>
+                      <a href="#ref-136" class="citation">[^136^]</a>。
+                    </p>
+
+                    <div class="bg-blue-50 p-6 rounded-lg mb-6">
+                      <h4 class="font-semibold text-lg mb-3">深入研究过程</h4>
+                      <ul class="space-y-2 text-sm text-gray-700">
+                        <li>• 与被誉为&#34;长江王&#34;的林一山进行了长达七年、多达五十余次的深入访谈<a href="#ref-2" class="citation">[^2^]</a>
+                          <a href="#ref-249" class="citation">[^249^]</a>
+                        </li>
+                        <li>• 虚心向钱正英、汪恕诚等水利部门领导和专家请教</li>
+                        <li>• 从经济学、数学领域的专家，钻研成为水利领域的行家里手</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div>
+                    <img src="https://kimi-web-img.moonshot.cn/img/placeholder-0620/图片8.png" alt="中国西部调水工程施工现场" class="w-full h-64 object-cover rounded-lg" referrerpolicy="no-referrer"/>
+                  </div>
+                </div>
+
+                <div class="highlight-box mb-8">
+                  <h4 class="font-semibold text-lg mb-4">实地调研</h4>
+                  <p class="text-gray-700 mb-4">
+                    邓英淘与王小强、崔鹤鸣等人组成了&#34;三老汉战斗队&#34;，深入西南、西北的峡谷、森林和荒原，实地勘察大西线调水的路线<a href="#ref-2" class="citation">[^2^]</a>
+                    <a href="#ref-324" class="citation">[^324^]</a>。
+                  </p>
+
+                  <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <h5 class="font-semibold mb-3">调研足迹</h5>
+                      <p class="text-sm text-gray-700 mb-3">他们的足迹遍布十余个省区：</p>
+                      <div class="flex flex-wrap gap-2">
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">西藏</span>
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">甘肃</span>
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">宁夏</span>
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">新疆</span>
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">贵州</span>
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">黑龙江</span>
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">青海</span>
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">山西</span>
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">辽宁</span>
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">湖北</span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h5 class="font-semibold mb-3">调水方针</h5>
+                      <p class="text-sm text-gray-700">提出了&#34;高水北调，低水东调，风水互济，提引并重，东西对进，调补兼筹&#34;的西部调水基本方针<a href="#ref-1" class="citation">[^1^]</a>
+                        <a href="#ref-2" class="citation">[^2^]</a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-blue-50 to-green-50 p-6 rounded-lg">
+                  <h4 class="font-semibold text-lg mb-3">宏伟构想</h4>
+                  <p class="text-gray-700">
+                    设想从水资源相对丰富的西南地区，特别是雅鲁藏布江等河流调水，引向干旱缺水的西北地区，目标是每年调水<strong>2000亿立方米</strong>，从而在广阔的西北地区新增<strong>30亿亩农田、草场和林地</strong>，相当于<strong>&#34;再造一个中国&#34;</strong>
+                    <a href="#ref-2" class="citation">[^2^]</a>
+                    <a href="#ref-324" class="citation">[^324^]</a>。
+                  </p>
+                </div>
+              </div>
+
+              <!-- 新能源研究 -->
+              <div>
+                <h3 class="serif text-3xl font-semibold mb-6 text-secondary">新能源研究与推广</h3>
+
+                <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                  <div>
+                    <p class="text-gray-700 mb-6">
+                      在探索&#34;新发展方式&#34;的过程中，邓英淘高度重视新能源的研究与推广。他清醒地认识到，以化石能源为主的传统能源结构，难以支撑中国实现可持续的现代化<a href="#ref-17" class="citation">[^17^]</a>
+                      <a href="#ref-18" class="citation">[^18^]</a>。
+                    </p>
+
+                    <div class="bg-yellow-50 p-6 rounded-lg mb-6">
+                      <h4 class="font-semibold text-lg mb-3">能源潜力估算</h4>
+                      <p class="text-gray-700 mb-3">邓英淘估算，中国风能、太阳能、生物质能三项合计约相当于<strong>221亿吨标准煤</strong>，是一座巨大的能源宝库，而当时中国只利用了其中的百分之一二<a href="#ref-136" class="citation">[^136^]</a>
+                        <a href="#ref-166" class="citation">[^166^]</a>。
+                      </p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <img src="https://kimi-web-img.moonshot.cn/img/placeholder-0620/图片15.png" alt="中国太阳能和风能发电场" class="w-full h-64 object-cover rounded-lg mb-4" referrerpolicy="no-referrer"/>
+                    <p class="image-caption">中国新能源发展的巨大潜力</p>
+                  </div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6 mb-8">
+                  <div class="bg-orange-50 p-6 rounded-lg">
+                    <div class="text-orange-600 text-2xl mb-3">
+                      <i class="fas fa-sun"></i>
+                    </div>
+                    <h4 class="font-semibold text-lg mb-3">太阳能</h4>
+                    <p class="text-sm text-gray-700">
+                      特别关注塔里木盆地等西部地区丰富的光热资源，提出利用大规模太阳能光伏板发电的设想<a href="#ref-17" class="citation">[^17^]</a>
+                      <a href="#ref-81" class="citation">[^81^]</a>
+                    </p>
+                  </div>
+
+                  <div class="bg-blue-50 p-6 rounded-lg">
+                    <div class="text-blue-600 text-2xl mb-3">
+                      <i class="fas fa-wind"></i>
+                    </div>
+                    <h4 class="font-semibold text-lg mb-3">风能</h4>
+                    <p class="text-sm text-gray-700">
+                      关注风电提水等技术在西部调水工程中的应用<a href="#ref-1" class="citation">[^1^]</a>
+                      <a href="#ref-136" class="citation">[^136^]</a>
+                    </p>
+                  </div>
+
+                  <div class="bg-green-50 p-6 rounded-lg">
+                    <div class="text-green-600 text-2xl mb-3">
+                      <i class="fas fa-seedling"></i>
+                    </div>
+                    <h4 class="font-semibold text-lg mb-3">生物质能</h4>
+                    <p class="text-sm text-gray-700">
+                      深入农村调研沼气、养猪、养鱼等循环经济案例，推广&#34;天人合一、循环互动、永续利用&#34;的做法<a href="#ref-81" class="citation">[^81^]</a>
+                      <a href="#ref-136" class="citation">[^136^]</a>
+                    </p>
+                  </div>
+                </div>
+
+                <div class="highlight-box">
+                  <h4 class="font-semibold text-lg mb-3">具体设想</h4>
+                  <p class="text-gray-700">
+                    邓英淘提出，如果在塔里木盆地配置<strong>5万平方公里的陶瓷太阳能板</strong>，可以产生巨大的电能和淡水，从而为开发沙漠、发展农业和改善生态环境提供基础<a href="#ref-81" class="citation">[^81^]</a>
+                    <a href="#ref-136" class="citation">[^136^]</a>。
+                  </p>
+                </div>
+              </div>
+
+              <!-- 农村发展调研 -->
+              <div>
+                <h3 class="serif text-3xl font-semibold mb-6 text-secondary">农村发展与生物质能利用调研</h3>
+
+                <div class="grid lg:grid-cols-2 gap-8">
+                  <div>
+                    <p class="text-gray-700 mb-6">
+                      邓英淘的学术生涯与中国农村的发展紧密相连。他早年插队十年的经历使他对农村实际情况有着深刻了解<a href="#ref-4" class="citation">[^4^]</a>
+                      <a href="#ref-5" class="citation">[^5^]</a>。
+                    </p>
+
+                    <div class="bg-green-50 p-6 rounded-lg mb-6">
+                      <h4 class="font-semibold text-lg mb-3">学术贡献</h4>
+                      <ul class="space-y-2 text-sm text-gray-700">
+                        <li>• 参与发起对中国农村改革产生深远影响的&#34;中国农村发展研究组&#34;<a href="#ref-4" class="citation">[^4^]</a>
+                          <a href="#ref-5" class="citation">[^5^]</a>
+                        </li>
+                        <li>• 长期致力于农村经济的研究和政策咨询</li>
+                        <li>• 著有《中国农村金融的变革与发展》一书<a href="#ref-4" class="citation">[^4^]</a>
+                          <a href="#ref-7" class="citation">[^7^]</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div>
+                    <img src="https://kimi-web-img.moonshot.cn/img/placeholder-0620/图片10.png" alt="中国农村沼气池设施" class="w-full h-64 object-cover rounded-lg mb-4" referrerpolicy="no-referrer"/>
+                    <p class="image-caption">农村生物质能利用实践</p>
+                  </div>
+                </div>
+
+                <div class="highlight-box">
+                  <h4 class="font-semibold text-lg mb-4">调研实践</h4>
+                  <p class="text-gray-700 mb-4">
+                    邓英淘亲自深入辽宁、山东、陕西等地的农村，收集了大量关于农村沼气、养猪、养鱼、水葫芦种植等利用生物质能的案例<a href="#ref-81" class="citation">[^81^]</a>
+                    <a href="#ref-136" class="citation">[^136^]</a>。
+                  </p>
+
+                  <div class="bg-white p-4 rounded border-l-4 border-green-500">
+                    <p class="text-gray-700 italic">
+                      他总结和推广这些来自基层的、行之有效的实践经验，认为这些&#34;天人合一、循环互动、永续利用&#34;的做法，是符合中国农村实际、有利于可持续发展的好路子<a href="#ref-498" class="citation">[^498^]</a>
+                      <a href="#ref-754" class="citation">[^754^]</a>。
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Personal Qualities Section -->
+      <section id="personal-qualities" class="py-20 bg-gradient-to-b from-base-100 to-neutral">
+        <div class="container mx-auto px-6">
+          <div class="section-card p-8 mb-12">
+            <h2 class="serif text-4xl font-bold text-primary mb-8">个人品质与精神风范</h2>
+
+            <div class="space-y-12">
+              <!-- 实干精神 -->
+              <div>
+                <h3 class="serif text-3xl font-semibold mb-6 text-secondary">脚踏实地的实干精神</h3>
+
+                <div class="quote-box mb-8">
+                  <p class="serif text-lg italic mb-4">&#34;既有大格局大思想又脚踏实地埋头苦干&#34;</p>
+                  <cite class="text-sm text-gray-600">— 对邓英淘的评价</cite>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                  <div>
+                    <p class="text-gray-700 mb-6">
+                      邓英淘并非那种满足于书斋冥想、坐而论道的学者，而是将理论研究与中国的具体实践紧密结合，身体力行地深入基层进行调查研究<a href="#ref-1" class="citation">[^1^]</a>
+                      <a href="#ref-24" class="citation">[^24^]</a>。
+                    </p>
+
+                    <div class="bg-blue-50 p-6 rounded-lg">
+                      <h4 class="font-semibold text-lg mb-3">调研足迹</h4>
+                      <p class="text-gray-700 mb-3">他与同道好友在近三十年的时间里，风尘仆仆地走遍了全国大部分地区：</p>
+                      <div class="grid grid-cols-2 gap-2 text-sm text-gray-600">
+                        <span>• 长城内外</span>
+                        <span>• 青藏高原</span>
+                        <span>• 黄海之滨</span>
+                        <span>• 塔里木盆地</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <img src="https://kimi-web-img.moonshot.cn/img/placeholder-0620/图片14.png" alt="学者在乡村进行实地调研" class="w-full h-64 object-cover rounded-lg" referrerpolicy="no-referrer"/>
+                  </div>
+                </div>
+
+                <div class="highlight-box">
+                  <h4 class="font-semibold text-lg mb-4">严谨态度</h4>
+                  <p class="text-gray-700 mb-4">
+                    无论是水资源调配、新能源开发，还是农村发展问题，他都坚持通过实地考察来获取第一手资料、数据和案例<a href="#ref-1" class="citation">[^1^]</a>
+                    <a href="#ref-34" class="citation">[^34^]</a>。
+                  </p>
+
+                  <div class="bg-green-50 p-4 rounded">
+                    <p class="text-sm text-gray-700 italic">
+                      潘维教授曾评价他&#34;甘于寂寞，多年来走遍祖国大江南北进行考察，为中国发展大战略呕心沥血&#34;<a href="#ref-8" class="citation">[^8^]</a>
+                      <a href="#ref-137" class="citation">[^137^]</a>。
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 家国情怀 -->
+              <div>
+                <h3 class="serif text-3xl font-semibold mb-6 text-secondary">心系家国的责任与担当</h3>
+
+                <div class="grid lg:grid-cols-3 gap-6 mb-8">
+                  <div class="lg:col-span-2">
+                    <p class="text-gray-700 mb-6">
+                      邓英淘的一生，始终贯穿着一种深沉的家国情怀和强烈的责任担当。他将个人的学术追求与国家的前途命运紧密相连，将解决中国发展面临的重大现实问题视为己任<a href="#ref-1" class="citation">[^1^]</a>
+                      <a href="#ref-34" class="citation">[^34^]</a>。
+                    </p>
+
+                    <div class="bg-red-50 p-6 rounded-lg mb-6">
+                      <h4 class="font-semibold text-lg mb-3">生命最后的牵挂</h4>
+                      <p class="text-gray-700 italic">
+                        他在生命的最后一刻，依然牵挂着未竟的事业，坚信&#34;功成不必在我，会有人继续搞下去&#34;<a href="#ref-1" class="citation">[^1^]</a>
+                        <a href="#ref-34" class="citation">[^34^]</a>。
+                      </p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <img src="https://kimi-web-img.moonshot.cn/img/placeholder-0620/图片15.png" alt="表现家国情怀的学者形象" class="w-full h-48 object-cover rounded-lg" referrerpolicy="no-referrer"/>
+                  </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                  <div class="bg-purple-50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-lg mb-3">研究聚焦</h4>
+                    <p class="text-gray-700 text-sm mb-3">
+                      吴稼祥提到，邓英淘的研究主要聚焦于关系国计民生的重大战略问题<a href="#ref-12" class="citation">[^12^]</a>
+                      <a href="#ref-233" class="citation">[^233^]</a>：
+                    </p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                      <li>• 能源、环境问题</li>
+                      <li>• 农业调查</li>
+                      <li>• 国土整治</li>
+                      <li>• 水资源调配</li>
+                      <li>• 土地资源开发</li>
+                    </ul>
+                  </div>
+
+                  <div class="bg-orange-50 p-6 rounded-lg">
+                    <h4 class="font-semibold text-lg mb-3">历史使命</h4>
+                    <p class="text-gray-700 text-sm">
+                      潘维教授指出，邓英淘的大量设想和论证，都是为了解决子孙后代的生存问题，甚至是为全世界提供能源和生存保障<a href="#ref-202" class="citation">[^202^]</a>
+                      <a href="#ref-510" class="citation">[^510^]</a>。
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 淡泊名利 -->
+              <div>
+                <h3 class="serif text-3xl font-semibold mb-6 text-secondary">淡泊名利的高尚情操</h3>
+
+                <div class="highlight-box mb-8">
+                  <h4 class="font-semibold text-lg mb-4">低调为人</h4>
+                  <p class="text-gray-700 mb-4">
+                    尽管邓英淘出身名门，父亲是党和国家的高级干部邓力群<a href="#ref-7" class="citation">[^7^]</a>
+                    <a href="#ref-9" class="citation">[^9^]</a>，但他从未利用家庭背景为自己谋取名利。相反，他为人低调，从不出头露面，回避官场，将全部精力投入到学术研究和实地调研之中<a href="#ref-12" class="citation">[^12^]</a>
+                    <a href="#ref-233" class="citation">[^233^]</a>。
+                  </p>
+                </div>
+
+                <div class="bg-yellow-50 p-6 rounded-lg mb-8">
+                  <h4 class="font-semibold text-lg mb-3">学术品格</h4>
+                  <p class="text-gray-700 mb-4">
+                    吴稼祥在回忆文章中写道，邓英淘&#34;一生的研究成果不少于500万字&#34;，但&#34;他都不想引起学术争论，更不想炒作。因此虽有如此浩繁著作，除圈内人钦佩，在学术界却不&#39;著名&#39;，这在当代中国确实罕有&#34;<a href="#ref-12" class="citation">[^12^]</a>
+                    <a href="#ref-233" class="citation">[^233^]</a>。
+                  </p>
+
+                  <div class="bg-white p-4 rounded border-l-4 border-yellow-500">
+                    <p class="text-gray-700 italic text-sm">
+                      这种淡泊名利的态度，使得邓英淘能够潜心研究，不受外界干扰，专注于探索真理、服务国家。
+                    </p>
+                  </div>
+                </div>
+
+                <div class="quote-box">
+                  <p class="serif text-lg italic mb-4">&#34;知常容，容乃公，公乃全，全乃天，天乃道，道乃久，没身不殆&#34;</p>
+                  <cite class="text-sm text-gray-600">— 《道德经》，邓英淘一生的写照</cite>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contemporary Value Section -->
+      <section id="contemporary-value" class="py-20 bg-gradient-to-b from-neutral to-base-100">
+        <div class="container mx-auto px-6">
+          <div class="section-card p-8 mb-12">
+            <h2 class="serif text-4xl font-bold text-primary mb-8">深远影响与当代价值</h2>
+
+            <div class="space-y-12">
+              <!-- 理论启示 -->
+              <div>
+                <h3 class="serif text-3xl font-semibold mb-6 text-secondary">理论思想对中国发展的启示</h3>
+
+                <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                  <div>
+                    <p class="text-gray-700 mb-6">
+                      邓英淘的理论思想，特别是&#34;为了多数人的现代化&#34;和&#34;新发展方式&#34;两大核心理念，对于当代中国的发展具有深刻的启示意义。他早在二十世纪八十年代就敏锐地指出，中国不能简单复制西方发达国家以大量消耗不可再生资源为基础的现代化模式<a href="#ref-81" class="citation">[^81^]</a>
+                      <a href="#ref-108" class="citation">[^108^]</a>。
+                    </p>
+
+                    <div class="bg-blue-50 p-6 rounded-lg">
+                      <h4 class="font-semibold text-lg mb-3">现实针对性</h4>
+                      <p class="text-gray-700 text-sm">
+                        当前，中国经济发展进入新常态，面临着资源环境约束趋紧、发展不平衡不充分等问题，邓英淘的思想为我们反思传统发展模式、探索高质量发展路径提供了重要的理论参照。
+                      </p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <img src="https://kimi-web-img.moonshot.cn/img/placeholder-0620/图片17.png" alt="中国可持续发展实景" class="w-full h-64 object-cover rounded-lg" referrerpolicy="no-referrer"/>
+                  </div>
+                </div>
+
+                <div class="highlight-box">
+                  <h4 class="font-semibold text-lg mb-4">理论契合点</h4>
+                  <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <h5 class="font-semibold mb-3">新发展方式</h5>
+                      <p class="text-sm text-gray-700 mb-3">强调发展可再生能源、推广循环经济、倡导节约型生活方式等，与当前中国大力推进的战略高度契合<a href="#ref-109" class="citation">[^109^]</a>
+                        <a href="#ref-166" class="citation">[^166^]</a>：
+                      </p>
+                      <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• 生态文明建设</li>
+                        <li>• 绿色低碳发展</li>
+                        <li>• 能源革命</li>
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h5 class="font-semibold mb-3">实践指导</h5>
+                      <p class="text-sm text-gray-700 mb-3">关于水资源调配、国土整治、新能源革命和生态建设的研究，为解决当前中国面临的实际问题提供了有价值的思路<a href="#ref-166" class="citation">[^166^]</a>
+                        <a href="#ref-684" class="citation">[^684^]</a>。
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 战略契合 -->
+              <div>
+                <h3 class="serif text-3xl font-semibold mb-6 text-secondary">与当代中国发展战略的契合</h3>
+
+                <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                  <div class="bg-gradient-to-br from-green-50 to-blue-50 p-8 rounded-lg">
+                    <h4 class="font-semibold text-xl mb-4 text-green-700">&#34;中国式现代化&#34;</h4>
+                    <p class="text-gray-700 mb-4">
+                      邓英淘提出的&#34;为了多数人的现代化&#34;理念，与&#34;中国式现代化&#34;的本质要求不谋而合<a href="#ref-105" class="citation">[^105^]</a>
+                      <a href="#ref-159" class="citation">[^159^]</a>：
+                    </p>
+                    <ul class="space-y-2 text-sm text-gray-700">
+                      <li>• <strong>人口规模巨大的现代化</strong> - 强调中国作为人口大国的独特路径</li>
+                      <li>• <strong>全体人民共同富裕的现代化</strong> - 现代化成果要惠及全体人民</li>
+                      <li>• <strong>人与自然和谐共生的现代化</strong> - 关注环境、资源、人口问题<a href="#ref-20" class="citation">[^20^]</a>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="bg-gradient-to-br from-blue-50 to-green-50 p-8 rounded-lg">
+                    <h4 class="font-semibold text-xl mb-4 text-blue-700">&#34;生态文明建设&#34;</h4>
+                    <p class="text-gray-700 mb-4">
+                      邓英淘倡导的&#34;新发展方式&#34;，与&#34;生态文明建设&#34;战略思想高度一致<a href="#ref-109" class="citation">[^109^]</a>
+                      <a href="#ref-159" class="citation">[^159^]</a>：
+                    </p>
+                    <ul class="space-y-2 text-sm text-gray-700">
+                      <li>• 发展可再生能源</li>
+                      <li>• 推广节能技术</li>
+                      <li>• 构建资源节约型和环境友好型社会</li>
+                      <li>• 被认为是&#34;生态文明&#34;战略的先声<a href="#ref-33" class="citation">[^33^]</a>
+                        <a href="#ref-109" class="citation">[^109^]</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="quote-box">
+                  <p class="serif text-lg italic mb-4">邓英淘的思想遗产，为我们深刻理解和实践&#34;中国式现代化&#34;和&#34;生态文明建设&#34;等国家战略，提供了宝贵的理论资源和思想启迪。</p>
+                </div>
+              </div>
+
+              <!-- 学术借鉴 -->
+              <div>
+                <h3 class="serif text-3xl font-semibold mb-6 text-secondary">学术研究的借鉴意义</h3>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  <div class="bg-purple-50 p-6 rounded-lg">
+                    <div class="text-purple-600 text-2xl mb-3">
+                      <i class="fas fa-target"></i>
+                    </div>
+                    <h4 class="font-semibold text-lg mb-3">问题导向</h4>
+                    <p class="text-sm text-gray-700">
+                      理论研究与国家重大现实需求紧密结合的治学态度<a href="#ref-1" class="citation">[^1^]</a>
+                      <a href="#ref-34" class="citation">[^34^]</a>
+                    </p>
+                  </div>
+
+                  <div class="bg-green-50 p-6 rounded-lg">
+                    <div class="text-green-600 text-2xl mb-3">
+                      <i class="fas fa-search"></i>
+                    </div>
+                    <h4 class="font-semibold text-lg mb-3">实证研究</h4>
+                    <p class="text-sm text-gray-700">
+                      注重实地调研、掌握第一手资料的研究方法<a href="#ref-1" class="citation">[^1^]</a>
+                      <a href="#ref-34" class="citation">[^34^]</a>
+                    </p>
+                  </div>
+
+                  <div class="bg-blue-50 p-6 rounded-lg">
+                    <div class="text-blue-600 text-2xl mb-3">
+                      <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h4 class="font-semibold text-lg mb-3">独立思考</h4>
+                    <p class="text-sm text-gray-700">
+                      敢于提出不同见解的学术勇气<a href="#ref-81" class="citation">[^81^]</a>
+                      <a href="#ref-412" class="citation">[^412^]</a>
+                    </p>
+                  </div>
+
+                  <div class="bg-yellow-50 p-6 rounded-lg">
+                    <div class="text-yellow-600 text-2xl mb-3">
+                      <i class="fas fa-mountain"></i>
+                    </div>
+                    <h4 class="font-semibold text-lg mb-3">淡泊名利</h4>
+                    <p class="text-sm text-gray-700">
+                      甘于寂寞、潜心研究的学术品格<a href="#ref-12" class="citation">[^12^]</a>
+                      <a href="#ref-233" class="citation">[^233^]</a>
+                    </p>
+                  </div>
+                </div>
+
+                <div class="mt-8 bg-gray-50 p-6 rounded-lg">
+                  <h4 class="font-semibold text-lg mb-4">跨学科视野</h4>
+                  <p class="text-gray-700">
+                    邓英淘具有开阔的学术视野和跨学科的研究能力，能够从多角度、多层次分析问题，提出综合性的解决方案，这种研究方法也值得借鉴<a href="#ref-169" class="citation">[^169^]</a>
+                    <a href="#ref-249" class="citation">[^249^]</a>。
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Legacy Timeline Chart -->
+            <div class="mt-12">
+              <h3 class="serif text-2xl font-semibold mb-6 text-center text-primary">邓英淘思想传承与影响时间线</h3>
+              <div class="mermaid-container">
+                <div class="mermaid-controls">
+                  <button class="mermaid-control-btn zoom-in" title="放大">
+                    <i class="fas fa-search-plus"></i>
+                  </button>
+                  <button class="mermaid-control-btn zoom-out" title="缩小">
+                    <i class="fas fa-search-minus"></i>
+                  </button>
+                  <button class="mermaid-control-btn reset-zoom" title="重置">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                  </button>
+                  <button class="mermaid-control-btn fullscreen" title="全屏查看">
+                    <i class="fas fa-expand"></i>
+                  </button>
+                </div>
+                <div class="mermaid" id="legacy-chart">
+                  timeline
+                  title &#34;邓英淘思想传承与发展历程&#34;
+
+                  section &#34;早期探索&#34;
+                  1952 : &#34;出生于湖南桂东&#34;
+                  1977 : &#34;考入北京大学经济系&#34;
+                  1982 : &#34;进入社科院农村发展研究所&#34;
+
+                  section &#34;理论形成&#34;
+                  1980s : &#34;提出&#39;为了多数人的现代化&#39;理念&#34;
+                  1990 : &#34;荣获孙冶方经济学奖&#34;
+                  1992 : &#34;被评为国家级有突出贡献专家&#34;
+
+                  section &#34;实践深化&#34;
+                  1997 : &#34;任社科院经济文化研究中心主任&#34;
+                  2000s : &#34;深入研究水资源调配与新能源&#34;
+                  2012 : &#34;因病逝世，享年61岁&#34;
+
+                  section &#34;当代影响&#34;
+                  2020s : &#34;思想与&#39;中国式现代化&#39;高度契合&#34;
+                  未来 : &#34;理论持续指导中国发展实践&#34;
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- References Section -->
+      <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-6">
+          <h2 class="serif text-3xl font-bold text-primary mb-8">参考文献</h2>
+          <div class="bg-white p-8 rounded-lg shadow-sm">
+            <div class="grid md:grid-cols-2 gap-4 text-sm">
+              <div class="space-y-2">
+                <p id="ref-1">[^1^] <a href="https://www.guancha.cn/chen-xin/2013_06_04_148960.shtml?web" class="citation">观察者网 - 邓英淘相关报道</a>
+                </p>
+                <p id="ref-2">[^2^] <a href="https://strongwindhk.com/wp-content/uploads/YangSL-DYT.pdf" class="citation">强风网站 - 杨松林关于邓英淘的研究</a>
+                </p>
+                <p id="ref-4">[^4^] <a href="https://baike.baidu.com/item/%E9%82%93%E8%8B%B1%E6%B7%98%E8%91%97%EF%BC%9A%E6%96%B0%E5%8F%91%E5%B1%95%E6%96%B9%E5%BC%8F%E4%B8%8E%E4%B8%AD%E5%9B%BD%E7%9A%84%E6%9C%AA%E6%9D%A5/59875243" class="citation">百度百科 - 邓英淘著作</a>
+                </p>
+                <p id="ref-7">[^7^] <a href="https://baike.baidu.com/item/%E9%82%93%E8%8B%B1%E6%B7%98/9582448" class="citation">百度百科 - 邓英淘个人资料</a>
+                </p>
+                <p id="ref-8">[^8^] <a href="https://www.guancha.cn/PanWei/2011_12_05_62614.shtml" class="citation">观察者网 - 潘维教授文章</a>
+                </p>
+                <p id="ref-9">[^9^] <a href="https://m.baike.com/wikiid/335000620241095057" class="citation">百科网站 - 邓英淘家庭背景</a>
+                </p>
+                <p id="ref-11">[^11^] <a href="https://www.163.com/money/article/9220KNV700253B0H.html" class="citation">网易财经 - 相关报道</a>
+                </p>
+                <p id="ref-12">[^12^] <a href="https://www.aisixiang.com/data/52162.html" class="citation">爱思想网 - 吴稼祥回忆文章</a>
+                </p>
+                <p id="ref-17">[^17^] <a href="https://baike.baidu.com/item/%E6%96%B0%E8%83%BD%E6%BA%90%E9%9D%A9%E5%91%BD%E4%B8%8E%E5%8F%91%E5%B1%95%E6%96%B9%E5%BC%8F%E8%B7%83%E8%BF%81/3113285" class="citation">百度百科 - 新能源革命与发展方式跃迁</a>
+                </p>
+                <p id="ref-18">[^18^] <a href="https://search.dangdang.com/?key=%E6%96%B0%E8%83%BD%E6%BA%90%E9%9D%A9%E5%91%BD%E4%B8%8E%E5%8F%91%E5%B1%95%E6%96%B9%E5%BC%8F%E8%B7%83%E8%BF%81" class="citation">当当网 - 图书搜索</a>
+                </p>
+                <p id="ref-20">[^20^] <a href="https://m.douban.com/book/subject/25787968/" class="citation">豆瓣读书 - 相关书籍</a>
+                </p>
+                <p id="ref-24">[^24^] <a href="https://www.redchinacn.net/portal.php?mod=view&amp;aid=10136" class="citation">红色中国网 - 相关文章</a>
+                </p>
+                <p id="ref-33">[^33^] <a href="https://user.guancha.cn/main/content?id=436093&amp;s=fwzwyzzwzbt" class="citation">观察者网用户文章</a>
+                </p>
+                <p id="ref-34">[^34^] <a href="https://www.guancha.cn/chen-xin/2013_06_04_148960.shtml?web" class="citation">观察者网 - 陈新文章</a>
+                </p>
+                <p id="ref-46">[^46^] <a href="https://www.163.com/money/article/9220KNV700253B0H.html" class="citation">网易财经 - 经济分析文章</a>
+                </p>
+                <p id="ref-81">[^81^] <a href="https://www.guancha.cn/ChenZuo/2013_06_04_148960.shtml" class="citation">观察者网 - 陈作文章</a>
+                </p>
+                <p id="ref-105">[^105^] <a href="http://www.news.cn/politics/20240504/62b7dfd34db6410d8675c7165503e4f5/c.html" class="citation">新华网 - 政治新闻报道</a>
+                </p>
+                <p id="ref-108">[^108^] <a href="https://strongwindhk.com/wp-content/uploads/YangSL-DYT.pdf" class="citation">强风网站 - 研究报告</a>
+                </p>
+                <p id="ref-109">[^109^] <a href="https://user.guancha.cn/main/content?id=436093&amp;s=fwzwyzzwzbt" class="citation">观察者网用户内容</a>
+                </p>
+                <p id="ref-133">[^133^] <a href="https://xyh.cueb.edu.cn/docs/2019-06/20190618143447535397.pdf" class="citation">首都经济贸易大学 - 学术文档</a>
+                </p>
+                <p id="ref-136">[^136^] <a href="https://www.guancha.cn/chen-xin/2013_06_04_148960.shtml?web" class="citation">观察者网 - 详细报道</a>
+                </p>
+                <p id="ref-137">[^137^] <a href="https://www.guancha.cn/PanWei/2011_12_05_62614.shtml" class="citation">观察者网 - 潘维教授观点</a>
+                </p>
+                <p id="ref-142">[^142^] <a href="https://www.eyearbook.cn/xkfzbg/articleInfo?zid=a061&amp;bookcode=XZGNYNCFZYJN" class="citation">中国农业年鉴网</a>
+                </p>
+                <p id="ref-147">[^147^] <a href="https://baike.baidu.com/item/%E9%82%93%E8%8B%B1%E6%B7%98/9582448" class="citation">百度百科 - 详细资料</a>
+                </p>
+                <p id="ref-159">[^159^] <a href="https://user.guancha.cn/main/content?id=436093&amp;s=fwzwyzzwzbt" class="citation">观察者网 - 用户分析</a>
+                </p>
+                <p id="ref-166">[^166^] <a href="https://www.guancha.cn/chen-xin/2013_06_04_148960.shtml?web" class="citation">观察者网 - 深度分析</a>
+                </p>
+                <p id="ref-169">[^169^] <a href="http://old.21bcr.com/a/shiye/wenhuapinglun/2010/0726/1262.html" class="citation">21世纪商业评论 - 文化评论</a>
+                </p>
+                <p id="ref-197">[^197^] <a href="http://www.wyzxwk.com/Article/shidai/2017/03/377398.html" class="citation">乌有之乡网 - 时代文章</a>
+                </p>
+                <p id="ref-198">[^198^] <a href="https://m.hswh.org.cn/articles/8110.html" class="citation">红色文化网 - 文章</a>
+                </p>
+                <p id="ref-202">[^202^] <a href="https://www.guancha.cn/PanWei/2011_12_05_62614.shtml" class="citation">观察者网 - 潘维教授论述</a>
+                </p>
+                <p id="ref-211">[^211^] <a href="http://www.shsjcb.com/sjcb/view.aspx?id=2020100000990229" class="citation">上海商报 - 报道</a>
+                </p>
+                <p id="ref-228">[^228^] <a href="https://search.dangdang.com/?key=%E6%96%B0%E8%83%BD%E6%BA%90%E9%9D%A9%E5%91%BD%E4%B8%8E%E5%8F%91%E5%B1%95%E6%96%B9%E5%BC%8F%E8%B7%83%E8%BF%81" class="citation">当当网 - 图书搜索</a>
+                </p>
+                <p id="ref-233">[^233^] <a href="https://www.aisixiang.com/data/52162.html" class="citation">爱思想网 - 详细文章</a>
+                </p>
+                <p id="ref-249">[^249^] <a href="https://strongwindhk.com/wp-content/uploads/YangSL-DYT.pdf" class="citation">强风网站 - 研究报告</a>
+                </p>
+                <p id="ref-268">[^268^] <a href="https://www.eyearbook.cn/xkfzbg/articleInfo?zid=a061&amp;bookcode=XZGNYNCFZYJN" class="citation">中国农业年鉴 - 专题报告</a>
+                </p>
+                <p id="ref-292">[^292^] <a href="https://baike.baidu.com/item/%E9%82%93%E8%8B%B1%E6%B7%98/9582448" class="citation">百度百科 - 成就荣誉</a>
+                </p>
+                <p id="ref-306">[^306^] <a href="https://book.douban.com/subject/25787968//" class="citation">豆瓣读书 - 书籍页面</a>
+                </p>
+                <p id="ref-324">[^324^] <a href="https://strongwindhk.com/wp-content/uploads/YangSL-DYT.pdf" class="citation">强风网站 - 调研报告</a>
+                </p>
+                <p id="ref-326">[^326^] <a href="https://user.guancha.cn/main/content?id=436093&amp;s=fwzwyzzwzbt" class="citation">观察者网 - 用户研究</a>
+                </p>
+                <p id="ref-352">[^352^] <a href="http://www.360doc.com/content/25/0530/13/29699259_1154397808.shtml" class="citation">360doc - 文档资料</a>
+                </p>
+                <p id="ref-412">[^412^] <a href="https://www.guancha.cn/chen-xin/2013_06_04_148960.shtml?web" class="citation">观察者网 - 分析文章</a>
+                </p>
+                <p id="ref-415">[^415^] <a href="https://user.guancha.cn/main/content?id=436093&amp;s=fwzwyzzwzbt" class="citation">观察者网 - 理论分析</a>
+                </p>
+                <p id="ref-498">[^498^] <a href="http://www.wyzxwk.com/Article/shidai/2012/03/292400.html" class="citation">乌有之乡网 - 时代文章</a>
+                </p>
+                <p id="ref-510">[^510^] <a href="https://www.guancha.cn/PanWei/2011_12_05_62614.shtml" class="citation">观察者网 - 专家观点</a>
+                </p>
+                <p id="ref-525">[^525^] <a href="https://www.guancha.cn/PanWei/2011_12_05_62614.shtml" class="citation">观察者网 - 学术资料</a>
+                </p>
+                <p id="ref-592">[^592^] <a href="https://www.guancha.cn/chen-xin/2013_06_04_148960.shtml?web" class="citation">观察者网 - 专题报道</a>
+                </p>
+                <p id="ref-639">[^639^] <a href="https://www.163.com/money/article/9220KNV700253B0H.html" class="citation">网易财经 - 技术分析</a>
+                </p>
+                <p id="ref-656">[^656^] <a href="https://baike.baidu.com/item/%E9%82%93%E8%8B%B1%E6%B7%98/9582448" class="citation">百度百科 - 职务信息</a>
+                </p>
+                <p id="ref-684">[^684^] <a href="https://www.guancha.cn/chen-xin/2013_06_04_148960.shtml?web" class="citation">观察者网 - 深度分析</a>
+                </p>
+                <p id="ref-754">[^754^] <a href="http://www.wyzxwk.com/Article/shidai/2012/03/292400.html" class="citation">乌有之乡网 - 专题文章</a>
+                </p>
+                <p id="ref-920">[^920^] <a href="https://baike.baidu.com/item/%E9%82%93%E8%8B%B1%E6%B7%98/9582448" class="citation">百度百科 - 个人背景</a>
+                </p>
+                <p id="ref-984">[^984^] <a href="https://m.creader.com/bbs/politics/view/1574760" class="citation">读者网 - 政治论坛</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#2c5530',
+                primaryTextColor: '#ffffff',
+                primaryBorderColor: '#1a3a1e',
+                lineColor: '#4a5568',
+                secondaryColor: '#f7fafc',
+                tertiaryColor: '#e2e8f0',
+                background: '#ffffff',
+                mainBkg: '#2c5530',
+                secondaryBkg: '#3b82f6',
+                tertiaryBkg: '#f59e0b',
+                cScale0: '#2c5530',
+                cScale1: '#3b82f6',
+                cScale2: '#f59e0b',
+                cScale3: '#8b5cf6'
+            },
+            timeline: {
+                numberSectionStyles: 4,
+                axisFormat: '%Y',
+                topAxis: true
+            }
+        });
+
+        // Initialize Mermaid Controls for zoom and pan
+        function initializeMermaidControls() {
+            const containers = document.querySelectorAll('.mermaid-container');
+
+            containers.forEach(container => {
+            const mermaidElement = container.querySelector('.mermaid');
+            let scale = 1;
+            let isDragging = false;
+            let startX, startY, translateX = 0, translateY = 0;
+
+            // 触摸相关状态
+            let isTouch = false;
+            let touchStartTime = 0;
+            let initialDistance = 0;
+            let initialScale = 1;
+            let isPinching = false;
+
+            // Zoom controls
+            const zoomInBtn = container.querySelector('.zoom-in');
+            const zoomOutBtn = container.querySelector('.zoom-out');
+            const resetBtn = container.querySelector('.reset-zoom');
+            const fullscreenBtn = container.querySelector('.fullscreen');
+
+            function updateTransform() {
+                mermaidElement.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+
+                if (scale > 1) {
+                container.classList.add('zoomed');
+                } else {
+                container.classList.remove('zoomed');
+                }
+
+                mermaidElement.style.cursor = isDragging ? 'grabbing' : 'grab';
+            }
+
+            if (zoomInBtn) {
+                zoomInBtn.addEventListener('click', () => {
+                scale = Math.min(scale * 1.25, 4);
+                updateTransform();
+                });
+            }
+
+            if (zoomOutBtn) {
+                zoomOutBtn.addEventListener('click', () => {
+                scale = Math.max(scale / 1.25, 0.3);
+                if (scale <= 1) {
+                    translateX = 0;
+                    translateY = 0;
+                }
+                updateTransform();
+                });
+            }
+
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                scale = 1;
+                translateX = 0;
+                translateY = 0;
+                updateTransform();
+                });
+            }
+
+            if (fullscreenBtn) {
+                fullscreenBtn.addEventListener('click', () => {
+                if (container.requestFullscreen) {
+                    container.requestFullscreen();
+                } else if (container.webkitRequestFullscreen) {
+                    container.webkitRequestFullscreen();
+                } else if (container.msRequestFullscreen) {
+                    container.msRequestFullscreen();
+                }
+                });
+            }
+
+            // Mouse Events
+            mermaidElement.addEventListener('mousedown', (e) => {
+                if (isTouch) return; // 如果是触摸设备，忽略鼠标事件
+
+                isDragging = true;
+                startX = e.clientX - translateX;
+                startY = e.clientY - translateY;
+                mermaidElement.style.cursor = 'grabbing';
+                updateTransform();
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging && !isTouch) {
+                translateX = e.clientX - startX;
+                translateY = e.clientY - startY;
+                updateTransform();
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDragging && !isTouch) {
+                isDragging = false;
+                mermaidElement.style.cursor = 'grab';
+                updateTransform();
+                }
+            });
+
+            document.addEventListener('mouseleave', () => {
+                if (isDragging && !isTouch) {
+                isDragging = false;
+                mermaidElement.style.cursor = 'grab';
+                updateTransform();
+                }
+            });
+
+            // 获取两点之间的距离
+            function getTouchDistance(touch1, touch2) {
+                return Math.hypot(
+                touch2.clientX - touch1.clientX,
+                touch2.clientY - touch1.clientY
+                );
+            }
+
+            // Touch Events - 触摸事件处理
+            mermaidElement.addEventListener('touchstart', (e) => {
+                isTouch = true;
+                touchStartTime = Date.now();
+
+                if (e.touches.length === 1) {
+                // 单指拖动
+                isPinching = false;
+                isDragging = true;
+
+                const touch = e.touches[0];
+                startX = touch.clientX - translateX;
+                startY = touch.clientY - translateY;
+
+                } else if (e.touches.length === 2) {
+                // 双指缩放
+                isPinching = true;
+                isDragging = false;
+
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                initialDistance = getTouchDistance(touch1, touch2);
+                initialScale = scale;
+                }
+
+                e.preventDefault();
+            }, { passive: false });
+
+            mermaidElement.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 1 && isDragging && !isPinching) {
+                // 单指拖动
+                const touch = e.touches[0];
+                translateX = touch.clientX - startX;
+                translateY = touch.clientY - startY;
+                updateTransform();
+
+                } else if (e.touches.length === 2 && isPinching) {
+                // 双指缩放
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                const currentDistance = getTouchDistance(touch1, touch2);
+
+                if (initialDistance > 0) {
+                    const newScale = Math.min(Math.max(
+                    initialScale * (currentDistance / initialDistance),
+                    0.3
+                    ), 4);
+                    scale = newScale;
+                    updateTransform();
+                }
+                }
+
+                e.preventDefault();
+            }, { passive: false });
+
+            mermaidElement.addEventListener('touchend', (e) => {
+                // 重置状态
+                if (e.touches.length === 0) {
+                isDragging = false;
+                isPinching = false;
+                initialDistance = 0;
+
+                // 延迟重置isTouch，避免鼠标事件立即触发
+                setTimeout(() => {
+                    isTouch = false;
+                }, 100);
+                } else if (e.touches.length === 1 && isPinching) {
+                // 从双指变为单指，切换为拖动模式
+                isPinching = false;
+                isDragging = true;
+
+                const touch = e.touches[0];
+                startX = touch.clientX - translateX;
+                startY = touch.clientY - translateY;
+                }
+
+                updateTransform();
+            });
+
+            mermaidElement.addEventListener('touchcancel', (e) => {
+                isDragging = false;
+                isPinching = false;
+                initialDistance = 0;
+
+                setTimeout(() => {
+                isTouch = false;
+                }, 100);
+
+                updateTransform();
+            });
+
+            // Enhanced wheel zoom with better center point handling
+            container.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const rect = container.getBoundingClientRect();
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const delta = e.deltaY > 0 ? 0.9 : 1.1;
+                const newScale = Math.min(Math.max(scale * delta, 0.3), 4);
+
+                // Adjust translation to zoom towards center
+                if (newScale !== scale) {
+                const scaleDiff = newScale / scale;
+                translateX = translateX * scaleDiff;
+                translateY = translateY * scaleDiff;
+                scale = newScale;
+
+                if (scale <= 1) {
+                    translateX = 0;
+                    translateY = 0;
+                }
+
+                updateTransform();
+                }
+            });
+
+            // Initialize display
+            updateTransform();
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeMermaidControls();
+        });
+
+        // Mobile TOC Toggle
+        function toggleToc() {
+            const toc = document.getElementById('toc');
+            toc.classList.toggle('open');
+        }
+
+        // Smooth scrolling for TOC links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                
+                // Close mobile TOC after clicking
+                if (window.innerWidth <= 1024) {
+                    document.getElementById('toc').classList.remove('open');
+                }
+            });
+        });
+
+        // Close mobile TOC when clicking outside
+        document.addEventListener('click', function(e) {
+            const toc = document.getElementById('toc');
+            const toggleBtn = document.querySelector('button[onclick="toggleToc()"]');
+            
+            if (window.innerWidth <= 1024 && 
+                !toc.contains(e.target) && 
+                !toggleBtn.contains(e.target)) {
+                toc.classList.remove('open');
+            }
+        });
+
+        // Highlight current section in TOC
+        const observerOptions = {
+            rootMargin: '-20% 0px -70% 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const id = entry.target.getAttribute('id');
+                const tocLink = document.querySelector(`a[href="#${id}"]`);
+                
+                if (entry.isIntersecting) {
+                    // Remove active class from all links
+                    document.querySelectorAll('#toc a').forEach(link => {
+                        link.classList.remove('bg-white', 'bg-opacity-20');
+                    });
+                    
+                    // Add active class to current link
+                    if (tocLink) {
+                        tocLink.classList.add('bg-white', 'bg-opacity-20');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section[id]').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+  
+
+</body></html>

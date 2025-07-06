@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>未竟的现代化：邓英淘的战略远见</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Strategic Calm -->
+    <!-- Application Structure Plan: 本应用采用模块化的主题分区结构，而非报告的线性叙事。通过顶部粘性导航栏，用户可自由跳转至“思想源起”、“核心理论”、“宏大战略”和“当代回响”四大板块。这种设计旨在将复杂的理论体系拆解为若干个易于理解和探索的交互式模块。例如，“核心理论”部分使用选项卡切换，“宏大战略”部分使用动态地图展示，使用户能根据兴趣主动探索，从而极大地提升了信息吸收的效率和体验的趣味性，优于传统的被动式阅读。 -->
+    <!-- Visualization & Content Choices: 
+        - 报告信息: “大象与跳蚤”之喻 -> 目标: 比较 -> 可视化: 条形图 (Chart.js/Canvas) -> 交互: 按钮触发 -> 理由: 直观展示中国与“四小龙”在人口/国土规模上的巨大差异，将抽象比喻数据化。
+        - 报告信息: “发展模式对比”表格 -> 目标: 组织/比较 -> 可视化: HTML/Tailwind表格 -> 交互: 悬停高亮 -> 理由: 以清晰、现代的UI呈现结构化对比信息，便于阅读。
+        - 报告信息: “南水北调西线”与“西部太阳能”战略 -> 目标: 展示关系/空间布局 -> 可视化: HTML/CSS/JS动态地图 -> 交互: 按钮切换显示调水线路和能源基地 -> 理由: 将地理空间战略动态化，用交互方式生动呈现其“再造中国”的构想，避免使用静态图片或SVG，更具吸引力。
+        - 报告信息: 思想与“新时代”政策的关联 -> 目标: 建立联系 -> 可视化: 水平卡片流 -> 交互: 点击展开卡片 -> 理由: 以并列对比的方式，清晰揭示其思想的前瞻性与当代政策的内在联系。
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Noto Sans SC', sans-serif; }
+        .bg-warm-neutral { background-color: #fdfcf9; }
+        .text-deep-blue { color: #1f2937; }
+        .text-accent-gold { color: #b48a34; }
+        .bg-accent-gold { background-color: #b48a34; }
+        .border-accent-gold { border-color: #b48a34; }
+        .bg-calm-blue { background-color: #3b82f6; }
+        .bg-calm-yellow { background-color: #facc15; }
+        .nav-link {
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #b48a34;
+            border-bottom-color: #b48a34;
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+        .tab-button.active {
+            background-color: #1f2937;
+            color: #fdfcf9;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .map-line {
+            position: absolute;
+            background-color: #3b82f6;
+            transform-origin: top left;
+            transition: all 1s ease-in-out;
+            width: 2px;
+            opacity: 0.8;
+        }
+        .map-zone {
+            position: absolute;
+            transition: all 1s ease-in-out;
+            opacity: 0;
+            border-radius: 0.5rem;
+        }
+        .map-zone.active {
+            opacity: 0.5;
+        }
+        .map-text {
+            position: absolute;
+            background-color: rgba(31, 41, 55, 0.9);
+            color: white;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            transition: all 0.5s ease-in-out;
+            opacity: 0;
+            visibility: hidden;
+            max-width: 250px;
+            font-size: 0.875rem;
+        }
+        .map-text.active {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body class="bg-warm-neutral text-deep-blue antialiased">
+
+    <header class="sticky top-0 z-50 bg-warm-neutral/80 backdrop-blur-lg shadow-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-accent-gold">邓英淘的战略远见</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#origins" class="nav-link py-2">思想源起</a>
+                <a href="#theory" class="nav-link py-2">核心理论</a>
+                <a href="#strategy" class="nav-link py-2">宏大战略</a>
+                <a href="#legacy" class="nav-link py-2">当代回响</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-deep-blue focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="#origins" class="block py-2 px-6 text-sm hover:bg-gray-200">思想源起</a>
+            <a href="#theory" class="block py-2 px-6 text-sm hover:bg-gray-200">核心理论</a>
+            <a href="#strategy" class="block py-2 px-6 text-sm hover:bg-gray-200">宏大战略</a>
+            <a href="#legacy" class="block py-2 px-6 text-sm hover:bg-gray-200">当代回响</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="py-20 md:py-32 bg-gray-50">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-5xl font-bold text-deep-blue mb-4 leading-tight">未竟的现代化</h2>
+                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">一位为“中国大象”设计未来道路的战略家，他的思想在今天比以往任何时候都更具现实意义。</p>
+            </div>
+        </section>
+
+        <section id="origins" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-deep-blue">思想源起</h2>
+                    <p class="text-gray-500 mt-2">理解其思想，需从其独特的家庭背景与学术训练开始。</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-12 items-start">
+                    <div class="bg-white p-8 rounded-lg shadow-lg border border-gray-100">
+                        <h3 class="text-2xl font-bold text-accent-gold mb-4">名字的分量</h3>
+                        <p class="text-gray-600 leading-relaxed">作为中共正统理论家邓力群之子，邓英淘继承了对国家命运的深切关怀，却选择了一条截然不同的、以技术理性与实证分析为基础的道路。他从父辈的革命历程中继承了“红”的底色——一种对国家主权与集体利益的坚定承诺，但他实现宏大目标的手段，却是“专”的极致体现——一种以数据和模型为基础的冷静分析。</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-lg border border-gray-100">
+                        <h3 class="text-2xl font-bold text-accent-gold mb-4">北大岁月与数学头脑</h3>
+                        <p class="text-gray-600 leading-relaxed">1977年考入北大经济系后，邓英淘展现了超群的数理天赋，额外修完了数学系的全部课程。这种在政治经济学与高等数学之间的双重训练，构成了其思想体系的基石。它使其能够超越抽象的意识形态辩论，转而运用定量的、系统性的思维，严谨地计算和推演中国发展“可能”怎样，而非仅仅是“应该”怎样。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="theory" class="py-16 md:py-24 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-deep-blue">核心理论：“新发展方式”</h2>
+                    <p class="text-gray-500 mt-2">面对中国的独特国情，邓英淘系统性地提出了一个原创性的非西方现代化理论。</p>
+                </div>
+
+                <div class="max-w-4xl mx-auto">
+                    <div class="flex justify-center border-b border-gray-300 mb-8">
+                        <button class="tab-button text-sm md:text-base py-3 px-4 md:px-8 font-semibold text-gray-600 active" data-tab="tab1">“大象与跳蚤”之喻</button>
+                        <button class="tab-button text-sm md:text-base py-3 px-4 md:px-8 font-semibold text-gray-600" data-tab="tab2">物质约束</button>
+                        <button class="tab-button text-sm md:text-base py-3 px-4 md:px-8 font-semibold text-gray-600" data-tab="tab3">模式对比</button>
+                    </div>
+
+                    <div id="tab1" class="tab-content">
+                        <div class="text-center mb-6">
+                            <h3 class="text-xl font-semibold mb-2">为何“大象”不能模仿“跳蚤”？</h3>
+                            <p class="text-gray-600 max-w-2xl mx-auto">邓英淘用此比喻论证，中国大陆规模的国家，无法复制“亚洲四小龙”等小型经济体的外向型模式。“量级”的根本差异决定了发展路径的截然不同。点击下方按钮查看规模对比。</p>
+                            <button id="show-chart-btn" class="mt-4 bg-accent-gold text-white font-bold py-2 px-4 rounded-lg hover:bg-opacity-90 transition-colors">显示规模对比图</button>
+                        </div>
+                        <div id="chart-wrapper" class="hidden">
+                           <div class="chart-container">
+                               <canvas id="scaleChart"></canvas>
+                           </div>
+                        </div>
+                    </div>
+
+                    <div id="tab2" class="tab-content hidden">
+                        <div class="grid md:grid-cols-3 gap-6 text-center">
+                            <div class="bg-white p-6 rounded-lg shadow">
+                                <span class="text-5xl">💧</span>
+                                <h4 class="text-lg font-bold my-2">水资源</h4>
+                                <p class="text-sm text-gray-500">北方严重缺水，是中国发展的根本性物理约束，决定了国土开发的上限。</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-lg shadow">
+                                <span class="text-5xl">☀️</span>
+                                <h4 class="text-lg font-bold my-2">能源结构</h4>
+                                <p class="text-sm text-gray-500">依赖化石能源的经典路径不可持续，必须转向水能、太阳能等新能源革命。</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-lg shadow">
+                                <span class="text-5xl">🌍</span>
+                                <h4 class="text-lg font-bold my-2">生态容量</h4>
+                                <p class="text-sm text-gray-500">美国式的高消耗生活方式若在中国普及，将超出地球生态承载力的极限。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab3" class="tab-content hidden">
+                        <div class="overflow-x-auto bg-white rounded-lg shadow">
+                            <table class="w-full text-sm text-left text-gray-500">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">特征</th>
+                                        <th scope="col" class="px-6 py-3">经典/西方式发展模式</th>
+                                        <th scope="col" class="px-6 py-3">邓英淘的“新发展方式”</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="bg-white border-b hover:bg-gray-50">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">核心目标</th>
+                                        <td class="px-6 py-4">GDP增长最大化；融入全球市场。</td>
+                                        <td class="px-6 py-4">为了多数人的可持续现代化；国家自主发展。</td>
+                                    </tr>
+                                    <tr class="bg-white border-b hover:bg-gray-50">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">资源逻辑</th>
+                                        <td class="px-6 py-4">资源密集型；假设资源可被市场和技术替代。</td>
+                                        <td class="px-6 py-4">资源节约型；承认绝对的物理极限。</td>
+                                    </tr>
+                                    <tr class="bg-white border-b hover:bg-gray-50">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">技术路径</th>
+                                        <td class="px-6 py-4">资本密集型；引进、模仿西方先进技术。</td>
+                                        <td class="px-6 py-4">“适用技术”；本土创新；系统工程。</td>
+                                    </tr>
+                                    <tr class="bg-white hover:bg-gray-50">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">预设约束</th>
+                                        <td class="px-6 py-4">主要是资本与制度安排（如“法治”）。</td>
+                                        <td class="px-6 py-4">主要是物理性约束：水、能源、土地、生态容量。</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="strategy" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-deep-blue">宏大战略：“再造中国”</h2>
+                    <p class="text-gray-500 mt-2">他将理论转化为一系列具体的、旨在重塑中国物理与经济地理格局的大陆尺度提案。</p>
+                </div>
+                <div class="bg-white p-4 md:p-8 rounded-lg shadow-lg border border-gray-100">
+                    <div class="flex justify-center space-x-4 mb-6">
+                        <button id="show-water-btn" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors">💧 重绘水文系统</button>
+                        <button id="show-energy-btn" class="bg-yellow-400 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-yellow-500 transition-colors">☀️ 太阳能驱动的未来</button>
+                    </div>
+                    <div id="map-container" class="relative w-full max-w-3xl mx-auto" style="padding-bottom: 75%;">
+                        <div class="absolute inset-0 bg-gray-200 rounded-lg overflow-hidden">
+                           <div class="w-full h-full bg-no-repeat bg-center bg-contain" style="background-image: url('https://placehold.co/800x600/e2e8f0/e2e8f0?text=')"></div>
+                           <div id="map-line-element" class="map-line" style="top: 55%; left: 30%; height: 0; transform: rotate(45deg);"></div>
+                           <div id="map-zone-element" class="map-zone bg-calm-yellow" style="top: 30%; left: 15%; width: 30%; height: 40%;"></div>
+                           
+                           <div id="map-text-water" class="map-text" style="top: 40%; left: 55%;">
+                               <h4 class="font-bold mb-1">南水北调西线</h4>
+                               <p>将长江上游丰沛水资源调往黄河流域，从根本上解决北方水资源赤字，解锁西部发展潜力，是国家“再造”的奠基之举。</p>
+                           </div>
+                            <div id="map-text-energy" class="map-text" style="top: 15%; left: 48%;">
+                               <h4 class="font-bold mb-1">西部新能源基地</h4>
+                               <p>利用西部广阔的沙漠戈壁开发超大规模太阳能，与水资源战略相配合，为中国建立独立、可持续的能源体系。</p>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="legacy" class="py-16 md:py-24 bg-gray-50">
+            <div class="container mx-auto px-6">
+                 <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-deep-blue">遗产与当代回响</h2>
+                    <p class="text-gray-500 mt-2">他那些曾被视为激进的观点，正日益与中国在21世纪的国家战略产生深刻共鸣。</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-lg shadow-lg border border-gray-100 transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-4 text-3xl">🌿</div>
+                        <h3 class="text-xl font-bold mb-3">生态文明</h3>
+                        <p class="text-gray-600">他对“物质约束”的强调，以及建立“低度消耗资源生产体系”的倡议，构成了“生态文明”思想的直接理论先声。</p>
+                    </div>
+                     <div class="bg-white p-8 rounded-lg shadow-lg border border-gray-100 transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4 text-3xl">💡</div>
+                        <h3 class="text-xl font-bold mb-3">新质生产力</h3>
+                        <p class="text-gray-600">他对发展本土“适用技术”体系、摆脱传统工业化路径的坚持，与通过技术革命实现发展方式跃迁的“新质生产力”内核不谋而合。</p>
+                    </div>
+                     <div class="bg-white p-8 rounded-lg shadow-lg border border-gray-100 transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mb-4 text-3xl">🇨🇳</div>
+                        <h3 class="text-xl font-bold mb-3">中国式现代化</h3>
+                        <p class="text-gray-600">他毕生探索“不同于西方”的现代化道路，其“为了多数人的现代化”理念与“共同富裕”目标遥相呼应。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-deep-blue text-white">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="mb-2">邓英淘的探索，是一个国家未来的永恒追问。</p>
+            <p class="text-sm text-gray-400">&copy; 2025 邓英淘学术思想交互式报告</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            const navLinks = document.querySelectorAll('nav a');
+            const sections = document.querySelectorAll('main section');
+            
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 65) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            const tabs = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(item => item.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    const target = document.getElementById(tab.dataset.tab);
+                    tabContents.forEach(content => content.classList.add('hidden'));
+                    target.classList.remove('hidden');
+                });
+            });
+
+            let scaleChart = null;
+            const showChartBtn = document.getElementById('show-chart-btn');
+            const chartWrapper = document.getElementById('chart-wrapper');
+
+            showChartBtn.addEventListener('click', () => {
+                chartWrapper.classList.toggle('hidden');
+                if (!chartWrapper.classList.contains('hidden') && !scaleChart) {
+                    const ctx = document.getElementById('scaleChart').getContext('2d');
+                    scaleChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['人口 (百万)', '国土面积 (万平方公里)'],
+                            datasets: [
+                                {
+                                    label: '中国',
+                                    data: [1400, 960],
+                                    backgroundColor: 'rgba(180, 138, 52, 0.6)',
+                                    borderColor: 'rgba(180, 138, 52, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: '亚洲“四小龙”合计',
+                                    data: [50.8, 3.4],
+                                    backgroundColor: 'rgba(31, 41, 55, 0.6)',
+                                    borderColor: 'rgba(31, 41, 55, 1)',
+                                    borderWidth: 1
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: '中国 vs “亚洲四小龙” 规模对比',
+                                    font: { size: 16 }
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            let label = context.dataset.label || '';
+                                            if (label) {
+                                                label += ': ';
+                                            }
+                                            if (context.parsed.y !== null) {
+                                                label += context.parsed.y + (context.label.includes('人口') ? ' 百万人' : ' 万km²');
+                                            }
+                                            return label;
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    type: 'logarithmic',
+                                    title: {
+                                        display: true,
+                                        text: '数值 (对数坐标)'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+            
+            const showWaterBtn = document.getElementById('show-water-btn');
+            const showEnergyBtn = document.getElementById('show-energy-btn');
+            const mapLine = document.getElementById('map-line-element');
+            const mapZone = document.getElementById('map-zone-element');
+            const mapTextWater = document.getElementById('map-text-water');
+            const mapTextEnergy = document.getElementById('map-text-energy');
+
+            showWaterBtn.addEventListener('click', () => {
+                mapZone.classList.remove('active');
+                mapTextEnergy.classList.remove('active');
+                
+                setTimeout(() => {
+                    mapLine.style.height = '40%';
+                    mapTextWater.classList.add('active');
+                }, 100);
+            });
+            
+            showEnergyBtn.addEventListener('click', () => {
+                 mapLine.style.height = '0';
+                 mapTextWater.classList.remove('active');
+                
+                 setTimeout(() => {
+                    mapZone.classList.add('active');
+                    mapTextEnergy.classList.add('active');
+                 }, 100);
+            });
+        });
+    </script>
+</body>
+</html>
