@@ -15,6 +15,26 @@
     "category": "gemini"
   },
   {
+    "filename": "gemini13.1_情感的价码 - 交互式探索报告.html",
+    "title": "情感的价码 - 交互式探索报告",
+    "category": "gemini"
+  },
+  {
+    "filename": "gemini13.2_情感的货币：交互式探索.html",
+    "title": "情感的货币：交互式探索",
+    "category": "gemini"
+  },
+  {
+    "filename": "gemini13.3_情感的价码：一份互动报告.html",
+    "title": "情感的价码：一份互动报告",
+    "category": "gemini"
+  },
+  {
+    "filename": "gemini14_未竟的现代化：邓英淘的战略远见.html",
+    "title": "未竟的现代化：邓英淘的战略远见",
+    "category": "gemini"
+  },
+  {
     "filename": "gemini1_RWKV模型：重塑RNN，挑战Transformer.html",
     "title": "RWKV模型：重塑RNN，挑战Transformer",
     "category": "gemini"
@@ -82,6 +102,16 @@
   {
     "filename": "kimi12_上海历史：从古代到现代的变迁.html",
     "title": "上海历史：从古代到现代的变迁",
+    "category": "kimi"
+  },
+  {
+    "filename": "kimi13_情感货币化：全球视野下的价值量化研究.html",
+    "title": "情感货币化：全球视野下的价值量化研究",
+    "category": "kimi"
+  },
+  {
+    "filename": "kimi14_邓英淘：心系家国的实干家与思想者.html",
+    "title": "邓英淘：心系家国的实干家与思想者",
     "category": "kimi"
   },
   {
