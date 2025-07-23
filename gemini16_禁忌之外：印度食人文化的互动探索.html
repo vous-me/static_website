@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>禁忌之外：印度食人文化的互动探索</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Scholarly Serenity -->
+    <!-- Application Structure Plan: 本应用采用三段式主题探索结构，而非报告的线性章节。三个核心模块为：“神话与现实”、“仪式与哲学”和“法律与比较”。这种结构允许用户根据兴趣自由探索，先通过“神话与现实”建立基本认知框架，区分想象与事实；然后通过“仪式与哲学”深入核心案例Aghori教派；最后在“法律与比较”中获得宏观视角。导航栏固定在顶部，实现各版块间的平滑滚动和切换。这种设计旨在将静态信息转化为一个非线性的、由用户主导的探索旅程，从而增强参与感和理解深度。 -->
+    <!-- Visualization & Content Choices: 1. **神话形象对比 (HTML/CSS)**: 报告中描述的罗刹、毕舍遮等神话形象，通过卡片式布局并列展示，利用图标和简洁的排版直观区分其特征。目标是快速建立“魔性”食人的文化背景。2. **Aghori哲学路径图 (HTML/CSS)**: 将Aghori从“不二论”哲学到具体实践（食尸、用头骨）的逻辑链条，用一个简约的、自上而下的流程图展示，帮助用户理解其行为背后的思想根源。3. **跨文化比较雷达图 (Chart.js/Canvas)**: 这是应用的核心互动元素。报告中的静态对比表格被转化为一个动态雷达图。用户点击按钮切换Aghori、瓦里人、弗雷人时，雷达图会平滑过渡，动态展示各群体在“动机”、“类型”、“对象”等多个维度的差异。这种可视化方式能极大地强化对比效果，将抽象的文字转化为可量化、可感知的视觉差异。所有图表均使用Canvas渲染，确保无SVG。 -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #F8F5F2;
+            color: #3D352E;
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-button.active, .nav-button:hover {
+            color: #A8763E;
+            border-bottom-color: #A8763E;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .card {
+            background-color: #FFFFFF;
+            border: 1px solid #EAE0D5;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 40vh;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+                max-height: 50vh;
+            }
+        }
+        .comparison-button {
+            transition: all 0.3s ease;
+        }
+        .comparison-button.active {
+            background-color: #A8763E;
+            color: #FFFFFF;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#A8763E] mb-2">禁忌之外</h1>
+            <p class="text-lg md:text-xl text-gray-600">印度食人文化的互动探索</p>
+        </header>
+
+        <nav class="sticky top-0 bg-[#F8F5F2]/80 backdrop-blur-sm z-10 mb-12 border-b border-gray-200">
+            <div class="flex justify-center space-x-4 md:space-x-8 py-3">
+                <button class="nav-button text-base md:text-lg font-medium p-2 active" data-target="myth">神话与现实</button>
+                <button class="nav-button text-base md:text-lg font-medium p-2" data-target="ritual">仪式与哲学</button>
+                <button class="nav-button text-base md:text-lg font-medium p-2" data-target="comparison">法律与比较</button>
+            </div>
+        </nav>
+
+        <main>
+            <section id="myth" class="content-section active">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">解构“食人者”：神话、现实与误解</h2>
+                    <p class="max-w-3xl mx-auto text-gray-600">公众对“印度食人”的认知常源于对骇人事件的想象，但现实远非如此。本节旨在剥离神话的迷雾，重构我们对这一现象的理解框架，将视角从寻找罪犯转向审视文化与象征。</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                    <div class="card p-6 rounded-lg">
+                        <h3 class="text-2xl font-semibold mb-4 text-[#A8763E]">想象中的食人者</h3>
+                        <p class="mb-6 text-gray-700">在印度主流文化叙事中，“食人”是魔性、混乱与反秩序的终极标志，是英雄叙事中必须被征服的对象。</p>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-bold text-lg">罗刹 (Rakshasa)</h4>
+                                <p class="text-sm text-gray-600">邪恶原型。天生充满杀戮欲，对人肉有无尽渴望，拥有强大幻术。代表人物是史诗中的大反派罗波那。</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">毕舍遮 (Pishacha)</h4>
+                                <p class="text-sm text-gray-600">食肉鬼魅。出没于荒野，吞噬人类精气，与恐怖、不洁之地紧密相连。</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">被诅咒的国王</h4>
+                                <p class="text-sm text-gray-600">堕落的人类。因傲慢或过错而被诅咒成为食人者，象征着人性与社会身份的彻底崩塌。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card p-6 rounded-lg">
+                        <h3 class="text-2xl font-semibold mb-4 text-[#A8763E]">现实中的探寻</h3>
+                        <p class="mb-6 text-gray-700">对现代印度刑事案件的检索，几乎找不到与病态食人行为相关的确凿证据。这揭示了公众认知与事实间的巨大鸿沟。</p>
+                        <div class="bg-amber-50 border-l-4 border-[#A8763E] p-4 rounded-r-lg">
+                            <h4 class="font-bold text-lg">核心发现</h4>
+                            <p class="text-sm text-gray-700">印度与“食人”相关的讨论，其主体并非现代法律意义上的罪犯，而是特定宗教修行者（Aghori）、神话中的妖魔，以及在现代法律体系中引发困境的古老传统。理解这一现象，必须进入人类学与宗教学的范畴。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="ritual" class="content-section">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Aghori教派：仪式性越轨的案例研究</h2>
+                    <p class="max-w-3xl mx-auto text-gray-600">在印度，唯一有据可查的、实践仪式性食人行为的群体是Aghori教派。他们的行为并非源于病态或生存，而是根植于一套复杂且系统化的哲学。本节将深入剖析其思想根源与惊世骇俗的修行实践。</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                    <div class="card p-6 rounded-lg">
+                        <h3 class="text-2xl font-semibold mb-4 text-[#A8763E]">从哲学到实践的路径</h3>
+                        <p class="mb-6 text-gray-700">Aghori的修行是一场逻辑严密的“反向仪式”，旨在通过系统性地颠覆社会规范，亲身体证其核心哲学，最终实现精神解脱。</p>
+                        <div class="space-y-6">
+                            <div class="relative pl-8">
+                                <div class="absolute left-2 top-2 w-2 h-2 bg-[#A8763E] rounded-full"></div>
+                                <div class="absolute left-3 top-4 w-0.5 h-full bg-gray-300"></div>
+                                <h4 class="font-bold text-lg">核心哲学：不二论 (Advaita)</h4>
+                                <p class="text-sm text-gray-600">宇宙万物本质为一，善恶、净秽等二元对立皆为幻象 (māyā)。</p>
+                            </div>
+                            <div class="relative pl-8">
+                                <div class="absolute left-2 top-2 w-2 h-2 bg-[#A8763E] rounded-full"></div>
+                                <div class="absolute left-3 top-4 w-0.5 h-full bg-gray-300"></div>
+                                <h4 class="font-bold text-lg">终极目标：打破幻象 (Moksha)</h4>
+                                <p class="text-sm text-gray-600">超越二元对立，打破小我执着，从生死轮回中解脱。</p>
+                            </div>
+                            <div class="relative pl-8">
+                                <div class="absolute left-2 top-2 w-2 h-2 bg-[#A8763E] rounded-full"></div>
+                                <h4 class="font-bold text-lg">修行技术：拥抱“不洁”</h4>
+                                <p class="text-sm text-gray-600">通过主动接触社会定义的终极不洁之物，强行突破心理壁垒。</p>
+                                <ul class="list-disc list-inside mt-2 space-y-1 text-sm text-gray-600">
+                                    <li><span class="font-semibold">食尸仪式:</span> 食用火葬场尸肉，以摧毁“净食”与“秽肉”的分别。</li>
+                                    <li><span class="font-semibold">使用人骨:</span> 以头骨为碗，时刻观照生命无常。</li>
+                                    <li><span class="font-semibold">涂抹骨灰:</span> 象征万物消解与对世俗的“死亡”。</li>
+                                    <li><span class="font-semibold">尸上冥想 (Shava Sadhana):</span> 在尸体上进行高阶怛特罗修行，将死亡的象征转化为觉醒的载体。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card p-6 rounded-lg">
+                        <h3 class="text-2xl font-semibold mb-4 text-[#A8763E]">社会观感与误解</h3>
+                        <p class="mb-6 text-gray-700">主流社会对Aghori的态度极为复杂，混合着恐惧、厌恶与好奇。然而，真正的修行者与借名行骗者之间存在巨大差异。</p>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-bold text-lg">主流看法</h4>
+                                <p class="text-sm text-gray-600">行为恐怖，与主流价值观背道而驰。媒体常将其形象耸人听闻地夸大。</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">内在区分</h4>
+                                <p class="text-sm text-gray-600"><span class="font-semibold">真修行者:</span> 遁世、非暴力，对世俗无兴趣，其行为是深刻的哲学实践。<br><span class="font-semibold">伪装者:</span> 利用骇人外表恐吓、勒索民众，败坏其名声。</p>
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <p class="text-sm italic text-gray-800">“他们将死亡、腐朽与不洁的最强象征——尸体——转化为通往神圣觉醒的载体。这完美地体现了从‘shava’(尸体)升华为‘Shiva’(神圣意识)的哲学核心。”</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="comparison" class="content-section">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">法律的沉默与全球比较</h2>
+                    <p class="max-w-3xl mx-auto text-gray-600">Aghori的实践挑战着现代法律的边界。通过与全球其他文化中的食人传统进行比较，我们可以更清晰地定位其独特性，并理解同一行为背后迥异的文化逻辑。</p>
+                </div>
+
+                <div class="grid lg:grid-cols-5 gap-8">
+                    <div class="lg:col-span-2 card p-6 rounded-lg">
+                        <h3 class="text-2xl font-semibold mb-4 text-[#A8763E]">法律的灰色地带</h3>
+                        <p class="mb-4 text-gray-700">印度刑法典中没有专门针对食人或恋尸行为的条款，这为Aghori的仪式性实践留下了法律真空。</p>
+                        <div class="space-y-3">
+                            <h4 class="font-bold text-lg">《刑法典》第297条的局限</h4>
+                            <p class="text-sm text-gray-600">该条文惩罚“侵入墓地”和“侮辱尸体”，但刑罚过轻，且构成要件狭窄，难以适用于Aghori从恒河获取尸体的行为。</p>
+                            <h4 class="font-bold text-lg">未决的文化冲突</h4>
+                            <p class="text-sm text-gray-600">立法者陷入两难：是维护现代公共道德与“死者尊严”，还是保护少数派宗教群体的古老实践？法律的沉默，正是这一深刻文化冲突悬而未决的体现。</p>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-3 card p-6 rounded-lg">
+                        <h3 class="text-2xl font-semibold mb-4 text-[#A8763E]">跨文化比较：动机的差异</h3>
+                        <p class="mb-4 text-gray-700">“食人”并非单一现象。点击下方按钮，通过雷达图直观比较不同文化中制度化食人行为的动机与形式。</p>
+                        <div class="flex justify-center space-x-2 mb-4">
+                            <button class="comparison-button px-4 py-2 text-sm font-medium rounded-full bg-white border border-gray-300 active" data-group="aghori">Aghori (印度)</button>
+                            <button class="comparison-button px-4 py-2 text-sm font-medium rounded-full bg-white border border-gray-300" data-group="wari">瓦里人 (巴西)</button>
+                            <button class="comparison-button px-4 py-2 text-sm font-medium rounded-full bg-white border border-gray-300" data-group="fore">弗雷人 (新几内亚)</button>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="comparisonChart"></canvas>
+                        </div>
+                        <div id="comparison-text" class="mt-4 p-4 bg-gray-50 rounded-lg text-sm text-gray-700"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center mt-16 pt-8 border-t border-gray-200">
+            <p class="text-sm text-gray-500">此互动应用根据《禁忌之外：关于印度食人文化及其表现形式的分析报告》创建。</p>
+            <p class="text-xs text-gray-400 mt-1">旨在以教育和信息传播为目的，促进对复杂文化现象的理解。</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const navButtons = document.querySelectorAll('.nav-button');
+            const contentSections = document.querySelectorAll('.content-section');
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.dataset.target;
+
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    contentSections.forEach(section => {
+                        if (section.id === targetId) {
+                            section.classList.add('active');
+                        } else {
+                            section.classList.remove('active');
+                        }
+                    });
+                });
+            });
+
+            const comparisonData = {
+                labels: ['精神超越', '社会义务', '情感表达', '力量获取', '仪式性', '生存需要'],
+                aghori: {
+                    data: [5, 1, 1, 2, 5, 0],
+                    text: '<strong>Aghori (印度):</strong> <strong>核心逻辑是“洁净与不洁”</strong>。其动机是精神性的，通过食用终极“不洁”之物（无亲缘关系的尸体）来粉碎二元对立的幻象，实现哲学上的超越。这是一种极端的个人修行。'
+                },
+                wari: {
+                    data: [1, 5, 5, 0, 4, 0],
+                    text: '<strong>瓦里人 (巴西):</strong> <strong>核心逻辑是“慈悲与亲属关系”</strong>。其动机是情感与社会性的，通过食用已故亲属的遗体，表达极度的爱与尊重，并帮助生者从哀痛中解脱。这是一种社群性的哀悼仪式。'
+                },
+                fore: {
+                    data: [2, 5, 2, 4, 4, 0],
+                    text: '<strong>弗雷人 (新几内亚):</strong> <strong>核心逻辑是“再生与社群延续”</strong>。其动机是社会性的，相信通过食用亲人遗体，能将其灵魂、知识与生命精华保留在族群内部，实现精神上的循环与再生。'
+                }
+            };
+
+            const comparisonTextElement = document.getElementById('comparison-text');
+            const ctx = document.getElementById('comparisonChart').getContext('2d');
+            let comparisonChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: comparisonData.labels,
+                    datasets: [{
+                        label: 'Aghori',
+                        data: comparisonData.aghori.data,
+                        backgroundColor: 'rgba(168, 118, 62, 0.2)',
+                        borderColor: 'rgba(168, 118, 62, 1)',
+                        pointBackgroundColor: 'rgba(168, 118, 62, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(168, 118, 62, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: 'rgba(61, 53, 46, 0.2)'
+                            },
+                            grid: {
+                                color: 'rgba(61, 53, 46, 0.2)'
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 12,
+                                    family: "'Noto Sans SC', sans-serif"
+                                },
+                                color: '#3D352E'
+                            },
+                            ticks: {
+                                beginAtZero: true,
+                                max: 5,
+                                stepSize: 1,
+                                backdropColor: 'transparent',
+                                color: 'rgba(61, 53, 46, 0.6)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.r !== null) {
+                                        label += context.parsed.r;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const comparisonButtons = document.querySelectorAll('.comparison-button');
+            
+            function updateChart(group) {
+                const groupData = comparisonData[group];
+                comparisonChart.data.datasets[0].data = groupData.data;
+                comparisonChart.data.datasets[0].label = group.charAt(0).toUpperCase() + group.slice(1);
+                comparisonChart.update();
+                comparisonTextElement.innerHTML = groupData.text;
+                
+                comparisonButtons.forEach(btn => {
+                    if (btn.dataset.group === group) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+            }
+
+            comparisonButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    updateChart(button.dataset.group);
+                });
+            });
+
+            updateChart('aghori');
+        });
+    </script>
+</body>
+</html>
