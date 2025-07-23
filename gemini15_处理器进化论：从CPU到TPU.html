@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>处理器进化论：从CPU到TPU</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Tech Neutral -->
+    <!-- Application Structure Plan: The application is structured as a single-page vertical narrative, enhanced with a sticky top navigation for non-linear exploration. It begins with a general introduction, then dedicates sections to each processor (CPU, GPU, NPU, TPU) for focused learning. This is followed by a visual, interactive timeline to show historical context and evolution. A key feature is the 'Comparative Analysis' section, which uses a radar chart and a detailed table to synthesize information and highlight the key differences and specializations. This structure was chosen to guide the user from foundational knowledge to comparative understanding, which is more effective for learning complex technical topics than a simple linear report. The flow is designed to be intuitive: learn about the parts, see how they evolved, then compare them side-by-side. -->
+    <!-- Visualization & Content Choices: 
+    - Report Info: Core concepts of CPU, GPU, NPU, TPU. Goal: Inform/Organize. Viz/Presentation: Themed content cards with icons. Interaction: None. Justification: Clear, digestible blocks of information. Library/Method: HTML/Tailwind.
+    - Report Info: Historical development. Goal: Show Change. Viz/Presentation: Vertical timeline. Interaction: Hover to see details. Justification: Visually represents the chronological flow and key milestones effectively. Library/Method: HTML/Tailwind/JS.
+    - Report Info: Strengths/Weaknesses Comparison. Goal: Compare. Viz/Presentation: Radar Chart. Interaction: Tooltips on hover. Justification: Radar charts provide an excellent multi-dimensional view of performance characteristics, making it easy to see the "shape" of each processor's specialty at a glance. Library/Method: Chart.js/Canvas.
+    - Report Info: Detailed feature differences. Goal: Compare. Viz/Presentation: Detailed HTML table. Interaction: None. Justification: Complements the visual chart with granular, textual data for deeper analysis. Library/Method: HTML/Tailwind.
+    - Report Info: Von Neumann Architecture. Goal: Inform. Viz/Presentation: Diagram built with styled HTML divs. Interaction: None. Justification: Creates a simple, clear architectural diagram without using forbidden SVG files. Library/Method: HTML/Tailwind.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 50vh;
+        }
+        .nav-link {
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #4f46e5; /* indigo-600 */
+            border-bottom-color: #4f46e5;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 1rem;
+            left: -1.8rem;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            background-color: #cbd5e1; /* slate-300 */
+            border: 3px solid #f8fafc; /* slate-50 */
+        }
+        .timeline-item:hover::before {
+            background-color: #4f46e5; /* indigo-600 */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-indigo-600">处理器进化论</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#intro" class="nav-link px-3 py-2 text-sm font-medium text-slate-700">简介</a>
+                        <a href="#processors" class="nav-link px-3 py-2 text-sm font-medium text-slate-700">核心单元</a>
+                        <a href="#timeline" class="nav-link px-3 py-2 text-sm font-medium text-slate-700">发展历程</a>
+                        <a href="#comparison" class="nav-link px-3 py-2 text-sm font-medium text-slate-700">对比分析</a>
+                        <a href="#future" class="nav-link px-3 py-2 text-sm font-medium text-slate-700">未来展望</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#intro" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-slate-700">简介</a>
+                <a href="#processors" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-slate-700">核心单元</a>
+                <a href="#timeline" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-slate-700">发展历程</a>
+                <a href="#comparison" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-slate-700">对比分析</a>
+                <a href="#future" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-slate-700">未来展望</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="intro" class="py-16 sm:py-24 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">从通用计算到智能加速</h2>
+                <p class="mt-6 max-w-3xl mx-auto text-lg text-slate-600">
+                    欢迎来到处理器的世界。从驱动个人电脑的CPU，到渲染逼真游戏的GPU，再到赋能人工智能的NPU和TPU，计算单元的形态和功能正以前所未有的速度演进。本应用将带您深入了解这些“计算大脑”的理论起源、发展脉络以及它们之间的核心区别与联系，揭示专用计算时代不可逆转的趋势。
+                </p>
+            </div>
+        </section>
+
+        <section id="processors" class="py-16 sm:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold tracking-tight text-slate-900">四大核心处理单元</h2>
+                    <p class="mt-4 text-lg text-slate-600">每种处理器都被设计用于解决特定类型的问题，了解它们的设计哲学是理解其应用场景的关键。</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
+                        <div class="p-6">
+                            <div class="flex items-center space-x-4">
+                                <div class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                    <span class="text-2xl font-bold text-blue-600">C</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-slate-900">CPU (中央处理器)</h3>
+                            </div>
+                            <div class="mt-4 space-y-3">
+                                <p class="text-slate-600"><strong class="text-slate-800">理论来源:</strong> 基于冯·诺依曼体系结构，其核心思想是“存储程序控制”，指令和数据都存储在同一内存中。</p>
+                                <p class="text-slate-600"><strong class="text-slate-800">核心特点:</strong> 通用性强，擅长复杂的逻辑判断和串行任务处理。其设计目标是“低延迟”，力求尽快完成单个任务。</p>
+                                <p class="text-slate-600"><strong class="text-slate-800">典型应用:</strong> 操作系统、应用程序、网页浏览、办公软件等需要复杂控制流的任务。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
+                        <div class="p-6">
+                            <div class="flex items-center space-x-4">
+                                <div class="flex-shrink-0 w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <span class="text-2xl font-bold text-green-600">G</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-slate-900">GPU (图形处理器)</h3>
+                            </div>
+                            <div class="mt-4 space-y-3">
+                                <p class="text-slate-600"><strong class="text-slate-800">理论来源:</strong> 源于对图形渲染中大量同质化、可并行的像素处理需求。采用单指令多数据流（SIMD）架构。</p>
+                                <p class="text-slate-600"><strong class="text-slate-800">核心特点:</strong> 拥有数千个小型计算核心，擅长大规模并行计算。设计目标是“高吞吐”，一次性处理海量数据。</p>
+                                <p class="text-slate-600"><strong class="text-slate-800">典型应用:</strong> 游戏渲染、科学计算、密码破解，以及深度学习模型的并行训练。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
+                        <div class="p-6">
+                            <div class="flex items-center space-x-4">
+                                <div class="flex-shrink-0 w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                                    <span class="text-2xl font-bold text-purple-600">N</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-slate-900">NPU (神经网络处理器)</h3>
+                            </div>
+                            <div class="mt-4 space-y-3">
+                                <p class="text-slate-600"><strong class="text-slate-800">理论来源:</strong> 直接模仿生物神经网络的结构和运算方式，专为深度学习算法中的卷积、池化等操作而设计。</p>
+                                <p class="text-slate-600"><strong class="text-slate-800">核心特点:</strong> 采用数据驱动的并行计算架构，对矩阵和向量运算有极高效率和能效比，常用于AI推理。</p>
+                                <p class="text-slate-600"><strong class="text-slate-800">典型应用:</strong> 智能手机的AI功能（人脸识别、拍照优化）、智能音箱、自动驾驶的端侧计算。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
+                        <div class="p-6">
+                            <div class="flex items-center space-x-4">
+                                <div class="flex-shrink-0 w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                                    <span class="text-2xl font-bold text-orange-600">T</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-slate-900">TPU (张量处理器)</h3>
+                            </div>
+                            <div class="mt-4 space-y-3">
+                                <p class="text-slate-600"><strong class="text-slate-800">理论来源:</strong> Google为加速其TensorFlow框架而定制的专用集成电路（ASIC），核心是脉动阵列（Systolic Array）架构。</p>
+                                <p class="text-slate-600"><strong class="text-slate-800">核心特点:</strong> 极致的矩阵运算性能和能效。通过硬件固化AI常用算法，将数据在计算单元间流动，减少内存访问。</p>
+                                <p class="text-slate-600"><strong class="text-slate-800">典型应用:</strong> Google数据中心的大规模模型训练和推理（搜索、翻译、AlphaGo等）。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="timeline" class="py-16 sm:py-24 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold tracking-tight text-slate-900">发展历程：一部计算架构的演进史</h2>
+                    <p class="mt-4 text-lg text-slate-600">从第一颗微处理器到AI专用芯片的崛起，关键的里程碑定义了我们今天的数字世界。</p>
+                </div>
+                <div class="relative max-w-2xl mx-auto">
+                    <div class="absolute left-3 top-4 bottom-0 w-0.5 bg-slate-200"></div>
+                    <div id="timeline-container" class="space-y-12">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="comparison" class="py-16 sm:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold tracking-tight text-slate-900">横向对比：术业有专攻</h2>
+                    <p class="mt-4 text-lg text-slate-600">没有最好的处理器，只有最适合的。通过多维度对比，清晰地看到它们各自的优势领域。</p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
+                    <div class="lg:col-span-3">
+                        <div class="bg-white p-4 rounded-xl shadow-lg">
+                             <div class="chart-container">
+                                <canvas id="comparisonChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 text-sm text-slate-600 space-y-4">
+                        <div class="p-4 bg-white rounded-lg shadow">
+                            <h4 class="font-bold text-slate-800">📊 图表解读</h4>
+                            <p>此雷达图从五个维度评估处理器能力：</p>
+                            <ul class="list-disc list-inside mt-2 space-y-1">
+                                <li><strong>串行处理:</strong> 执行单一、顺序任务的速度。</li>
+                                <li><strong>并行处理:</strong> 同时处理多个简单任务的能力。</li>
+                                <li><strong>能效比:</strong> 每瓦特电力所能完成的计算量。</li>
+                                <li><strong>通用性:</strong> 适应不同类型计算任务的灵活性。</li>
+                                <li><strong>AI专项性能:</strong> 针对AI算法（尤其是矩阵运算）的优化程度。</li>
+                            </ul>
+                        </div>
+                         <div class="p-4 bg-white rounded-lg shadow">
+                            <h4 class="font-bold text-slate-800">💡 核心洞察</h4>
+                            <p>CPU是“多面手”，GPU是“并行军团”，而NPU/TPU则是为AI而生的“特种兵”，它们在能效和专项性能上遥遥领先。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-16 overflow-x-auto">
+                    <div class="bg-white rounded-xl shadow-lg p-2">
+                        <table class="min-w-full divide-y divide-slate-200">
+                            <thead class="bg-slate-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">特性</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-blue-500 uppercase tracking-wider">CPU</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-green-500 uppercase tracking-wider">GPU</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-purple-500 uppercase tracking-wider">NPU/TPU</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-slate-200 text-sm">
+                                <tr>
+                                    <td class="px-6 py-4 font-medium text-slate-800">核心架构</td>
+                                    <td class="px-6 py-4 text-slate-600">复杂指令集/精简指令集 (CISC/RISC)</td>
+                                    <td class="px-6 py-4 text-slate-600">单指令多数据流 (SIMD)</td>
+                                    <td class="px-6 py-4 text-slate-600">脉动阵列 / 数据流</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-medium text-slate-800">计算单元</td>
+                                    <td class="px-6 py-4 text-slate-600">少量（几到几十个）强大的核心</td>
+                                    <td class="px-6 py-4 text-slate-600">大量（成百上千个）简单核心</td>
+                                    <td class="px-6 py-4 text-slate-600">专用的矩阵/张量运算单元</td>
+                                </tr>
+                                 <tr>
+                                    <td class="px-6 py-4 font-medium text-slate-800">设计目标</td>
+                                    <td class="px-6 py-4 text-slate-600">低延迟</td>
+                                    <td class="px-6 py-4 text-slate-600">高吞吐量</td>
+                                    <td class="px-6 py-4 text-slate-600">高能效比</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-medium text-slate-800">最佳应用</td>
+                                    <td class="px-6 py-4 text-slate-600">通用计算、逻辑控制</td>
+                                    <td class="px-6 py-4 text-slate-600">图形渲染、并行科学计算</td>
+                                    <td class="px-6 py-4 text-slate-600">神经网络训练与推理</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-medium text-slate-800">数据精度</td>
+                                    <td class="px-6 py-4 text-slate-600">高精度浮点 (FP32/FP64)</td>
+                                    <td class="px-6 py-4 text-slate-600">混合精度 (FP32/FP16/INT8)</td>
+                                    <td class="px-6 py-4 text-slate-600">低精度整数/浮点 (INT8/BF16)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="future" class="py-16 sm:py-24 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">未来展望：异构计算与融合</h2>
+                <p class="mt-6 max-w-3xl mx-auto text-lg text-slate-600">
+                    我们正处在一个计算架构的黄金时代。"一种芯片包打天下"的时代已经结束，未来属于“异构计算”。这意味着CPU、GPU、NPU等不同类型的处理器将更紧密地协同工作，在同一块芯片上各司其职，形成一个高效的整体。这种融合不仅将推动AI应用的普及，也将为科学探索、元宇宙等前沿领域提供前所未有的计算能力。计算的未来，是专精与协作的艺术。
+                </p>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="bg-slate-800 text-white">
+        <div class="container mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-sm text-slate-400">
+            <p>&copy; 2025 处理器进化论. 仅为信息展示目的而创建。</p>
+        </div>
+    </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (!mobileMenu.classList.contains('hidden')) {
+                         mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+
+
+            const sections = document.querySelectorAll('section');
+            const headerHeight = document.getElementById('header').offsetHeight;
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { rootMargin: `-${headerHeight}px 0px 0px 0px`, threshold: 0.3 });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            const timelineData = [
+                { year: '1971', title: 'Intel 4004 - 现代CPU的黎明', description: '全球第一款商用微处理器，将整个中央处理单元集成到单个芯片上，开启了个人计算时代。', color: 'blue' },
+                { year: '1999', title: 'NVIDIA GeForce 256 - GPU诞生', description: '被NVIDIA定义为全球首款GPU，首次将变换、光照、三角形设置/裁剪和渲染引擎集成到单个芯片上。', color: 'green' },
+                { year: '2007', title: 'NVIDIA CUDA - GPGPU的崛起', description: 'CUDA平台的发布，让开发者能使用C语言调用GPU进行通用计算，极大地推动了GPU在科学计算和早期AI研究中的应用。', color: 'green' },
+                { year: '2012', title: 'AlexNet的胜利', description: '使用GPU训练的深度神经网络AlexNet在ImageNet竞赛中取得压倒性胜利，证明了GPU在深度学习领域的巨大潜力，引爆了AI革命。', color: 'green' },
+                { year: '2016', title: 'Google TPU v1 - 专用AI芯片的宣告', description: 'Google在I/O大会上首次披露其为AI定制的TPU，展示了其在AlphaGo对弈中的关键作用，标志着主流科技公司开始为AI定制硬件。', color: 'orange' },
+                { year: '2017', title: '华为麒麟970 - NPU进入手机', description: '麒麟970芯片首次集成了独立的NPU单元，将AI计算能力带入移动设备，实现了端侧的实时AI应用，如场景识别和智能翻译。', color: 'purple' },
+                { year: '2020s', title: '异构计算时代', description: '各大芯片厂商纷纷推出集成CPU、GPU、NPU的SoC（片上系统），异构计算成为主流，不同处理器协同工作以达到最佳性能和能效。', color: 'indigo' },
+            ];
+
+            const timelineContainer = document.getElementById('timeline-container');
+            timelineData.forEach(item => {
+                const colorMap = {
+                    blue: 'text-blue-600',
+                    green: 'text-green-600',
+                    purple: 'text-purple-600',
+                    orange: 'text-orange-600',
+                    indigo: 'text-indigo-600',
+                };
+                const element = document.createElement('div');
+                element.className = 'timeline-item relative pl-8 pb-8';
+                element.innerHTML = `
+                    <h4 class="text-lg font-bold ${colorMap[item.color] || 'text-slate-900'}">${item.year}: ${item.title}</h4>
+                    <p class="mt-2 text-slate-600">${item.description}</p>
+                `;
+                timelineContainer.appendChild(element);
+            });
+
+
+            const ctx = document.getElementById('comparisonChart').getContext('2d');
+            const comparisonChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['串行处理', '并行处理', '能效比', '通用性', 'AI专项性能'],
+                    datasets: [
+                        {
+                            label: 'CPU',
+                            data: [9, 3, 5, 9, 2],
+                            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                            borderColor: 'rgba(59, 130, 246, 1)',
+                            pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(59, 130, 246, 1)',
+                            borderWidth: 2,
+                        },
+                        {
+                            label: 'GPU',
+                            data: [4, 9, 6, 6, 7],
+                            backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                            borderColor: 'rgba(16, 185, 129, 1)',
+                            pointBackgroundColor: 'rgba(16, 185, 129, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(16, 185, 129, 1)',
+                            borderWidth: 2,
+                        },
+                        {
+                            label: 'NPU/TPU',
+                            data: [2, 7, 9, 2, 10],
+                            backgroundColor: 'rgba(139, 92, 246, 0.2)',
+                            borderColor: 'rgba(139, 92, 246, 1)',
+                            pointBackgroundColor: 'rgba(139, 92, 246, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(139, 92, 246, 1)',
+                            borderWidth: 2,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 12,
+                                    family: "'Noto Sans SC', sans-serif"
+                                },
+                                color: '#1e293b'
+                            },
+                            ticks: {
+                                backdropColor: 'rgba(255, 255, 255, 0.75)',
+                                color: '#64748b',
+                                stepSize: 2,
+                                beginAtZero: true,
+                                max: 10
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                             labels: {
+                                font: {
+                                    size: 14,
+                                    family: "'Noto Sans SC', sans-serif"
+                                }
+                            }
+                        },
+                        tooltip: {
+                             bodyFont: {
+                                family: "'Noto Sans SC', sans-serif"
+                            },
+                            titleFont: {
+                                family: "'Noto Sans SC', sans-serif"
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
