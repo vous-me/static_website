@@ -35,6 +35,16 @@
     "category": "gemini"
   },
   {
+    "filename": "gemini15_处理器进化论：从CPU到TPU.html",
+    "title": "处理器进化论：从CPU到TPU",
+    "category": "gemini"
+  },
+  {
+    "filename": "gemini16_禁忌之外：印度食人文化的互动探索.html",
+    "title": "禁忌之外：印度食人文化的互动探索",
+    "category": "gemini"
+  },
+  {
     "filename": "gemini1_RWKV模型：重塑RNN，挑战Transformer.html",
     "title": "RWKV模型：重塑RNN，挑战Transformer",
     "category": "gemini"
@@ -112,6 +122,16 @@
   {
     "filename": "kimi14_邓英淘：心系家国的实干家与思想者.html",
     "title": "邓英淘：心系家国的实干家与思想者",
+    "category": "kimi"
+  },
+  {
+    "filename": "kimi15_CPU、GPU、NPU、TPU：现代计算处理器的演进与未来.html",
+    "title": "CPU、GPU、NPU、TPU：现代计算处理器的演进与未来",
+    "category": "kimi"
+  },
+  {
+    "filename": "kimi16_印度食人现象：历史、文化与社会的多维度研究.html",
+    "title": "印度食人现象：历史、文化与社会的多维度研究",
     "category": "kimi"
   },
   {
